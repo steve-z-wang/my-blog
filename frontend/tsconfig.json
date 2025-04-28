@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "esnext", 
+    "jsx": "react-jsx",
+    "noEmit": true, 
+    "allowImportingTsExtensions": true
+  },
+  "references": [
+    { "path": "../packages/common" },
+  ], 
+  "include": ["src"]
+}

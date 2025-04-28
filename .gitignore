@@ -1,0 +1,15 @@
+// root folder
+node_modules
+
+// packages folder
+packages/common/node_modules
+packages/common/dist
+
+// backend folder 
+backend/node_modules
+backend/dist
+.env
+
+// frontend folder
+frontend/node_modules
+frontend/dist
