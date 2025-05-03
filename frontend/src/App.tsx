@@ -1,21 +1,22 @@
 import { Routes, Route } from 'react-router-dom';
-import PostsList from './pages/PostsList';
-import PostDetail from './pages/PostDetail';
+import Post from './pages/Post';
 import NavBar from './components/NavBar';
 import About from './pages/About';
+import Footer from './pages/Footer';
+import Home from './pages/Home';
 
 export default function App() {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <NavBar />
-
-      <main className="container mx-auto p-6 bg-white mt-4 shadow-md">
+      <main className="flex-grow">
         <Routes>
-          <Route path="/" element={<PostsList />} />
-          <Route path="/posts/:id" element={<PostDetail />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/posts/:id" element={<Post />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </main>
-    </>
+      <Footer />
+    </ div>
   );
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import type { Post } from '@my-blog/common';
 
-export default function PostDetail() {
+export default function Post() {
   const { id } = useParams();
   const [post, setPost] = useState<Post | null>(null);
   const [err, setErr] = useState<string | null>(null);
