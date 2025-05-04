@@ -18,18 +18,21 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@types/helmet": "^0.0.48",
     "basic-auth": "^2.0.1",
     "better-sqlite3": "^11.9.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
     "knex": "^3.1.0",
     "morgan": "^1.10.0",
     "sqlite3": "^5.1.7",
     "winston": "^3.17.0"
   },
   "scripts": {
-    "dev": "nodemon --watch src --ext ts,json --exec \"ts-node -r tsconfig-paths/register src/index.ts\"", 
+    "dev": "nodemon --watch src --ext ts,json --exec \"ts-node -r tsconfig-paths/register src/index.ts\"",
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "eslint \"src/**/*.{ts,js}\" --max-warnings=0",
