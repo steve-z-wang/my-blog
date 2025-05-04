@@ -10,15 +10,13 @@ const SEED_FILE = path.resolve(__dirname, '../../../db/seed.sql');
 let db: Knex | null = null;
 
 export function getDb(): Knex {
-    if (!db) {
-        db = knex({
-            client: 'sqlite3',
-            connection: {
-                filename: DB_PATH,
-            },
-            useNullAsDefault: true,
-        });
-    }
+    db ??= knex({
+        client: 'sqlite3',
+        connection: {
+            filename: DB_PATH,
+        },
+        useNullAsDefault: true,
+    });
     return db;
 }
 
