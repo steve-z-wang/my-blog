@@ -11,7 +11,7 @@
 
 @layer components {
   .content-container {
-    @apply container mx-auto p-6;
+    @apply container mx-auto py-6;
   }
 
   .content-card {
