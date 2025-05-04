@@ -11,9 +11,9 @@ INSERT OR IGNORE INTO tags(tag_name) VALUES
 
 -- Posts (explicit post_id for deterministic seeded relations)
 INSERT INTO posts(post_id, published_at, title, content) VALUES
-  ('welcome-to-the-blog', strftime('%s','2025-04-24 12:00:00'), 'Welcome to the Blog', 'This is the inaugural post seeded into the database.'),
-  ('second-thoughts', strftime('%s','2025-04-25 09:30:00'), 'Second Thoughts', 'Another seed post to showcase seeding with SQLite.'),
-  ('tagging-demo', strftime('%s','2025-04-26 15:45:00'), 'Tagging Demo', 'How to attach tags to posts in SQLite.');
+  ('welcome-to-the-blog', strftime('%s','2025-04-24 12:00:00'), 'Welcome to the Blog', '# Welcome to the Blog\n\nThis is the inaugural post seeded into the database.'),
+  ('second-thoughts', strftime('%s','2025-04-25 09:30:00'), 'Second Thoughts', '# Second Thoughts\n\nAnother seed post to showcase seeding with SQLite.'),
+  ('tagging-demo', strftime('%s','2025-04-26 15:45:00'), 'Tagging Demo', '# Tagging Demo\n\nHow to attach tags to posts in SQLite.');
 
 -- Tag‑Post relationships
 INSERT OR IGNORE INTO tag_posts(tag_id, post_id) VALUES
@@ -35,25 +35,25 @@ INSERT OR IGNORE INTO tags(tag_name) VALUES
 INSERT INTO posts(post_id, published_at, title, summary, content) VALUES
   ('getting-started-with-sqlite', strftime('%s','2025-04-27 10:20:00'), 'Getting Started with SQLite',
       'A quick tutorial on setting up and querying an SQLite database.',
-      'In this post, we explore how to install SQLite, create tables, and run simple SELECT queries.'),
+      '# Getting Started with SQLite\n\nIn this post, we explore how to install SQLite, create tables, and run simple SELECT queries.'),
   ('personal-reflections', strftime('%s','2025-04-28 14:00:00'), 'Personal Reflections',
       'Thoughts on productivity and work–life balance.',
-      'I share my experiences juggling coding projects, exercise, and downtime over the past year.'),
+      '# Personal Reflections\n\nI share my experiences juggling coding projects, exercise, and downtime over the past year.'),
   ('advanced-tagging-strategies', strftime('%s','2025-04-29 18:30:00'), 'Advanced Tagging Strategies',
       'How to design flexible tag schemas for your application.',
-      'We dive into denormalized vs. normalized tag tables, tag hierarchies, and performance considerations.'),
+      '# Advanced Tagging Strategies\n\nWe dive into denormalized vs. normalized tag tables, tag hierarchies, and performance considerations.'),
   ('site-maintenance-notice', strftime('%s','2025-04-30 08:15:00'), 'Site Maintenance Notice',
       'Scheduled downtime and expected improvements.',
-      'The blog will be offline for maintenance on May 1st from 2 AM to 4 AM UTC. We''ll be upgrading the server.'),
+      '# Site Maintenance Notice\n\nThe blog will be offline for maintenance on May 1st from 2 AM to 4 AM UTC. We''ll be upgrading the server.'),
   ('tutorial-deploying-with-docker', strftime('%s','2025-05-01 12:00:00'), 'Tutorial: Deploying with Docker',
       'Step-by-step guide to containerizing your Node.js app.',
-      'Learn how to write a Dockerfile, build an image, and run containers both locally and in production.'),
+      '# Tutorial: Deploying with Docker\n\nLearn how to write a Dockerfile, build an image, and run containers both locally and in production.'),
   ('tech-news-roundup', strftime('%s','2025-05-01 16:45:00'), 'Tech News Roundup',
       'This week’s highlights in the tech world.',
-      'Covering the latest release from BigCo, security advisories, and startup funding news.'),
+      '# Tech News Roundup\n\nCovering the latest release from BigCo, security advisories, and startup funding news.'),
   ('opinion-future-of-web-development', strftime('%s','2025-05-02 09:00:00'), 'Opinion: Future of Web Development',
       'Thoughts on trends shaping the next decade.',
-      'From WebAssembly to AI-driven UIs, here are the technologies I''m most excited about.');
+      '# Opinion: Future of Web Development\n\nFrom WebAssembly to AI-driven UIs, here are the technologies I''m most excited about.');
 
 -- Additional Tag-Post Relationships
 INSERT OR IGNORE INTO tag_posts(tag_id, post_id) VALUES

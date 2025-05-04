@@ -11,8 +11,5 @@
     "dev:front": "npm run dev -w frontend",
     "typecheck": "tsc -b",
     "build": "npm run build -w backend && npm run build -w frontend"
-  },
-  "dependencies": {
-    "@tailwindcss/postcss": "^4.1.4"
   }
 }

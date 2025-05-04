@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import type { Post } from '@my-blog/common';
+import ReactMarkdown from 'react-markdown';
 
 export default function Post() {
   const { id } = useParams();
@@ -15,7 +16,7 @@ export default function Post() {
         if (!response.ok) throw new Error('Failed to fetch post');
         const data = await response.json();
         setPost(data.post);
-        console.log('Fetched post data:', data); 
+        console.log('Fetched post data:', data);
       } catch (err) {
         console.error('Error fetching post:', err); // Log the error
         setError('Post not found');
@@ -34,15 +35,14 @@ export default function Post() {
   }
 
   return (
-    <div>
-      <div className="flex flex-col lg:flex-row p-4 gap-3">
-        <main className="flex-grow bg-white p-6 rounded-lg shadow-md">
-          <article className="prose">
-            <h1>{post.title}</h1>
-            <p>{post.content}</p>
-          </article>
-          <Link to="/" className="text-blue-600 hover:underline">← Back</Link>
-        </main>
+    <div className="container mx-auto px-4">
+      <main className="bg-white mt-6 p-8 rounded-lg shadow-lg">
+        <ReactMarkdown>{post.content.replace(/\\n/g, '\n')}</ReactMarkdown>
+      </main>
+      <div className="mt-6 text-center">
+        <Link to="/" className="text-blue-500 hover:text-blue-700 font-medium">
+        ← Back to Home
+        </Link>
       </div>
     </div>
   );
