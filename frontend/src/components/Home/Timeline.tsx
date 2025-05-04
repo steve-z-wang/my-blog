@@ -33,22 +33,42 @@ function PostItem({ post }: { post: PostWithoutContent }) {
   );
 }
 
-function Timeline({ posts, selectedTags }: { posts: PostWithoutContent[]; selectedTags: string[] }) {
+function Timeline({ posts, selectedTags, setSelectedTags }: { posts: PostWithoutContent[]; selectedTags: string[]; setSelectedTags: React.Dispatch<React.SetStateAction<string[]>> }) {
   const filteredPosts = selectedTags.length
     ? posts.filter((post) => post.tags.some((tag) => selectedTags.includes(tag)))
     : posts;
 
+  const clearAll = () => setSelectedTags([]);
+
   if (!filteredPosts.length) return <p>No posts match the selected tags.</p>;
 
   return (
-    <ul>
-      {filteredPosts.map((post, index) => (
-        <div key={post.post_id}>
-          <PostItem post={post} />
-          {index < filteredPosts.length - 1 && <hr className="my-4 border-gray-300" />}
+    <>
+      {selectedTags.length > 0 && (
+        <div className="mb-4 flex items-center gap-4">
+          <div className="flex flex-wrap gap-2">
+            {selectedTags.map((tag) => (
+              <span
+                key={tag}
+                className="px-3 py-1 bg-blue-200 text-blue-800 rounded-full cursor-pointer"
+                onClick={() => setSelectedTags((prev) => prev.filter((t) => t !== tag))}
+              >
+                {tag} ✕
+              </span>
+            ))}
+          </div>
         </div>
-      ))}
-    </ul>
+      )}
+
+      <ul>
+        {filteredPosts.map((post, index) => (
+          <div key={post.post_id}>
+            <PostItem post={post} />
+            {index < filteredPosts.length - 1 && <hr className="my-4 border-gray-300" />}
+          </div>
+        ))}
+      </ul>
+    </>
   );
 }
 

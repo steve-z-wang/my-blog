@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <div className="flex flex-col lg:flex-row p-4 gap-3">
       <main className="flex-grow bg-white p-6 rounded-lg shadow-md">
-        <Timeline posts={posts} selectedTags={selectedTags} />
+        <Timeline posts={posts} selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
       </main>
       <aside className="w-full lg:w-1/3 bg-white p-6 rounded-lg shadow-md self-start">
         <Sidebar posts={posts} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />

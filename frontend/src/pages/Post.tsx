@@ -31,7 +31,7 @@ export default function Post() {
   }
 
   if (!post) {
-    return <p>Loading…</p>;
+    return <></>; 
   }
 
   return (
