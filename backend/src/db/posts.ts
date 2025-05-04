@@ -7,10 +7,13 @@ import { getDb } from './knex';
  * @param offset - the number of posts to skip
  * @returns a list of posts with summary and tags 
  */
-export async function findPosts(limit: number, offset: number): Promise<PostWithoutContent[]> {
+export function findPosts(
+    limit: number,
+    offset: number
+): Promise<PostWithoutContent[]> {
     const db = getDb();
 
-    const posts = await db('posts as p')
+    return db('posts as p')
         .select(
             'p.post_id',
             'p.published_at',
@@ -23,12 +26,13 @@ export async function findPosts(limit: number, offset: number): Promise<PostWith
         .groupBy('p.post_id')
         .orderBy('p.published_at', 'desc')
         .limit(limit)
-        .offset(offset);
-
-    return posts.map(post => {
-        post.tags = JSON.parse(post.tags); // Convert JSON string to array
-        return post;
-    });
+        .offset(offset)
+        .then(posts =>
+            posts.map(post => {
+                post.tags = JSON.parse(post.tags); // Convert JSON string to array
+                return post;
+            })
+        );
 }
 
 /**
@@ -36,10 +40,10 @@ export async function findPosts(limit: number, offset: number): Promise<PostWith
  * @param id - the ID of the post to get
  * @returns a single post with all details
  */
-export async function findById(id: string): Promise<Post | undefined> {
+export function findById(id: string): Promise<Post | undefined> {
     const db = getDb();
 
-    const post = await db('posts as p')
+    return db('posts as p')
         .select(
             'p.post_id',
             'p.published_at',
@@ -52,11 +56,11 @@ export async function findById(id: string): Promise<Post | undefined> {
         .leftJoin('tags as t', 'tp.tag_id', 't.tag_id')
         .where('p.post_id', id)
         .groupBy('p.post_id')
-        .first();
-
-    if (post) {
-        post.tags = JSON.parse(post.tags); // Convert JSON string to array
-    }
-
-    return post;
-} 
+        .first()
+        .then(post => {
+            if (post) {
+                post.tags = JSON.parse(post.tags);
+            }
+            return post;
+        });
+}

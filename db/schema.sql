@@ -33,5 +33,14 @@ CREATE TABLE IF NOT EXISTS tag_posts (
 CREATE INDEX IF NOT EXISTS idx_tag_posts_tag_id ON tag_posts(tag_id);
 CREATE INDEX IF NOT EXISTS idx_tag_posts_post_id ON tag_posts(post_id);
 
+
+---------- Email Subscriptions ----------
+
+-- Create email_subscriptions table
+CREATE TABLE IF NOT EXISTS email_subscriptions (
+  email TEXT PRIMARY KEY,
+  subscribed_at INTEGER NOT NULL -- unix timestamp
+);
+
 ---------- Comments ----------
 -- TODO: Create comments table

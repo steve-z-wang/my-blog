@@ -2,11 +2,12 @@ import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import "dotenv/config";
-import { handleGetPost, handleGetTimeline } from "./handlers";
+import { handleGetPost, handleGetTimeline, handleSubscribeByEmail, handleUnsubscribeByEmail } from "./handlers";
 import { BlogError } from "./errors";
-import { GetTimelineResponseSchema, GetPostResponseSchema, toJSON } from "@my-blog/common";
+import { GetTimelineResponseSchema, GetPostResponseSchema, toJSON, SubscribeByEmailResponseSchema, UnsubscribeByEmailResponseSchema } from "@my-blog/common";
 import logger from "./logger";
 import { initializeDatabase } from './db/knex';
+import path from "path";
 
 // Initialize the database before starting the server
 initializeDatabase();
@@ -19,25 +20,44 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-// get all posts
-app.get("/api/timeline", async (_req: Request, res: Response, next: NextFunction) => {
-    try {
-        const response = await handleGetTimeline({});
-        res.send(toJSON(response, GetTimelineResponseSchema));
-    } catch (error) {
-        next(error);
-    }
-});
+const routes = [
+    {
+        method: "get",
+        path: "/api/timeline",
+        handler: async (_req: Request) => handleGetTimeline({}),
+        schema: GetTimelineResponseSchema,
+    },
+    {
+        method: "get",
+        path: "/api/posts/:id",
+        handler: async (req: Request) => handleGetPost({ id: req.params.id }),
+        schema: GetPostResponseSchema,
+    },
+    {
+        method: "post",
+        path: "/api/subscribe",
+        handler: async (req: Request) => handleSubscribeByEmail({ email: req.body.email }),
+        schema: SubscribeByEmailResponseSchema,
+        status: 201,
+    },
+    {
+        method: "delete",
+        path: "/api/unsubscribe",
+        handler: async (req: Request) => handleUnsubscribeByEmail({ email: req.body.email }),
+        schema: UnsubscribeByEmailResponseSchema,
+        status: 200,
+    },
+];
 
-// get a single post
-app.get("/api/posts/:id", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const id = req.params.id;
-        const response = await handleGetPost({ id });
-        res.send(toJSON(response, GetPostResponseSchema));
-    } catch (error) {
-        next(error);
-    }
+routes.forEach(({ method, path, handler, schema, status = 200 }) => {
+    (app as any)[method](path, async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const response = await handler(req);
+            res.status(status).send(toJSON(response, schema));
+        } catch (error) {
+            next(error);
+        }
+    });
 });
 
 // 404 handler
