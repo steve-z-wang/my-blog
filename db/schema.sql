@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS comments (
   parent_comment_id INTEGER,
   author_name TEXT NOT NULL,
   content TEXT NOT NULL,
-  created_at INTEGER NOT NULL -- unix timestamp
+  created_at INTEGER NOT NULL, -- unix timestamp
   FOREIGN KEY (post_id) REFERENCES posts(post_id),
   FOREIGN KEY (parent_comment_id) REFERENCES comments(comment_id)
 );

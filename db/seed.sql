@@ -49,7 +49,7 @@ INSERT INTO posts(post_id, published_at, title, summary, content) VALUES
       'Step-by-step guide to containerizing your Node.js app.',
       '# Tutorial: Deploying with Docker\n\nLearn how to write a Dockerfile, build an image, and run containers both locally and in production.'),
   ('tech-news-roundup', strftime('%s','2025-05-01 16:45:00'), 'Tech News Roundup',
-      'This week's highlights in the tech world.',
+      'This week''s highlights in the tech world.',
       '# Tech News Roundup\n\nCovering the latest release from BigCo, security advisories, and startup funding news.'),
   ('opinion-future-of-web-development', strftime('%s','2025-05-02 09:00:00'), 'Opinion: Future of Web Development',
       'Thoughts on trends shaping the next decade.',

@@ -4,7 +4,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import "dotenv/config";
-import { handleGetPost, handleGetTimeline, handleSubscribeByEmail, handleUnsubscribeByEmail, handleGetComments, handleGetComment, handleCreateComment } from "./handlers";
+import { handleGetPost, handleGetTimeline, handleSubscribeByEmail, handleUnsubscribeByEmail, handleGetComments, handleCreateComment } from "./handlers";
 import { BlogError } from "./errors";
 import {
     GetTimelineResponseSchema,
@@ -12,7 +12,6 @@ import {
     SubscribeByEmailResponseSchema,
     UnsubscribeByEmailResponseSchema,
     GetCommentsResponseSchema,
-    GetCommentResponseSchema,
     CreateCommentResponseSchema,
     toJSON
 } from "@my-blog/common";
@@ -77,18 +76,8 @@ const routes: RouteConfig[] = [
         path: "/api/posts/:postId/comments",
         handler: async (req: Request) => handleGetComments({
             postId: req.params.postId,
-            includeReplies: req.query.includeReplies === 'true'
         }),
         responseSchema: GetCommentsResponseSchema,
-    },
-    {
-        method: "get",
-        path: "/api/comments/:commentId",
-        handler: async (req: Request) => handleGetComment({
-            commentId: Number(req.params.commentId),
-            includeReplies: req.query.includeReplies === 'true'
-        }),
-        responseSchema: GetCommentResponseSchema,
     },
     {
         method: "post",

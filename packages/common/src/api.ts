@@ -53,20 +53,10 @@ export type UnsubscribeByEmailResponse = z.infer<typeof UnsubscribeByEmailRespon
 
 export const GetCommentsRequestSchema = z.object({
     postId: z.string(),
-    includeReplies: z.boolean().optional()
 });
 
 export const GetCommentsResponseSchema = z.object({
     comments: z.array(CommentSchema)
-});
-
-export const GetCommentRequestSchema = z.object({
-    commentId: z.number(),
-    includeReplies: z.boolean().optional()
-});
-
-export const GetCommentResponseSchema = z.object({
-    comment: CommentSchema
 });
 
 export const CreateCommentRequestSchema = z.object({
@@ -82,7 +72,5 @@ export const CreateCommentResponseSchema = z.object({
 
 export type GetCommentsRequest = z.infer<typeof GetCommentsRequestSchema>;
 export type GetCommentsResponse = z.infer<typeof GetCommentsResponseSchema>;
-export type GetCommentRequest = z.infer<typeof GetCommentRequestSchema>;
-export type GetCommentResponse = z.infer<typeof GetCommentResponseSchema>;
 export type CreateCommentRequest = z.infer<typeof CreateCommentRequestSchema>;
 export type CreateCommentResponse = z.infer<typeof CreateCommentResponseSchema>;

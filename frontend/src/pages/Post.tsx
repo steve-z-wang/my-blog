@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import type { Post } from '@my-blog/common';
 import ReactMarkdown from 'react-markdown';
+import CommentSection from '../components/Post/CommentSection';
 
 export default function Post() {
   const { id } = useParams();
@@ -42,12 +43,13 @@ export default function Post() {
             {post.content.replace(/\\n/g, '\n')}
           </ReactMarkdown>
         </div>
+        {id && <CommentSection postId={id} />}
+        <div className="mt-6 text-center">
+          <Link to="/" className="text-blue-500 hover:text-blue-700 font-medium">
+            Back to Home
+          </Link>
+        </div>
       </main>
-      <div className="mt-6 text-center">
-        <Link to="/" className="text-blue-500 hover:text-blue-700 font-medium">
-          Back to Home
-        </Link>
-      </div>
     </div>
   );
 }
