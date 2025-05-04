@@ -1,11 +1,19 @@
 {
-    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "outDir": "dist",
-        "declaration": true,
-        "composite": true // enables project references
+        "composite": true, /* Required for project references */
+        "declaration": true, /* Generate .d.ts files */
+        "declarationMap": true, /* Generate .d.ts.map files */
+        "emitDeclarationOnly": true, /* Only emit type declarations */
+        "outDir": "dist", /* Output directory for compiled files */
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true
     },
     "include": [
         "src"
+    ], /* Include the source files */
+    "exclude": [
+        "node_modules",
+        "dist"
     ]
 }

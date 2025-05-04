@@ -7,13 +7,12 @@ export default function NavBar() {
 
   return (
     <nav className="bg-white shadow-md">
-      <div className="container mx-auto flex items-center justify-between p-4">
-        {/* Blog Name */}
-        <h1 className="text-xl font-bold text-gray-800">
+      <div className="flex items-center justify-between px-4 py-2">
+
+        <h1 className="text-2xl text-gray-900">
           Steve Wang's Blog
         </h1>
 
-        {/* Navigation Links */}
         <ul className="flex space-x-4">
           <li>
             <NavLink

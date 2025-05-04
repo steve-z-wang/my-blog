@@ -1,16 +1,23 @@
-// root folder
+# macOS system files
+.DS_Store
+
+# Node.js dependencies
 node_modules
 
-// packages folder
-packages/common/node_modules
-packages/common/dist
+# IDE and editor files
+.idea
 
-// backend folder 
-backend/node_modules
+# Build outputs
+packages/common/dist
 backend/dist
+frontend/dist
+
+# Environment files
 .env
 
-// frontend folder
-frontend/node_modules
-frontend/dist
+# Lock files
 package-lock.json
+
+# Logs
+*.log
+db/blog.dev.db
