@@ -13,7 +13,7 @@ export async function findPosts(limit: number, offset: number): Promise<PostWith
     const posts = await db('posts as p')
         .select(
             'p.post_id',
-            'p.publish_at',
+            'p.published_at',
             'p.title',
             'p.summary',
             db.raw(`COALESCE(json_group_array(t.tag_name), '[]') AS tags`)
@@ -21,7 +21,7 @@ export async function findPosts(limit: number, offset: number): Promise<PostWith
         .leftJoin('tag_posts as tp', 'p.post_id', 'tp.post_id')
         .leftJoin('tags as t', 'tp.tag_id', 't.tag_id')
         .groupBy('p.post_id')
-        .orderBy('p.publish_at', 'desc')
+        .orderBy('p.published_at', 'desc')
         .limit(limit)
         .offset(offset);
 
@@ -42,7 +42,7 @@ export async function findById(id: string): Promise<Post | undefined> {
     const post = await db('posts as p')
         .select(
             'p.post_id',
-            'p.publish_at',
+            'p.published_at',
             'p.title',
             'p.summary',
             'p.content',

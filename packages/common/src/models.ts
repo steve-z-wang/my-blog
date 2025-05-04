@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const PostSchema = z.object({
     post_id: z.string(), // Changed from number to string
-    publish_at: z.number(),
+    published_at: z.number(),
     title: z.string(),
     content: z.string(),
     summary: z.string().nullable(),

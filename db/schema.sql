@@ -3,14 +3,14 @@
 -- Create posts table
 CREATE TABLE IF NOT EXISTS posts (
   post_id TEXT PRIMARY KEY, -- Changed to TEXT for string IDs
-  publish_at INTEGER NOT NULL, -- unix timestamp
+  published_at INTEGER NOT NULL, -- unix timestamp
   title TEXT NOT NULL,
   summary TEXT, -- optional summary
   content TEXT NOT NULL
 );
 
--- Create a secondary index on publish_at for faster queries
-CREATE INDEX IF NOT EXISTS idx_posts_publish_at ON posts(publish_at);
+-- Create a secondary index on published_at for faster queries
+CREATE INDEX IF NOT EXISTS idx_posts_published_at ON posts(published_at);
 
 ---------- Tags ----------
 

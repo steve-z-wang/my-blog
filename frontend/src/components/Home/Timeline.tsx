@@ -27,7 +27,7 @@ function PostItem({ post }: { post: PostWithoutContent }) {
       </Link>
       <p className="text-gray-700 mt-2">{post.summary}</p>
       <p className="text-sm text-gray-500">
-        {formatTimestampToDate(post.publish_at)} in {renderTags(post.tags)}
+        {formatTimestampToDate(post.published_at)} in {renderTags(post.tags)}
       </p>
     </li>
   );

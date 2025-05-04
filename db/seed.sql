@@ -10,7 +10,7 @@ INSERT OR IGNORE INTO tags(tag_name) VALUES
   ('tutorial');
 
 -- Posts (explicit post_id for deterministic seeded relations)
-INSERT INTO posts(post_id, publish_at, title, content) VALUES
+INSERT INTO posts(post_id, published_at, title, content) VALUES
   ('welcome-to-the-blog', strftime('%s','2025-04-24 12:00:00'), 'Welcome to the Blog', 'This is the inaugural post seeded into the database.'),
   ('second-thoughts', strftime('%s','2025-04-25 09:30:00'), 'Second Thoughts', 'Another seed post to showcase seeding with SQLite.'),
   ('tagging-demo', strftime('%s','2025-04-26 15:45:00'), 'Tagging Demo', 'How to attach tags to posts in SQLite.');
@@ -32,7 +32,7 @@ INSERT OR IGNORE INTO tags(tag_name) VALUES
   ('opinion');
 
 -- Additional Posts
-INSERT INTO posts(post_id, publish_at, title, summary, content) VALUES
+INSERT INTO posts(post_id, published_at, title, summary, content) VALUES
   ('getting-started-with-sqlite', strftime('%s','2025-04-27 10:20:00'), 'Getting Started with SQLite',
       'A quick tutorial on setting up and querying an SQLite database.',
       'In this post, we explore how to install SQLite, create tables, and run simple SELECT queries.'),
