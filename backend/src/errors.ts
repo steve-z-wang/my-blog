@@ -13,9 +13,3 @@ export class NotFoundError extends BlogError {
         super(message, 404);
     }
 }
-
-export class BadRequestError extends BlogError {
-    constructor(message: string = 'Invalid request') {
-        super(message, 400);
-    }
-} 

@@ -36,7 +36,7 @@ export async function findPosts(limit: number, offset: number): Promise<PostWith
  * @param id - the ID of the post to get
  * @returns a single post with all details
  */
-export async function findById(id: number): Promise<Post | undefined> {
+export async function findById(id: string): Promise<Post | undefined> {
     const db = getDb();
 
     const post = await db('posts as p')

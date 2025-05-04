@@ -14,7 +14,7 @@ export type GetTimelineResponse = z.infer<typeof GetTimelineResponseSchema>;
 
 // GetPost 
 export const GetPostRequestSchema = z.object({
-    id: z.number(),
+    id: z.string(),
 });
 export const GetPostResponseSchema = z.object({
     post: PostSchema,

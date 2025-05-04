@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { PostWithoutContent, GetTimelineResponse } from '@my-blog/common';
+import type { PostWithoutContent, GetTimelineResponse } from '@my-blog/common'; // Ensure the updated schema is used
 import Timeline from '../components/Home/Timeline';
 import Sidebar from '../components/Home/Sidebar';
 

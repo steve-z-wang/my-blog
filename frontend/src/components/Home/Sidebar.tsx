@@ -42,7 +42,7 @@ function Sidebar({ posts, selectedTags, setSelectedTags }: { posts: PostWithoutC
       )}
 
       <div>
-        <h3 className="text-md font-semibold mb-2">Tags:</h3>
+        <h3 className="text-md font-semibold mb-2">Tags</h3>
         <div className="flex flex-wrap gap-2">
           {Object.entries(allTags).map(([tag, count]) => (
             <button

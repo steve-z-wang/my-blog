@@ -11,12 +11,11 @@ export default function Post() {
     const fetchPost = async () => {
       try {
         console.log('Fetching post with ID:', id);
-
         const response = await fetch(`/api/posts/${id}`);
         if (!response.ok) throw new Error('Failed to fetch post');
         const data = await response.json();
-        setPost(data.post); // Extract the `post` key from the response
-        console.log('Fetched post data:', data); // Log the fetched data
+        setPost(data.post);
+        console.log('Fetched post data:', data); 
       } catch (err) {
         console.error('Error fetching post:', err); // Log the error
         setError('Post not found');
@@ -27,16 +26,12 @@ export default function Post() {
   }, [id]);
 
   if (error) {
-    console.log('Error state:', error); // Log error state
     return <p className="text-red-600">{error}</p>;
   }
 
   if (!post) {
-    console.log('Post state is null, loading...'); // Log loading state
     return <p>Loading…</p>;
   }
-
-  console.log('Rendering post:', post); // Log post state before rendering
 
   return (
     <div>

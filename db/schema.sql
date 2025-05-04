@@ -2,7 +2,7 @@
 
 -- Create posts table
 CREATE TABLE IF NOT EXISTS posts (
-  post_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  post_id TEXT PRIMARY KEY, -- Changed to TEXT for string IDs
   publish_at INTEGER NOT NULL, -- unix timestamp
   title TEXT NOT NULL,
   summary TEXT, -- optional summary
@@ -20,11 +20,10 @@ CREATE TABLE IF NOT EXISTS tags (
   tag_name TEXT NOT NULL UNIQUE
 );
 
-
 -- Create tag_posts join table
 CREATE TABLE IF NOT EXISTS tag_posts (
   tag_id INTEGER NOT NULL,
-  post_id INTEGER NOT NULL,
+  post_id TEXT NOT NULL,
   PRIMARY KEY (tag_id, post_id),
   FOREIGN KEY (tag_id) REFERENCES tags(tag_id),
   FOREIGN KEY (post_id) REFERENCES posts(post_id)

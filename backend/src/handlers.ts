@@ -1,5 +1,5 @@
 import { GetPostRequest, GetPostResponse, GetTimelineRequest, GetTimelineResponse } from '@my-blog/common';
-import { NotFoundError, BadRequestError } from './errors';
+import { NotFoundError } from './errors';
 import { findPosts, findById } from './db/posts';
 import logger from './logger';
 
@@ -19,10 +19,6 @@ export async function handleGetPost(request: GetPostRequest): Promise<GetPostRes
     const { id } = request;
 
     logger.info(`Fetching post with ID: ${id}`);
-
-    if (!Number.isInteger(id)) {
-        throw new BadRequestError('Invalid post ID');
-    }
 
     const post = await findById(id);
 

@@ -6,6 +6,10 @@ import { handleGetPost, handleGetTimeline } from "./handlers";
 import { BlogError } from "./errors";
 import { GetTimelineResponseSchema, GetPostResponseSchema, toJSON } from "@my-blog/common";
 import logger from "./logger";
+import { initializeDatabase } from './db/knex';
+
+// Initialize the database before starting the server
+initializeDatabase();
 
 const app = express();
 const PORT = Number(process.env.PORT ?? 5000);
@@ -28,7 +32,7 @@ app.get("/api/timeline", async (_req: Request, res: Response, next: NextFunction
 // get a single post
 app.get("/api/posts/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const id = Number(req.params.id);
+        const id = req.params.id;
         const response = await handleGetPost({ id });
         res.send(toJSON(response, GetPostResponseSchema));
     } catch (error) {
@@ -45,7 +49,7 @@ app.use((_req, res) => {
 app.use(
     (err: unknown, _req: Request, res: Response, _next: NextFunction) => {
         logger.error(err);
-        
+
         if (err instanceof BlogError) {
             res.status(err.status).json({ error: err.message });
         } else {
