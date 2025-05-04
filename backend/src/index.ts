@@ -13,7 +13,7 @@ import path from "path";
 initializeDatabase();
 
 const app = express();
-const PORT = Number(process.env.PORT ?? 5000);
+const PORT = Number(process.env.PORT ?? 8000);
 
 // global middleware
 app.use(cors());
