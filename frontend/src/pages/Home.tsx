@@ -26,13 +26,18 @@ export default function Home() {
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
-    <div className="flex flex-col lg:flex-row p-4 gap-3">
-      <main className="flex-grow bg-white p-6 rounded-lg shadow-md">
-        <Timeline posts={posts} selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
+    <div className="content-container flex flex-col lg:flex-row gap-4">
+
+      {/* timeline */}
+      <main className="flex-grow content-card">
+        <Timeline posts={posts} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
       </main>
-      <aside className="w-full lg:w-1/3 bg-white p-6 rounded-lg shadow-md self-start">
+
+      {/* sidebar */}
+      <aside className="w-full lg:w-1/3 content-card self-start">
         <Sidebar posts={posts} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
       </aside>
+
     </div>
   );
 }

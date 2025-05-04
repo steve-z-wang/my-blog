@@ -4,58 +4,17 @@
 
 @layer base {
   html {
-    background-color: #f0f4f8; /* Light background color */ 
-    font-family: "Charter", Georgia, serif; /* For body text */
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
   }
 }
 
+@layer components {
+  .content-container {
+    @apply container mx-auto p-6;
+  }
 
-/* Add styles for MarkdownRenderer components */
-.markdown-h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
-}
-
-.markdown-h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-}
-
-.markdown-p {
-  margin-bottom: 1rem;
-  color: #4a5568; /* gray-700 */
-}
-
-.markdown-ul {
-  list-style-type: disc;
-  list-style-position: inside;
-  margin-bottom: 1rem;
-}
-
-.markdown-ol {
-  list-style-type: decimal;
-  list-style-position: inside;
-  margin-bottom: 1rem;
-}
-
-.markdown-li {
-  margin-bottom: 0.5rem;
-}
-
-.markdown-a {
-  color: #4299e1; /* blue-500 */
-  text-decoration: none;
-}
-
-.markdown-a:hover {
-  text-decoration: underline;
-}
-
-.markdown-code {
-  background-color: #f7fafc; /* gray-100 */
-  color: #e53e3e; /* red-500 */
-  padding: 0.25rem;
-  border-radius: 0.25rem;
+  .content-card {
+    @apply p-6 bg-white rounded-md shadow-md;
+  }
 }

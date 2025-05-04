@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import type { Post } from '@my-blog/common';
-import MarkdownRenderer from '../components/Post/MarkdownRenderer';
+import ReactMarkdown from 'react-markdown';
 
 export default function Post() {
   const { id } = useParams();
@@ -35,9 +35,13 @@ export default function Post() {
   }
 
   return (
-    <div className="container mx-auto px-4">
-      <main className="bg-white mt-6 p-8 rounded-lg shadow-lg">
-        <MarkdownRenderer content={post.content.replace(/\\n/g, '\n')} />
+    <div className="content-container">
+      <main className="content-card">
+        <div className="prose prose-lg prose-slate max-w-none">
+          <ReactMarkdown>
+            {post.content.replace(/\\n/g, '\n')}
+          </ReactMarkdown>
+        </div>
       </main>
       <div className="mt-6 text-center">
         <Link to="/" className="text-blue-500 hover:text-blue-700 font-medium">
