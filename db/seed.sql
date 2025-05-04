@@ -49,7 +49,7 @@ INSERT INTO posts(post_id, published_at, title, summary, content) VALUES
       'Step-by-step guide to containerizing your Node.js app.',
       '# Tutorial: Deploying with Docker\n\nLearn how to write a Dockerfile, build an image, and run containers both locally and in production.'),
   ('tech-news-roundup', strftime('%s','2025-05-01 16:45:00'), 'Tech News Roundup',
-      'This week’s highlights in the tech world.',
+      'This week's highlights in the tech world.',
       '# Tech News Roundup\n\nCovering the latest release from BigCo, security advisories, and startup funding news.'),
   ('opinion-future-of-web-development', strftime('%s','2025-05-02 09:00:00'), 'Opinion: Future of Web Development',
       'Thoughts on trends shaping the next decade.',
@@ -81,6 +81,21 @@ INSERT OR IGNORE INTO tag_posts(tag_id, post_id) VALUES
   ((SELECT tag_id FROM tags WHERE tag_name='opinion'), 'opinion-future-of-web-development'),
   ((SELECT tag_id FROM tags WHERE tag_name='tech'), 'opinion-future-of-web-development');
 
+-- Comments
+INSERT INTO comments(post_id, author_name, content, created_at) VALUES
+  ('welcome-to-the-blog', 'Alice Johnson', 'Great first post! Looking forward to more content.', strftime('%s','2025-04-24 13:30:00')),
+  ('welcome-to-the-blog', 'Bob Smith', 'The blog looks promising. Keep it up!', strftime('%s','2025-04-24 14:15:00')),
+  ('second-thoughts', 'Charlie Brown', 'Interesting perspective. I agree with your points.', strftime('%s','2025-04-25 10:45:00')),
+  ('getting-started-with-sqlite', 'Diana Ross', 'This tutorial was exactly what I needed. Thanks!', strftime('%s','2025-04-27 11:30:00')),
+  ('personal-reflections', 'Ethan Hunt', 'Your work-life balance tips are really helpful.', strftime('%s','2025-04-28 15:20:00')),
+  ('tutorial-deploying-with-docker', 'Fiona Apple', 'Clear and concise tutorial. Well done!', strftime('%s','2025-05-01 13:15:00'));
+
+-- Nested comments (replies)
+INSERT INTO comments(post_id, parent_comment_id, author_name, content, created_at) VALUES
+  ('welcome-to-the-blog', 1, 'Bob Smith', 'Thanks Alice! I''m excited to see where this goes.', strftime('%s','2025-04-24 13:45:00')),
+  ('welcome-to-the-blog', 1, 'Charlie Brown', 'I''m also looking forward to more posts!', strftime('%s','2025-04-24 14:00:00')),
+  ('getting-started-with-sqlite', 4, 'Ethan Hunt', 'I had the same experience. This tutorial made it much clearer.', strftime('%s','2025-04-27 12:00:00')),
+  ('personal-reflections', 5, 'Fiona Apple', 'I''ve been struggling with this too. Thanks for sharing!', strftime('%s','2025-04-28 16:30:00'));
 
 COMMIT;
 

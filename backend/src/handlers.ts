@@ -1,6 +1,7 @@
-import { GetPostRequest, GetPostResponse, GetTimelineRequest, GetTimelineResponse, SubscribeByEmailRequest, SubscribeByEmailResponse, UnsubscribeByEmailRequest, UnsubscribeByEmailResponse } from '@my-blog/common';
+import { GetPostRequest, GetPostResponse, GetTimelineRequest, GetTimelineResponse, SubscribeByEmailRequest, SubscribeByEmailResponse, UnsubscribeByEmailRequest, UnsubscribeByEmailResponse, GetCommentsRequest, GetCommentsResponse, GetCommentRequest, GetCommentResponse, CreateCommentRequest, CreateCommentResponse } from '@my-blog/common';
 import { BadRequestError, NotFoundError } from './errors';
 import { findPosts, findById } from './db/posts';
+import { findCommentsByPostId, findCommentById, createComment } from './db/comments';
 import logger from './logger';
 import { subscribe } from 'diagnostics_channel';
 import { subscribeByEmail, unsubscribeByEmail } from './db/subscription';
@@ -67,4 +68,49 @@ export async function handleUnsubscribeByEmail(request: UnsubscribeByEmailReques
         email,
         unsubscribedAt,
     };
+}
+
+export async function handleGetComments(request: GetCommentsRequest): Promise<GetCommentsResponse> {
+    const { postId, includeReplies = false } = request;
+
+    logger.info(`Fetching comments for post ${postId} with includeReplies: ${includeReplies}`);
+
+    const comments = await findCommentsByPostId(postId, includeReplies);
+
+    return { comments };
+}
+
+export async function handleGetComment(request: GetCommentRequest): Promise<GetCommentResponse> {
+    const { commentId, includeReplies = false } = request;
+
+    logger.info(`Fetching comment ${commentId} with includeReplies: ${includeReplies}`);
+
+    const comment = await findCommentById(commentId, includeReplies);
+
+    if (!comment) {
+        logger.error(`Comment not found: ${commentId}`);
+        throw new NotFoundError('Comment not found');
+    }
+
+    logger.info(`Fetched comment: ${JSON.stringify(comment)}`);
+
+    return { comment };
+}
+
+export async function handleCreateComment(request: CreateCommentRequest): Promise<CreateCommentResponse> {
+    const { postId, parentCommentId, authorName, content } = request;
+
+    logger.info(`Creating comment for post ${postId} by ${authorName}`);
+
+    const comment = await createComment({
+        post_id: postId,
+        parent_comment_id: parentCommentId,
+        author_name: authorName,
+        content,
+        created_at: Math.floor(Date.now() / 1000)
+    });
+
+    logger.info(`Created comment: ${JSON.stringify(comment)}`);
+
+    return { comment };
 }

@@ -43,4 +43,19 @@ CREATE TABLE IF NOT EXISTS email_subscriptions (
 );
 
 ---------- Comments ----------
--- TODO: Create comments table
+
+-- Create comments table
+CREATE TABLE IF NOT EXISTS comments (
+  comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  post_id TEXT NOT NULL,
+  parent_comment_id INTEGER,
+  author_name TEXT NOT NULL,
+  content TEXT NOT NULL,
+  created_at INTEGER NOT NULL -- unix timestamp
+  FOREIGN KEY (post_id) REFERENCES posts(post_id),
+  FOREIGN KEY (parent_comment_id) REFERENCES comments(comment_id)
+);
+
+-- Create indexes to speed up queries
+CREATE INDEX IF NOT EXISTS idx_comments_post_id ON comments(post_id);
+CREATE INDEX IF NOT EXISTS idx_comments_parent_comment_id ON comments(parent_comment_id);

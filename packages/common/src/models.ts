@@ -23,3 +23,17 @@ export const EmailSubscriptionSchema = z.object({
 });
 
 export type EmailSubscription = z.infer<typeof EmailSubscriptionSchema>;
+
+// comment 
+
+export const CommentSchema: z.ZodType<any> = z.object({
+    comment_id: z.number(),
+    post_id: z.string(),
+    parent_comment_id: z.number().nullable(),
+    author_name: z.string(),
+    content: z.string(),
+    created_at: z.number(),
+    replies: z.array(z.lazy(() => CommentSchema)).optional()
+});
+
+export type Comment = z.infer<typeof CommentSchema>;

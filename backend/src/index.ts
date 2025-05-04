@@ -2,9 +2,9 @@ import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import "dotenv/config";
-import { handleGetPost, handleGetTimeline, handleSubscribeByEmail, handleUnsubscribeByEmail } from "./handlers";
+import { handleGetPost, handleGetTimeline, handleSubscribeByEmail, handleUnsubscribeByEmail, handleGetComments, handleGetComment, handleCreateComment } from "./handlers";
 import { BlogError } from "./errors";
-import { GetTimelineResponseSchema, GetPostResponseSchema, toJSON, SubscribeByEmailResponseSchema, UnsubscribeByEmailResponseSchema } from "@my-blog/common";
+import { GetTimelineResponseSchema, GetPostResponseSchema, toJSON, SubscribeByEmailResponseSchema, UnsubscribeByEmailResponseSchema, GetCommentsResponseSchema, GetCommentResponseSchema, CreateCommentResponseSchema } from "@my-blog/common";
 import logger from "./logger";
 import { initializeDatabase } from './db/knex';
 import path from "path";
@@ -46,6 +46,36 @@ const routes = [
         handler: async (req: Request) => handleUnsubscribeByEmail({ email: req.body.email }),
         schema: UnsubscribeByEmailResponseSchema,
         status: 200,
+    },
+    {
+        method: "get",
+        path: "/api/posts/:postId/comments",
+        handler: async (req: Request) => handleGetComments({
+            postId: req.params.postId,
+            includeReplies: req.query.includeReplies === 'true'
+        }),
+        schema: GetCommentsResponseSchema,
+    },
+    {
+        method: "get",
+        path: "/api/comments/:commentId",
+        handler: async (req: Request) => handleGetComment({
+            commentId: Number(req.params.commentId),
+            includeReplies: req.query.includeReplies === 'true'
+        }),
+        schema: GetCommentResponseSchema,
+    },
+    {
+        method: "post",
+        path: "/api/comments",
+        handler: async (req: Request) => handleCreateComment({
+            postId: req.body.postId,
+            parentCommentId: req.body.parentCommentId,
+            authorName: req.body.authorName,
+            content: req.body.content
+        }),
+        schema: CreateCommentResponseSchema,
+        status: 201,
     },
 ];
 
