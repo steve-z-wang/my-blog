@@ -6,7 +6,7 @@ import rateLimit from "express-rate-limit";
 import "dotenv/config";
 import { handleGetPost, handleGetTimeline, handleSubscribeByEmail, handleUnsubscribeByEmail, handleGetComments, handleGetComment, handleCreateComment } from "./handlers";
 import { BlogError } from "./errors";
-import { 
+import {
     GetTimelineResponseSchema,
     GetPostResponseSchema,
     SubscribeByEmailResponseSchema,
@@ -14,7 +14,7 @@ import {
     GetCommentsResponseSchema,
     GetCommentResponseSchema,
     CreateCommentResponseSchema,
-    toJSON 
+    toJSON
 } from "@my-blog/common";
 import logger from "./logger";
 import { initializeDatabase } from './db/knex';
@@ -106,13 +106,9 @@ const routes: RouteConfig[] = [
 
 // Register routes
 routes.forEach(({ method, path, handler, responseSchema, status = 200 }) => {
-    app[method](path, async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            const response = await handler(req);
-            res.status(status).send(toJSON(response, responseSchema));
-        } catch (error) {
-            next(error);
-        }
+    app[method](path, async (req: Request, res: Response) => {
+        const response = await handler(req);
+        res.status(status).send(toJSON(response, responseSchema));
     });
 });
 
