@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Post, GetTimelineResponse, DateFilter } from '@my-blog/common'; // Ensure the updated schema is used
+import type { Post, GetTimelineResponse } from '@my-blog/common';
 import Timeline from '../components/Home/Timeline';
 import Sidebar from '../components/Home/Sidebar';
 import PageTransition from '../components/PageTransition';
@@ -14,6 +14,8 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<DateFilter | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 10; // Show 10 posts per page
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -30,6 +32,17 @@ export default function Home() {
     fetchPosts();
   }, []);
 
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedTags, selectedDate]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
@@ -42,7 +55,10 @@ export default function Home() {
             posts={posts} 
             selectedTags={selectedTags} 
             selectedDate={selectedDate}
-            setSelectedTags={setSelectedTags} 
+            setSelectedTags={setSelectedTags}
+            currentPage={currentPage}
+            postsPerPage={postsPerPage}
+            onPageChange={handlePageChange}
           />
         </main>
 

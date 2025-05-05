@@ -11,6 +11,9 @@ interface TimelineProps {
   selectedTags: string[];
   selectedDate: DateFilter | null;
   setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
+  currentPage: number;
+  postsPerPage: number;
+  onPageChange: (page: number) => void;
 }
 
 function formatTimestampToDate(timestamp: number) {
@@ -45,7 +48,15 @@ function PostItem({ post }: { post: Post }) {
   );
 }
 
-function Timeline({ posts, selectedTags, selectedDate, setSelectedTags }: TimelineProps) {
+function Timeline({ 
+  posts, 
+  selectedTags, 
+  selectedDate, 
+  setSelectedTags,
+  currentPage,
+  postsPerPage,
+  onPageChange 
+}: TimelineProps) {
   let filteredPosts = posts;
 
   // Apply tag filters
@@ -74,6 +85,11 @@ function Timeline({ posts, selectedTags, selectedDate, setSelectedTags }: Timeli
     return <p>No posts match the selected tags.</p>;
   }
 
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const paginatedPosts = filteredPosts.slice(startIndex, startIndex + postsPerPage);
+
   return (
     <>
       {selectedTags.length > 0 && (
@@ -92,14 +108,44 @@ function Timeline({ posts, selectedTags, selectedDate, setSelectedTags }: Timeli
         </div>
       )}
 
-      <ul>
-        {filteredPosts.map((post, index) => (
+      <ul className="mb-6">
+        {paginatedPosts.map((post, index) => (
           <div key={post.postId}>
             <PostItem post={post} />
-            {index < filteredPosts.length - 1 && <hr className="my-4 border-gray-300" />}
+            {index < paginatedPosts.length - 1 && <hr className="my-4 border-gray-300" />}
           </div>
         ))}
       </ul>
+
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center gap-2">
+          <button
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-3 py-1 rounded ${
+              currentPage === 1
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            Previous
+          </button>
+          <span className="text-sm text-gray-600">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-1 rounded ${
+              currentPage === totalPages
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                : 'bg-blue-500 text-white hover:bg-blue-600'
+            }`}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </>
   );
 }
