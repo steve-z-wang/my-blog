@@ -10,10 +10,7 @@ import {
     CreateCommentRequest,
     CreateCommentResponse,
 } from '@my-blog/common';
-import { NotFoundError } from './errors';
-import { listPosts, getPostById } from './db/posts';
-import { createComment } from './db/comments';
-import { subscribeByEmail, unsubscribeByEmail } from './db/subscription';
+import { listPosts, getPostById, createComment, subscribeByEmail, unsubscribeByEmail } from './db';
 
 // Handlers connects the API requests to the database operations
 

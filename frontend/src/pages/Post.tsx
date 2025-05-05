@@ -38,12 +38,14 @@ export default function Post() {
   return (
     <div className="content-container">
       <main className="content-card">
-        <div className="prose prose-lg prose-slate max-w-none">
+        <div className="prose max-w-none">
           <ReactMarkdown>
             {(post.content ?? '').replace(/\\n/g, '\n')}
           </ReactMarkdown>
         </div>
-        {id && <CommentSection postId={id} />}
+
+        {id && <CommentSection postId={post.postId} comments={post.comments ?? []} />}
+
         <div className="mt-6 text-center">
           <Link to="/" className="text-blue-500 hover:text-blue-700 font-medium">
             Back to Home

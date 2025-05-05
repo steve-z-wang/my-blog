@@ -1,5 +1,5 @@
 import { AppBuilder } from './AppBuilder';
-import { 
+import {
     GetTimelineRequestSchema,
     GetTimelineResponseSchema,
     GetPostRequestSchema,
@@ -10,14 +10,14 @@ import {
     UnsubscribeByEmailResponseSchema,
     CreateCommentRequestSchema,
     CreateCommentResponseSchema,
-} from "@my-blog/common";
-import { 
-    handleGetTimeline, 
-    handleGetPost, 
+} from '@my-blog/common';
+import {
+    handleGetTimeline,
+    handleGetPost,
     handleSubscribeByEmail,
     handleUnsubscribeByEmail,
-    handleCreateComment 
-} from "./handlers";
+    handleCreateComment,
+} from './handlers';
 import { initializeDatabase } from './db/knex';
 
 // Initialize database
@@ -41,6 +41,14 @@ const app = new AppBuilder()
     })
     .addRoute({
         method: 'post',
+        path: '/api/comments',
+        handler: handleCreateComment,
+        requestSchema: CreateCommentRequestSchema,
+        responseSchema: CreateCommentResponseSchema,
+        status: 201,
+    })
+    .addRoute({
+        method: 'post',
         path: '/api/subscribe',
         handler: handleSubscribeByEmail,
         requestSchema: SubscribeByEmailRequestSchema,
@@ -53,14 +61,6 @@ const app = new AppBuilder()
         handler: handleUnsubscribeByEmail,
         requestSchema: UnsubscribeByEmailRequestSchema,
         responseSchema: UnsubscribeByEmailResponseSchema,
-    })
-    .addRoute({
-        method: 'post',
-        path: '/api/comments',
-        handler: handleCreateComment,
-        requestSchema: CreateCommentRequestSchema,
-        responseSchema: CreateCommentResponseSchema,
-        status: 201,
     });
 
 // Start the server

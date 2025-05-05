@@ -4,24 +4,29 @@ import NavBar from './components/NavBar';
 import About from './pages/About';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import { NotificationProvider } from './components/common/Notification';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 export default function App() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <ErrorBoundary>
+      <NotificationProvider>
+        <div className="flex flex-col min-h-screen">
+          <NavBar />
 
-      <NavBar />
+          <main className="flex-grow">
+            <div className="max-w-screen-lg mx-auto">
+              <Routes>
+                <Route path="/" element={<ErrorBoundary><Home /></ErrorBoundary>} />
+                <Route path="/posts/:id" element={<ErrorBoundary><Post /></ErrorBoundary>} />
+                <Route path="/about" element={<ErrorBoundary><About /></ErrorBoundary>} />
+              </Routes>
+            </div>
+          </main>
 
-      <main className="flex-grow">
-        <div className="max-w-screen-lg mx-auto">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/posts/:id" element={<Post />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
+          <Footer />
         </div>
-      </main>
-
-      <Footer />
-    </div>
+      </NotificationProvider>
+    </ErrorBoundary>
   );
 }

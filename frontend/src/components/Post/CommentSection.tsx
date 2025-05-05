@@ -1,159 +1,117 @@
-import { useState, useEffect } from 'react';
-import type { Comment } from '@my-blog/common';
+import { useState, useRef } from "react";
+import type { Comment } from "@my-blog/common";
+import Button from "../common/Button";
+import Input from "../common/Input";
+import Form from "../common/Form";
+import { useNotification } from "../common/Notification";
 
 interface CommentSectionProps {
   postId: string;
+  comments: Comment[];
 }
 
-export default function CommentSection({ postId }: CommentSectionProps) {
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [newComment, setNewComment] = useState({ authorName: '', content: '', parentId: null as string | null });
-  const [error, setError] = useState<string | null>(null);
-  const [replyingTo, setReplyingTo] = useState<string | null>(null);
+export default function CommentSection(props: CommentSectionProps) {
+  const [comments, setComments] = useState<Comment[]>(props.comments);
+  const [replyingTo, setReplyingTo] = useState<number | null>(null);
   const [showCommentForm, setShowCommentForm] = useState(false);
+  const { showNotification } = useNotification();
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const response = await fetch(`/api/posts/${postId}/comments`);
-        if (!response.ok) throw new Error('Failed to fetch comments');
-        const data = await response.json();
-        setComments(data.comments);
-      } catch (err) {
-        console.error('Error fetching comments:', err);
-        setError('Failed to load comments');
-      }
-    };
+  const authorNameRef = useRef<HTMLInputElement>(null);
+  const contentRef = useRef<HTMLTextAreaElement>(null);
 
-    fetchComments();
-  }, [postId]);
+  // Get replies for a comment
+  const getReplies = (parentId: number) => 
+    comments.filter(comment => comment.parentCommentId === parentId);
+
+  // Get latest activity timestamp
+  const getLatestActivity = (comment: Comment): number => {
+    const replies = getReplies(comment.commentId);
+    return Math.max(
+      comment.createdAt || 0,
+      ...replies.map(reply => reply.createdAt || 0)
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const authorName = authorNameRef.current?.value.trim() || '';
+    const content = contentRef.current?.value.trim() || '';
+
+    if (!authorName || !content) {
+      showNotification("Please fill in all fields", "error");
+      return;
+    }
+
     try {
-      const response = await fetch('/api/comments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const response = await fetch("/api/comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          postId,
-          authorName: newComment.authorName,
-          content: newComment.content,
-          parentId: newComment.parentId,
+          postId: props.postId,
+          authorName,
+          content,
+          parentCommentId: replyingTo,
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to submit comment');
-      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to submit comment");
+      }
+
       const data = await response.json();
-      setComments([...comments, data.comment]);
-      setNewComment({ authorName: '', content: '', parentId: null });
-      setReplyingTo(null);
+      setComments(prev => [...prev, data.comment]);
+      
+      // Reset form
+      if (authorNameRef.current) authorNameRef.current.value = '';
+      if (contentRef.current) contentRef.current.value = '';
       setShowCommentForm(false);
+      setReplyingTo(null);
+      showNotification("Comment submitted successfully", "success");
     } catch (err) {
-      console.error('Error submitting comment:', err);
-      setError('Failed to submit comment');
+      showNotification(err instanceof Error ? err.message : "Failed to submit comment", "error");
     }
   };
 
-  // Helper to get replies for a comment
-  function getReplies(parentId: string) {
-    return comments.filter((c) => c.parentId === parentId);
-  }
-
-  // Only top-level comments (no parentId)
-  const topLevelComments = comments.filter((c) => !c.parentId);
-
-  function SubmitCommentForm() {
+  function CommentView({ comment, isTopLevel = false }: { comment: Comment; isTopLevel?: boolean }) {
+    const replies = getReplies(comment.commentId);
+    
     return (
-      <form onSubmit={handleSubmit} className="mb-8">
-
-        {/* Name */}
-        <div className="mb-4">
-          <label htmlFor="authorName" className="block text-sm font-medium text-gray-700 mb-1">
-            Name
-          </label>
-          <input
-            type="text"
-            id="authorName"
-            value={newComment.authorName}
-            onChange={(e) => setNewComment({ ...newComment, authorName: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            required
-          />
+      <div className={isTopLevel ? 'mb-4 pb-4 border-b border-gray-100' : 'ml-6 mb-4'}>
+        <div className="flex items-center justify-between mb-2">
+          <div className="text-sm">
+            <span className="font-medium">{comment.authorName}</span>
+            <span className="text-gray-500 ml-2">
+              {comment.createdAt ? new Date(comment.createdAt * 1000).toLocaleDateString() : 'Just now'}
+            </span>
+          </div>
+          {isTopLevel && (
+            <Button
+              onClick={() => setReplyingTo(comment.commentId)}
+              variant="text"
+              size="sm"
+            >
+              Reply
+            </Button>
+          )}
         </div>
 
-        {/* Comment */}
-        <div className="mb-4">
-          <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
-            Comment
-          </label>
-          <textarea
-            id="content"
-            value={newComment.content}
-            onChange={(e) => setNewComment({ ...newComment, content: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            rows={4}
-            required
-          />
-        </div>
+        <div className="text-gray-700">{comment.content}</div>
 
-        {/* Submit */}
-        <div className="flex gap-2">
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-          >
-            Submit Comment
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setShowCommentForm(false);
-              setReplyingTo(null);
-              setNewComment({ authorName: '', content: '', parentId: null });
-            }}
-            className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    )
-  }
-
-  function Comment({ comment, replyingTo, setReplyingTo }: { comment: Comment, replyingTo: string | null, setReplyingTo: (id: string | null) => void }) {
-    // Prevent self-referencing replies
-    const replies = getReplies(comment.id).filter(reply => reply.id !== comment.id);
-    return (
-      <div className="border-b border-gray-200 pb-4">
-        <div className="flex items-center mb-2">
-          <span className="font-semibold">{comment.author_name}</span>
-          <span className="text-gray-500 text-sm ml-2">
-            {new Date(comment.created_at * 1000).toLocaleDateString()}
-          </span>
-          <button
-            onClick={() => {
-              setReplyingTo(comment.id);
-              setNewComment({ ...newComment, parentId: comment.id });
-              setShowCommentForm(false);
-            }}
-            className="ml-4 text-blue-500 hover:text-blue-700 text-sm"
-          >
-            Reply
-          </button>
-        </div>
-        <p className="text-gray-700">{comment.content}</p>
-        {replyingTo === comment.id && (
-          <div className="ml-8 mt-4">
-            <SubmitCommentForm />
+        {replyingTo === comment.commentId && (
+          <div className="mt-3 ml-6">
+            <CommentForm />
           </div>
         )}
+
         {replies.length > 0 && (
-          <div className="ml-8 mt-4">
-            {replies.map((reply: Comment) => (
-              <Comment key={reply.id} comment={reply} replyingTo={replyingTo} setReplyingTo={setReplyingTo} />
+          <div className="mt-3">
+            {replies.map(reply => (
+              <CommentView
+                key={reply.commentId}
+                comment={reply}
+                isTopLevel={false}
+              />
             ))}
           </div>
         )}
@@ -161,33 +119,88 @@ export default function CommentSection({ postId }: CommentSectionProps) {
     );
   }
 
+  function CommentForm() {
+    return (
+      <Form
+        onSubmit={handleSubmit}
+        className="border-t border-gray-100 pt-4"
+      >
+        <Input
+          ref={authorNameRef}
+          type="text"
+          placeholder="Your name"
+          required
+        />
+
+        <Input
+          ref={contentRef}
+          multiline
+          rows={3}
+          placeholder="Write a comment..."
+          required
+        />
+
+        <div className="flex gap-2">
+          <Button
+            type="submit"
+            variant="primary"
+            size="md"
+          >
+            Submit
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            size="md"
+            onClick={() => {
+              setShowCommentForm(false);
+              setReplyingTo(null);
+              if (authorNameRef.current) authorNameRef.current.value = '';
+              if (contentRef.current) contentRef.current.value = '';
+            }}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Form>
+    );
+  }
+
+  // Get and sort top-level comments by latest activity
+  const topLevelComments = comments
+    .filter(c => !c.parentCommentId)
+    .sort((a, b) => getLatestActivity(b) - getLatestActivity(a));
+
   return (
     <div className="mt-8">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Comments</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-medium">Comments</h2>
         {!showCommentForm && !replyingTo && (
-          <button
-            onClick={() => {
-              setShowCommentForm(true);
-              setReplyingTo(null);
-              setNewComment({ authorName: '', content: '', parentId: null });
-            }}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          <Button
+            onClick={() => setShowCommentForm(true)}
+            variant="text"
+            size="sm"
           >
-            Add Commene
-          </button>
+            Add Comment
+          </Button>
         )}
       </div>
-      
-      {error && <p className="text-red-600 mb-4">{error}</p>}
 
-      <div className="space-y-4">
-        {topLevelComments.map((comment) => (
-          <Comment key={comment.id} comment={comment} replyingTo={replyingTo} setReplyingTo={setReplyingTo} />
+      {showCommentForm && !replyingTo && (
+        <div className="mb-6">
+          <CommentForm />
+        </div>
+      )}
+
+      <div>
+        {topLevelComments.map(comment => (
+          <CommentView
+            key={comment.commentId}
+            comment={comment}
+            isTopLevel={true}
+          />
         ))}
       </div>
-
-      {showCommentForm && !replyingTo && <SubmitCommentForm />}
     </div>
   );
-} 
+}

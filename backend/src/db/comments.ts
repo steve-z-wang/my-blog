@@ -30,7 +30,17 @@ export async function createComment(comment: {
 }): Promise<Comment> {
     const db = getDb();
 
-    const [postCreated] = await db('comments').insert(comment).returning('*');
+    const now = Math.floor(Date.now() / 1000); // Current timestamp in seconds
 
-    return mapDbCommentToComment(postCreated);
+    const [commentCreated] = await db('comments')
+        .insert({
+            post_id: comment.postId,
+            parent_comment_id: comment.parentCommentId,
+            author_name: comment.authorName,
+            content: comment.content,
+            created_at: now
+        })
+        .returning('*');
+
+    return mapDbCommentToComment(commentCreated);
 }

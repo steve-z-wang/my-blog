@@ -3,10 +3,16 @@ import type { Post, GetTimelineResponse } from '@my-blog/common'; // Ensure the 
 import Timeline from '../components/Home/Timeline';
 import Sidebar from '../components/Home/Sidebar';
 
+interface DateFilter {
+  year: string;
+  month: string;
+}
+
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedDate, setSelectedDate] = useState<DateFilter | null>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -30,12 +36,23 @@ export default function Home() {
 
       {/* timeline */}
       <main className="flex-grow content-card">
-        <Timeline posts={posts} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
+        <Timeline 
+          posts={posts} 
+          selectedTags={selectedTags} 
+          selectedDate={selectedDate}
+          setSelectedTags={setSelectedTags} 
+        />
       </main>
 
       {/* sidebar */}
       <aside className="w-full lg:w-1/3 content-card self-start">
-        <Sidebar posts={posts} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
+        <Sidebar 
+          posts={posts} 
+          selectedTags={selectedTags} 
+          setSelectedTags={setSelectedTags}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
       </aside>
 
     </div>

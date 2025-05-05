@@ -9,7 +9,7 @@ export const CommentSchema = z.object({
   parentCommentId: z.number().nullable(),
   authorName: z.string(),
   content: z.string(),
-  createdAt: z.number(),
+  createdAt: z.number().optional(),
 
   // optional
   children: z.array(z.lazy((): z.ZodTypeAny => CommentSchema)).optional(),

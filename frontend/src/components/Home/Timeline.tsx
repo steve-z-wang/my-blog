@@ -1,6 +1,18 @@
 import { Post } from '@my-blog/common';
 import { Link } from 'react-router-dom';
 
+interface DateFilter {
+  year: string;
+  month: string;
+}
+
+interface TimelineProps {
+  posts: Post[];
+  selectedTags: string[];
+  selectedDate: DateFilter | null;
+  setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
 function formatTimestampToDate(timestamp: number) {
   const date = new Date(timestamp * 1000);
   return date.toLocaleDateString('en-US', {
@@ -33,12 +45,34 @@ function PostItem({ post }: { post: Post }) {
   );
 }
 
-function Timeline({ posts, selectedTags, setSelectedTags }: { posts: Post[]; selectedTags: string[]; setSelectedTags: React.Dispatch<React.SetStateAction<string[]>> }) {
-  const filteredPosts = selectedTags.length
-    ? posts.filter((post) => post.tags.some((tag) => selectedTags.includes(tag)))
-    : posts;
+function Timeline({ posts, selectedTags, selectedDate, setSelectedTags }: TimelineProps) {
+  let filteredPosts = posts;
 
-  if (!filteredPosts.length) return <p>No posts match the selected tags.</p>;
+  // Apply tag filters
+  if (selectedTags.length) {
+    filteredPosts = posts.filter((post) => 
+      post.tags.some((tag) => selectedTags.includes(tag))
+    );
+  }
+
+  // Apply date filters
+  if (selectedDate) {
+    filteredPosts = filteredPosts.filter((post) => {
+      const date = new Date(post.publishedAt * 1000);
+      const year = date.getFullYear().toString();
+      const month = date.toLocaleString('en-US', { month: 'long' });
+      return year === selectedDate.year && month === selectedDate.month;
+    });
+  }
+
+  if (!filteredPosts.length) {
+    if (selectedDate) {
+      return (
+        <p>No posts found for {selectedDate.month} {selectedDate.year}.</p>
+      );
+    }
+    return <p>No posts match the selected tags.</p>;
+  }
 
   return (
     <>
