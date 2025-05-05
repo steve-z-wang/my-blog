@@ -40,7 +40,7 @@ export default function Post() {
       <main className="content-card">
         <div className="prose prose-lg prose-slate max-w-none">
           <ReactMarkdown>
-            {post.content.replace(/\\n/g, '\n')}
+            {(post.content ?? '').replace(/\\n/g, '\n')}
           </ReactMarkdown>
         </div>
         {id && <CommentSection postId={id} />}

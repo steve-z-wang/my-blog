@@ -1,5 +1,4 @@
 import { CorsOptions } from 'cors';
-import { RateLimitRequestHandler } from 'express-rate-limit';
 
 interface Config {
     port: number;

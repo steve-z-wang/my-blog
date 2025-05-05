@@ -8,8 +8,6 @@ import {
     SubscribeByEmailResponseSchema,
     UnsubscribeByEmailRequestSchema,
     UnsubscribeByEmailResponseSchema,
-    GetCommentsRequestSchema,
-    GetCommentsResponseSchema,
     CreateCommentRequestSchema,
     CreateCommentResponseSchema,
 } from "@my-blog/common";
@@ -18,7 +16,6 @@ import {
     handleGetPost, 
     handleSubscribeByEmail,
     handleUnsubscribeByEmail,
-    handleGetComments,
     handleCreateComment 
 } from "./handlers";
 import { initializeDatabase } from './db/knex';
@@ -56,13 +53,6 @@ const app = new AppBuilder()
         handler: handleUnsubscribeByEmail,
         requestSchema: UnsubscribeByEmailRequestSchema,
         responseSchema: UnsubscribeByEmailResponseSchema,
-    })
-    .addRoute({
-        method: 'get',
-        path: '/api/posts/:postId/comments',
-        handler: handleGetComments,
-        requestSchema: GetCommentsRequestSchema,
-        responseSchema: GetCommentsResponseSchema,
     })
     .addRoute({
         method: 'post',

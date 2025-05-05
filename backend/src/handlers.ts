@@ -1,48 +1,54 @@
-import { GetPostRequest, GetPostResponse, GetTimelineRequest, GetTimelineResponse, SubscribeByEmailRequest, SubscribeByEmailResponse, UnsubscribeByEmailRequest, UnsubscribeByEmailResponse, GetCommentsRequest, GetCommentsResponse, CreateCommentRequest, CreateCommentResponse } from '@my-blog/common';
-import { BadRequestError, NotFoundError } from './errors';
-import { findPosts, findById } from './db/posts';
-import { findCommentsByPostId, createComment } from './db/comments';
+import {
+    GetPostRequest,
+    GetPostResponse,
+    GetTimelineRequest,
+    GetTimelineResponse,
+    SubscribeByEmailRequest,
+    SubscribeByEmailResponse,
+    UnsubscribeByEmailRequest,
+    UnsubscribeByEmailResponse,
+    CreateCommentRequest,
+    CreateCommentResponse,
+} from '@my-blog/common';
+import { NotFoundError } from './errors';
+import { listPosts, getPostById } from './db/posts';
+import { createComment } from './db/comments';
 import { subscribeByEmail, unsubscribeByEmail } from './db/subscription';
 
-export async function handleGetTimeline({ limit = 10, offset = 0 }: GetTimelineRequest): Promise<GetTimelineResponse> {
-    const posts = await findPosts(limit, offset);
+// Handlers connects the API requests to the database operations
+
+export async function handleGetTimeline(request: GetTimelineRequest): Promise<GetTimelineResponse> {
+    const posts = await listPosts(request.limit ?? 10, request.offset ?? 0);
     return { posts };
 }
 
-export async function handleGetPost({ id }: GetPostRequest): Promise<GetPostResponse> {
-    const post = await findById(id);
-    if (!post) {
-        throw new NotFoundError('Post not found');
-    }
+export async function handleGetPost(request: GetPostRequest): Promise<GetPostResponse> {
+    const post = await getPostById(request.id);
     return { post };
 }
 
-export async function handleSubscribeByEmail({ email }: SubscribeByEmailRequest): Promise<SubscribeByEmailResponse> {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        throw new BadRequestError('Invalid email format');
-    }
-    const subscribedAt = await subscribeByEmail(email);
-    return { email, subscribedAt };
+export async function handleSubscribeByEmail(
+    request: SubscribeByEmailRequest,
+): Promise<SubscribeByEmailResponse> {
+    await subscribeByEmail(request.email);
+    return {};
 }
 
-export async function handleUnsubscribeByEmail({ email }: UnsubscribeByEmailRequest): Promise<UnsubscribeByEmailResponse> {
-    const unsubscribedAt = await unsubscribeByEmail(email);
-    return { email, unsubscribedAt };
+export async function handleUnsubscribeByEmail(
+    request: UnsubscribeByEmailRequest,
+): Promise<UnsubscribeByEmailResponse> {
+    await unsubscribeByEmail(request.email);
+    return {};
 }
 
-export async function handleGetComments({ postId }: GetCommentsRequest): Promise<GetCommentsResponse> {
-    const comments = await findCommentsByPostId(postId);
-    return { comments };
-}
-
-export async function handleCreateComment({ postId, parentCommentId, authorName, content }: CreateCommentRequest): Promise<CreateCommentResponse> {
+export async function handleCreateComment(
+    request: CreateCommentRequest,
+): Promise<CreateCommentResponse> {
     const comment = await createComment({
-        post_id: postId,
-        parent_comment_id: parentCommentId,
-        author_name: authorName,
-        content,
-        created_at: Math.floor(Date.now())
+        postId: request.postId,
+        parentCommentId: request.parentCommentId,
+        authorName: request.authorName,
+        content: request.content,
     });
     return { comment };
 }

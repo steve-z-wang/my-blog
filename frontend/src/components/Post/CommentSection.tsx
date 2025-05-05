@@ -68,6 +68,8 @@ export default function CommentSection({ postId }: CommentSectionProps) {
   function SubmitCommentForm() {
     return (
       <form onSubmit={handleSubmit} className="mb-8">
+
+        {/* Name */}
         <div className="mb-4">
           <label htmlFor="authorName" className="block text-sm font-medium text-gray-700 mb-1">
             Name
@@ -81,6 +83,8 @@ export default function CommentSection({ postId }: CommentSectionProps) {
             required
           />
         </div>
+
+        {/* Comment */}
         <div className="mb-4">
           <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
             Comment
@@ -94,6 +98,8 @@ export default function CommentSection({ postId }: CommentSectionProps) {
             required
           />
         </div>
+
+        {/* Submit */}
         <div className="flex gap-2">
           <button
             type="submit"

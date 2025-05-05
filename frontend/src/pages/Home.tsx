@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import type { PostWithoutContent, GetTimelineResponse } from '@my-blog/common'; // Ensure the updated schema is used
+import type { Post, GetTimelineResponse } from '@my-blog/common'; // Ensure the updated schema is used
 import Timeline from '../components/Home/Timeline';
 import Sidebar from '../components/Home/Sidebar';
 
 export default function Home() {
-  const [posts, setPosts] = useState<PostWithoutContent[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
@@ -13,13 +13,13 @@ export default function Home() {
       try {
         const response = await fetch('/api/timeline');
         if (!response.ok) throw new Error('Failed to fetch posts');
+
         const data: GetTimelineResponse = await response.json();
         setPosts(data.posts);
       } catch {
         setError('Failed to load posts');
       }
     };
-
     fetchPosts();
   }, []);
 

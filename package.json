@@ -9,7 +9,6 @@
   "scripts": {
     "dev:back": "npm run dev -w backend",
     "dev:front": "npm run dev -w frontend",
-    "typecheck": "tsc -b",
-    "build": "npm run build -w backend && npm run build -w frontend"
+    "typecheck": "tsc -b"
   }
 }

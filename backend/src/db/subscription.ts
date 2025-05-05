@@ -1,15 +1,11 @@
 import { ConflictError, NotFoundError } from "../errors";
 import { getDb } from "./knex";
 
-/**
- * Subscribe by email
- * @param {string} email - The email address to subscribe
- * @return {Promise<number>} - A promise that resolves to the timestamp of subscription
- */
-export async function subscribeByEmail(email: string): Promise<number> {
+
+export async function subscribeByEmail(email: string): Promise<void> {
     const db = getDb();
 
-    const subscribedAt = Math.floor(Date.now()); // Current timestamp in seconds
+    const subscribedAt = Math.floor(Date.now() / 1000); // Current timestamp in seconds
 
     try {
         await db("email_subscriptions").insert({
@@ -24,19 +20,10 @@ export async function subscribeByEmail(email: string): Promise<number> {
         // re-throw any other unexpected errors
         throw err;
     }
-
-    return subscribedAt
 }
 
-/**
- * Unsubscribe by email
- * @param {string} email - The email address to unsubscribe
- * @return {Promise<number>} - A promise that resolves to the timestamp of un-subscription
- */
-export async function unsubscribeByEmail(email: string): Promise<number> {
+export async function unsubscribeByEmail(email: string): Promise<void> {
     const db = getDb();
-
-    const unsubscribedAt = Math.floor(Date.now()); // Current timestamp in seconds
 
     const count = await db('email_subscriptions')
         .where({ email })
@@ -45,6 +32,4 @@ export async function unsubscribeByEmail(email: string): Promise<number> {
     if (count === 0) {
         throw new NotFoundError(`Email ${email} not found in subscriptions`);
     }
-
-    return unsubscribedAt
 }

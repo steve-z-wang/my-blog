@@ -1,66 +1,58 @@
-import { Post, PostWithoutContent } from '@my-blog/common';
+import { Post } from '@my-blog/common';
+import { getCommentsByPostId } from './comments';
 import { getDb } from './knex';
+import { getTagsByPostId } from './tags';
+import { NotFoundError } from '../errors';
 
-/**
- * Get the timeline of posts, sorted by publish date
- * @param limit - the number of posts to return
- * @param offset - the number of posts to skip
- * @returns a list of posts with summary and tags 
- */
-export function findPosts(
-    limit: number,
-    offset: number
-): Promise<PostWithoutContent[]> {
+export async function listPosts(limit: number, offset: number): Promise<Post[]> {
     const db = getDb();
 
-    return db('posts as p')
+    const posts = await db('posts as p')
         .select(
             'p.post_id',
             'p.published_at',
             'p.title',
             'p.summary',
-            db.raw(`COALESCE(json_group_array(t.tag_name), '[]') AS tags`)
+            db.raw(`COALESCE(json_group_array(t.tag_name), '[]') AS tags`),
         )
         .leftJoin('tag_posts as tp', 'p.post_id', 'tp.post_id')
         .leftJoin('tags as t', 'tp.tag_id', 't.tag_id')
         .groupBy('p.post_id')
         .orderBy('p.published_at', 'desc')
         .limit(limit)
-        .offset(offset)
-        .then(posts =>
-            posts.map(post => {
-                post.tags = JSON.parse(post.tags); // Convert JSON string to array
-                return post;
-            })
-        );
+        .offset(offset);
+
+    return posts.map((post) => ({
+        postId: post.post_id,
+        publishedAt: post.published_at,
+        title: post.title,
+        summary: post.summary,
+        tags: Array.isArray(post.tags) ? post.tags : JSON.parse(post.tags),
+    }));
 }
 
-/**
- * Get a single post by ID
- * @param id - the ID of the post to get
- * @returns a single post with all details
- */
-export function findById(id: string): Promise<Post | undefined> {
+export async function getPostById(postId: string): Promise<Post> {
     const db = getDb();
 
-    return db('posts as p')
-        .select(
-            'p.post_id',
-            'p.published_at',
-            'p.title',
-            'p.summary',
-            'p.content',
-            db.raw(`COALESCE(json_group_array(t.tag_name), '[]') AS tags`)
-        )
-        .leftJoin('tag_posts as tp', 'p.post_id', 'tp.post_id')
-        .leftJoin('tags as t', 'tp.tag_id', 't.tag_id')
-        .where('p.post_id', id)
-        .groupBy('p.post_id')
-        .first()
-        .then(post => {
-            if (post) {
-                post.tags = JSON.parse(post.tags);
-            }
-            return post;
-        });
+    const post = await db('posts as p')
+        .select('p.post_id', 'p.published_at', 'p.title', 'p.summary', 'p.content')
+        .where('p.post_id', postId)
+        .first();
+
+    if (!post) {
+        throw new NotFoundError('Post not found');
+    }
+
+    const tags = await getTagsByPostId(postId);
+    const comments = await getCommentsByPostId(postId);
+
+    return {
+        postId: post.post_id,
+        publishedAt: post.published_at,
+        title: post.title,
+        summary: post.summary,
+        content: post.content,
+        tags: tags,
+        comments: comments,
+    };
 }

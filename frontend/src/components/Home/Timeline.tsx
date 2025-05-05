@@ -1,4 +1,4 @@
-import { PostWithoutContent } from '@my-blog/common';
+import { Post } from '@my-blog/common';
 import { Link } from 'react-router-dom';
 
 function formatTimestampToDate(timestamp: number) {
@@ -19,26 +19,24 @@ function renderTags(tags: string[]) {
   ));
 }
 
-function PostItem({ post }: { post: PostWithoutContent }) {
+function PostItem({ post }: { post: Post }) {
   return (
     <li>
-      <Link to={`/posts/${post.post_id}`}>
+      <Link to={`/posts/${post.postId}`}>
         <h2 className="text-xl font-bold">{post.title}</h2>
       </Link>
       <p className="text-gray-700 mt-2">{post.summary}</p>
-      <p className="text-sm text-gray-500">
-        {formatTimestampToDate(post.published_at)} in {renderTags(post.tags)}
+      <p className="text-sm text-gray-500 mt-2">
+        {formatTimestampToDate(post.publishedAt)} in {renderTags(post.tags)}
       </p>
     </li>
   );
 }
 
-function Timeline({ posts, selectedTags, setSelectedTags }: { posts: PostWithoutContent[]; selectedTags: string[]; setSelectedTags: React.Dispatch<React.SetStateAction<string[]>> }) {
+function Timeline({ posts, selectedTags, setSelectedTags }: { posts: Post[]; selectedTags: string[]; setSelectedTags: React.Dispatch<React.SetStateAction<string[]>> }) {
   const filteredPosts = selectedTags.length
     ? posts.filter((post) => post.tags.some((tag) => selectedTags.includes(tag)))
     : posts;
-
-  const clearAll = () => setSelectedTags([]);
 
   if (!filteredPosts.length) return <p>No posts match the selected tags.</p>;
 
@@ -62,7 +60,7 @@ function Timeline({ posts, selectedTags, setSelectedTags }: { posts: PostWithout
 
       <ul>
         {filteredPosts.map((post, index) => (
-          <div key={post.post_id}>
+          <div key={post.postId}>
             <PostItem post={post} />
             {index < filteredPosts.length - 1 && <hr className="my-4 border-gray-300" />}
           </div>
