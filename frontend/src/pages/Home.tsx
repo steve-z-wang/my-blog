@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import type { Post, GetTimelineResponse } from '@my-blog/common'; // Ensure the updated schema is used
+import type { Post, GetTimelineResponse, DateFilter } from '@my-blog/common'; // Ensure the updated schema is used
 import Timeline from '../components/Home/Timeline';
 import Sidebar from '../components/Home/Sidebar';
+import PageTransition from '../components/PageTransition';
 
 interface DateFilter {
   year: string;
@@ -32,29 +33,31 @@ export default function Home() {
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
-    <div className="content-container flex flex-col lg:flex-row gap-4">
+    <PageTransition>
+      <div className="content-container flex flex-col lg:flex-row gap-4">
 
-      {/* timeline */}
-      <main className="flex-grow content-card">
-        <Timeline 
-          posts={posts} 
-          selectedTags={selectedTags} 
-          selectedDate={selectedDate}
-          setSelectedTags={setSelectedTags} 
-        />
-      </main>
+        {/* timeline */}
+        <main className="flex-grow content-card">
+          <Timeline 
+            posts={posts} 
+            selectedTags={selectedTags} 
+            selectedDate={selectedDate}
+            setSelectedTags={setSelectedTags} 
+          />
+        </main>
 
-      {/* sidebar */}
-      <aside className="w-full lg:w-1/3 content-card self-start">
-        <Sidebar 
-          posts={posts} 
-          selectedTags={selectedTags} 
-          setSelectedTags={setSelectedTags}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-        />
-      </aside>
+        {/* sidebar */}
+        <aside className="w-full lg:w-1/3 content-card self-start">
+          <Sidebar 
+            posts={posts} 
+            selectedTags={selectedTags} 
+            setSelectedTags={setSelectedTags}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
+          />
+        </aside>
 
-    </div>
+      </div>
+    </PageTransition>
   );
 }
