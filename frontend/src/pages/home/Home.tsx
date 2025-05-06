@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Post, GetTimelineResponse } from '@my-blog/common';
+import type { Post, ListPostsResponse } from '@my-blog/common';
 import Timeline from './Timeline';
 import Sidebar from './Sidebar';
 import PageTransition from '../../components/layout/PageTransition';
@@ -20,10 +20,10 @@ export default function Home() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('/api/timeline');
+        const response = await fetch('/api/posts');
         if (!response.ok) throw new Error('Failed to fetch posts');
 
-        const data: GetTimelineResponse = await response.json();
+        const data: ListPostsResponse = await response.json();
         setPosts(data.posts);
       } catch {
         setError('Failed to load posts');

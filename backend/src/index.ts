@@ -1,7 +1,7 @@
 import { AppBuilder } from './AppBuilder';
 import {
-    GetTimelineRequestSchema,
-    GetTimelineResponseSchema,
+    ListPostsRequestSchema,
+    ListPostsResponseSchema,
     GetPostRequestSchema,
     GetPostResponseSchema,
     SubscribeByEmailRequestSchema,
@@ -12,7 +12,7 @@ import {
     CreateCommentResponseSchema,
 } from '@my-blog/common';
 import {
-    handleGetTimeline,
+    handleListPosts,
     handleGetPost,
     handleSubscribeByEmail,
     handleUnsubscribeByEmail,
@@ -27,10 +27,10 @@ initializeDatabase();
 const app = new AppBuilder()
     .addRoute({
         method: 'get',
-        path: '/api/timeline',
-        handler: handleGetTimeline,
-        requestSchema: GetTimelineRequestSchema,
-        responseSchema: GetTimelineResponseSchema,
+        path: '/api/posts',
+        handler: handleListPosts,
+        requestSchema: ListPostsRequestSchema,
+        responseSchema: ListPostsResponseSchema,
     })
     .addRoute({
         method: 'get',

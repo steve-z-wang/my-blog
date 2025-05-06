@@ -32,13 +32,13 @@ export const PostSchema = z.object({
  * API *
  *******/
 
-// Timeline endpoints
+// Posts endpoints
 
-export const GetTimelineRequestSchema = z.object({
+export const ListPostsRequestSchema = z.object({
   limit: z.number().optional(),
   offset: z.number().optional(),
 });
-export const GetTimelineResponseSchema = z.object({
+export const ListPostsResponseSchema = z.object({
   posts: z.array(PostSchema),
 });
 

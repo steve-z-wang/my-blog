@@ -1,8 +1,8 @@
 import {
     GetPostRequest,
     GetPostResponse,
-    GetTimelineRequest,
-    GetTimelineResponse,
+    ListPostsRequest,
+    ListPostsResponse,
     SubscribeByEmailRequest,
     SubscribeByEmailResponse,
     UnsubscribeByEmailRequest,
@@ -14,7 +14,7 @@ import { listPosts, getPostById, createComment, subscribeByEmail, unsubscribeByE
 
 // Handlers connects the API requests to the database operations
 
-export async function handleGetTimeline(request: GetTimelineRequest): Promise<GetTimelineResponse> {
+export async function handleListPosts(request: ListPostsRequest): Promise<ListPostsResponse> {
     const posts = await listPosts(request.limit ?? 10, request.offset ?? 0);
     return { posts };
 }

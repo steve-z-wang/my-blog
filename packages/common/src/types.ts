@@ -2,8 +2,8 @@ import { z } from "zod";
 import {
   CommentSchema,
   PostSchema,
-  GetTimelineRequestSchema,
-  GetTimelineResponseSchema,
+  ListPostsRequestSchema,
+  ListPostsResponseSchema,
   GetPostRequestSchema,
   GetPostResponseSchema,
   SubscribeByEmailRequestSchema,
@@ -26,8 +26,8 @@ export type Post = z.infer<typeof PostSchema>;
  *********/
 
 // post endpoints
-export type GetTimelineRequest = z.infer<typeof GetTimelineRequestSchema>;
-export type GetTimelineResponse = z.infer<typeof GetTimelineResponseSchema>;
+export type ListPostsRequest = z.infer<typeof ListPostsRequestSchema>;
+export type ListPostsResponse = z.infer<typeof ListPostsResponseSchema>;
 export type GetPostRequest = z.infer<typeof GetPostRequestSchema>;
 export type GetPostResponse = z.infer<typeof GetPostResponseSchema>;
 
