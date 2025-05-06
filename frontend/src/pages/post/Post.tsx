@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import type { Post } from '@my-blog/common';
 import ReactMarkdown from 'react-markdown';
-import CommentSection from '../components/Post/CommentSection';
-import PageTransition from '../components/PageTransition';
+import CommentSection from './CommentSection';
+import PageTransition from '../../components/layout/PageTransition';
 
 export default function Post() {
   const { id } = useParams();

@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
-import Post from './pages/Post';
-import NavBar from './components/NavBar';
+import Post from './pages/post/Post';
+import NavBar from './components/layout/NavBar';
 import About from './pages/About';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import { NotificationProvider } from './components/common/Notification';
-import ErrorBoundary from './components/common/ErrorBoundary';
+import Footer from './components/layout/Footer';
+import Home from './pages/home/Home';
+import { NotificationProvider } from './components/ui/Notification';
+import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
   return (

@@ -1,9 +1,6 @@
 import { useState, useRef } from "react";
 import type { Comment } from "@my-blog/common";
-import Button from "../common/Button";
-import Input from "../common/Input";
-import Form from "../common/Form";
-import { useNotification } from "../common/Notification";
+import { Button, Input, Form, useNotification } from "frontend/src/components";
 
 interface CommentSectionProps {
   postId: string;

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import type { Post, GetTimelineResponse } from '@my-blog/common';
-import Timeline from '../components/Home/Timeline';
-import Sidebar from '../components/Home/Sidebar';
-import PageTransition from '../components/PageTransition';
+import Timeline from './Timeline';
+import Sidebar from './Sidebar';
+import PageTransition from '../../components/layout/PageTransition';
 
 interface DateFilter {
   year: string;

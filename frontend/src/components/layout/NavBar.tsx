@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { NavLink, NavLinkProps } from 'react-router-dom';
 import React from 'react';
-import { useNotification } from './common/Notification';
-import Button from './common/Button';
-import Input from './common/Input';
-import Form from './common/Form';
+import { useNotification } from '../ui/Notification';
+import Button from '../ui/Button';
+import Input from '../ui/Input';
+import Form from '../ui/Form';
 
 interface NavLinkStyledProps extends NavLinkProps {
   children: React.ReactNode;
