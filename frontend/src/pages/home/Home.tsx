@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
-import type { Post, ListPostsResponse } from '@my-blog/common';
-import Timeline from './Timeline';
-import Sidebar from './Sidebar';
-import PageTransition from '../../components/layout/PageTransition';
+import { useEffect, useState } from "react";
+import type { Post, ListPostsResponse } from "@my-blog/common";
+import Timeline from "./Timeline";
+import Sidebar from "./Sidebar";
+import PageTransition from "../../components/layout/PageTransition";
+import { Card, Container } from "frontend/src/components";
 
 interface DateFilter {
   year: string;
@@ -20,13 +21,13 @@ export default function Home() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('/api/posts');
-        if (!response.ok) throw new Error('Failed to fetch posts');
+        const response = await fetch("/api/posts");
+        if (!response.ok) throw new Error("Failed to fetch posts");
 
         const data: ListPostsResponse = await response.json();
         setPosts(data.posts);
       } catch {
-        setError('Failed to load posts');
+        setError("Failed to load posts");
       }
     };
     fetchPosts();
@@ -40,40 +41,34 @@ export default function Home() {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     // Scroll to top when page changes
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (error) return <p className="text-red-600">{error}</p>;
 
   return (
-    <PageTransition>
-      <div className="content-container flex flex-col lg:flex-row gap-4">
+    <Container className="flex flex-col lg:flex-row gap-4">
+      <Card className="flex-grow">
+        <Timeline
+          posts={posts}
+          selectedTags={selectedTags}
+          selectedDate={selectedDate}
+          setSelectedTags={setSelectedTags}
+          currentPage={currentPage}
+          postsPerPage={postsPerPage}
+          onPageChange={handlePageChange}
+        />
+      </Card>
 
-        {/* timeline */}
-        <main className="flex-grow content-card">
-          <Timeline 
-            posts={posts} 
-            selectedTags={selectedTags} 
-            selectedDate={selectedDate}
-            setSelectedTags={setSelectedTags}
-            currentPage={currentPage}
-            postsPerPage={postsPerPage}
-            onPageChange={handlePageChange}
-          />
-        </main>
-
-        {/* sidebar */}
-        <aside className="w-full lg:w-1/3 content-card self-start">
-          <Sidebar 
-            posts={posts} 
-            selectedTags={selectedTags} 
-            setSelectedTags={setSelectedTags}
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-          />
-        </aside>
-
-      </div>
-    </PageTransition>
+      <Card className="w-full lg:w-1/3 self-start">
+        <Sidebar
+          posts={posts}
+          selectedTags={selectedTags}
+          setSelectedTags={setSelectedTags}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+      </Card>
+    </Container>
   );
 }

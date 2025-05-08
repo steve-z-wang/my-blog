@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import type { Post } from '@my-blog/common';
-import ReactMarkdown from 'react-markdown';
-import CommentSection from './CommentSection';
-import PageTransition from '../../components/layout/PageTransition';
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import type { Post } from "@my-blog/common";
+import ReactMarkdown from "react-markdown";
+import CommentSection from "./CommentSection";
+import PageTransition from "../../components/layout/PageTransition";
+import { Card, Container } from "frontend/src/components";
 
 export default function Post() {
   const { id } = useParams();
@@ -13,15 +14,15 @@ export default function Post() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        console.log('Fetching post with ID:', id);
+        console.log("Fetching post with ID:", id);
         const response = await fetch(`/api/posts/${id}`);
-        if (!response.ok) throw new Error('Failed to fetch post');
+        if (!response.ok) throw new Error("Failed to fetch post");
         const data = await response.json();
         setPost(data.post);
-        console.log('Fetched post data:', data);
+        console.log("Fetched post data:", data);
       } catch (err) {
-        console.error('Error fetching post:', err); // Log the error
-        setError('Post not found');
+        console.error("Error fetching post:", err); // Log the error
+        setError("Post not found");
       }
     };
 
@@ -37,28 +38,36 @@ export default function Post() {
   }
 
   if (!post) {
-    return <></>; 
+    return <></>;
   }
 
   return (
-    <PageTransition>
-      <div className="content-container">
-        <main className="content-card">
-          <div className="prose max-w-none">
-            <ReactMarkdown>
-              {(post.content ?? '').replace(/\\n/g, '\n')}
-            </ReactMarkdown>
-          </div>
+    <Container>
+      <Card>
+        <div className="prose max-w-none">
+          <ReactMarkdown>
+            {(post.content ?? "").replace(/\\n/g, "\n")}
+          </ReactMarkdown>
+        </div>
 
-          {id && <CommentSection postId={post.postId} comments={post.comments ?? []} />}
+        <div className="mt-6">
+          {id && (
+            <CommentSection
+              postId={post.postId}
+              comments={post.comments ?? []}
+            />
+          )}
+        </div>
 
-          <div className="mt-6 text-center">
-            <Link to="/" className="text-blue-500 hover:text-blue-700 font-medium">
-              Back to Home
-            </Link>
-          </div>
-        </main>
-      </div>
-    </PageTransition>
+        <div className="mt-6 text-center">
+          <Link
+            to="/"
+            className="text-blue-500 hover:text-blue-700 font-medium"
+          >
+            Back to Home
+          </Link>
+        </div>
+      </Card>
+    </Container>
   );
 }

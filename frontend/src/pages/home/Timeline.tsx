@@ -36,12 +36,12 @@ function renderTags(tags: string[]) {
 
 function PostItem({ post }: { post: Post }) {
   return (
-    <li>
+    <li className="text-base">
       <Link to={`/posts/${post.postId}`}>
-        <h2 className="text-xl font-bold">{post.title}</h2>
+        <h2 className="font-bold">{post.title}</h2>
       </Link>
-      <p className="text-gray-700 mt-2">{post.summary}</p>
-      <p className="text-sm text-gray-500 mt-2">
+      <p className="mt-2 text-current text-gray-700">{post.summary}</p>
+      <p className="mt-2 text-sm text-gray-500">
         {formatTimestampToDate(post.publishedAt)} in {renderTags(post.tags)}
       </p>
     </li>
@@ -108,7 +108,7 @@ function Timeline({
         </div>
       )}
 
-      <ul className="mb-6">
+      <ul>
         {paginatedPosts.map((post, index) => (
           <div key={post.postId}>
             <PostItem post={post} />
