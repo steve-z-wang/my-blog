@@ -7,6 +7,8 @@ interface PageProps {
   className?: string;
 }
 
+// Page component controls the width of the page
+
 const Page = ({ children, className = "" }: PageProps) => {
   return (
     <PageTransition>
