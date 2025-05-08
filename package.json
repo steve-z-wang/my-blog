@@ -10,5 +10,8 @@
     "dev:back": "npm run dev -w backend",
     "dev:front": "npm run dev -w frontend",
     "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "marked": "^15.0.11"
   }
 }

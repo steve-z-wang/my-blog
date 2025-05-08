@@ -84,35 +84,40 @@ export default function CommentSection(props: CommentSectionProps) {
     const replies = getReplies(comment.commentId);
 
     return (
-      <div className={isTopLevel ? "" : "ml-6"}>
+      <div className={isTopLevel ? "" : "ml-16"}>
+        {/* Author, date, and reply button */}
         <div className="flex items-center gap-2">
-          <span className="font-medium">{comment.authorName}</span>
+          <span className="font-semibold">{comment.authorName}</span>
 
-          <span className="text-muted">
+          <span className="text-muted text-sm">
             {comment.createdAt
               ? new Date(comment.createdAt * 1000).toLocaleDateString()
               : "Just now"}
           </span>
 
           {isTopLevel && (
-            <ClickableText
+            <button
+              className="text-muted text-sm"
               onClick={() => setReplyingTo(comment.commentId)}
-              variant="muted"
             >
               Reply
-            </ClickableText>
+            </button>
           )}
         </div>
 
         {/* Comment content */}
-        <div className="text-gray-700">{comment.content}</div>
+        <div className="mt-2">{comment.content}</div>
 
         {/* Reply form */}
-        {replyingTo === comment.commentId && <CommentForm />}
+        {replyingTo === comment.commentId && (
+          <div className="mt-4">
+            <CommentForm />{" "}
+          </div>
+        )}
 
         {/* Replies */}
         {replies.length > 0 && (
-          <div>
+          <div className="mt-4 space-y-4">
             {replies.map((reply) => (
               <CommentView
                 key={reply.commentId}
@@ -174,29 +179,36 @@ export default function CommentSection(props: CommentSectionProps) {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <h3 className="">Comments</h3>
-        <ClickableText
+        <h3 className="text-2xl font-semibold">Comments</h3>
+        <button
+          className="text-muted"
           onClick={() => {
             setReplyingTo(null), setShowCommentForm(true);
           }}
         >
           Add Comment
-        </ClickableText>
+        </button>
       </div>
 
+      {/* Reply form */}
       {showCommentForm && !replyingTo && (
-        <div>
-          <CommentForm />
+        <div className="mt-4">
+          <CommentForm />{" "}
         </div>
       )}
 
-      <div>
+      <div className="divide-y">
+        {comments.length === 0 && (
+          <div className="py-4 text-muted">No comments yet.</div>
+        )}
         {topLevelComments.map((comment) => (
-          <CommentView
-            key={comment.commentId}
-            comment={comment}
-            isTopLevel={true}
-          />
+          <div className="py-8">
+            <CommentView
+              key={comment.commentId}
+              comment={comment}
+              isTopLevel={true}
+            />
+          </div>
         ))}
       </div>
     </div>

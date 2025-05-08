@@ -4,7 +4,7 @@ import type { Post } from "@my-blog/common";
 import ReactMarkdown from "react-markdown";
 import CommentSection from "./CommentSection";
 import PageTransition from "../../components/layout/PageTransition";
-import { Card, Container } from "frontend/src/components";
+import { Section, Page } from "frontend/src/components";
 
 export default function Post() {
   const { id } = useParams();
@@ -18,8 +18,8 @@ export default function Post() {
         const response = await fetch(`/api/posts/${id}`);
         if (!response.ok) throw new Error("Failed to fetch post");
         const data = await response.json();
-        setPost(data.post);
         console.log("Fetched post data:", data);
+        setPost(data.post);
       } catch (err) {
         console.error("Error fetching post:", err); // Log the error
         setError("Post not found");
@@ -42,32 +42,24 @@ export default function Post() {
   }
 
   return (
-    <Container>
-      <Card>
-        <div className="prose max-w-none">
-          <ReactMarkdown>
-            {(post.content ?? "").replace(/\\n/g, "\n")}
-          </ReactMarkdown>
-        </div>
+    <Page>
+      {/* Article */}
+      <Section variant="naked" className="prose max-w-none">
+        <ReactMarkdown>{post.content}</ReactMarkdown>
+      </Section>
 
-        <div className="mt-6">
-          {id && (
-            <CommentSection
-              postId={post.postId}
-              comments={post.comments ?? []}
-            />
-          )}
-        </div>
+      {/* Comment */}
+      <Section variant="naked">
+        {id && (
+          <CommentSection postId={post.postId} comments={post.comments ?? []} />
+        )}
+      </Section>
 
-        <div className="mt-6 text-center">
-          <Link
-            to="/"
-            className="text-blue-500 hover:text-blue-700 font-medium"
-          >
-            Back to Home
-          </Link>
-        </div>
-      </Card>
-    </Container>
+      <div className="text-center">
+        <Link to="/" className="text-muted font-medium">
+          Back to Home
+        </Link>
+      </div>
+    </Page>
   );
 }

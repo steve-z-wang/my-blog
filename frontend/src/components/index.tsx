@@ -1,6 +1,6 @@
 // Components
-export {default as Card} from './layout/Card';
-export {default as Container} from './layout/Container';
+export {default as Section} from './layout/Section';
+export {default as Page} from './layout/Page';
 export {default as Footer} from './layout/Footer';
 export {default as NavBar} from './layout/NavBar';
 

@@ -12,8 +12,8 @@ export default {
         secondary: '#64748b',  // Secondary UI actions
 
         // Surfaces & backgrounds
-        background: '#ffffff', // App/page background
-        surface: '#f9fafb',    // Cards, panels
+        background: '#e5e7eb', // App/page background
+        surface: '#ffffff',    // Cards, panels
 
         // Text colors
         text: '#111827',       // Main text
@@ -29,5 +29,9 @@ export default {
   plugins: [
     require('@tailwindcss/typography'),
   ],
+  future: {
+    hoverOnlyWhenSupported: true,
+  }
+
 }
 
