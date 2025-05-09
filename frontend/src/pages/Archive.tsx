@@ -18,6 +18,22 @@ interface YearGroup {
   postCount: number;
 }
 
+// Month order mapping for constant-time lookups (O(1) instead of indexOf which is O(n))
+const MONTH_ORDER: Record<string, number> = {
+  "December": 0,
+  "November": 1,
+  "October": 2,
+  "September": 3,
+  "August": 4,
+  "July": 5,
+  "June": 6,
+  "May": 7,
+  "April": 8,
+  "March": 9,
+  "February": 10,
+  "January": 11
+};
+
 function Archive({ posts }: ArchiveProps) {
   // Group posts by year and month (O(n) time complexity)
   const yearMonthMap: Record<string, Record<string, Post[]>> = {};
@@ -36,22 +52,6 @@ function Archive({ posts }: ArchiveProps) {
     yearMonthMap[year][month].push(post);
   });
 
-  // Month order for consistent sorting
-  const monthOrder = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
   // Transform into structured data for rendering
   const archiveData: YearGroup[] = Object.entries(yearMonthMap).map(
     ([year, months]) => {
@@ -61,9 +61,7 @@ function Archive({ posts }: ArchiveProps) {
           month,
           posts: monthPosts,
         }))
-        .sort(
-          (a, b) => monthOrder.indexOf(b.month) - monthOrder.indexOf(a.month)
-        );
+        .sort((a, b) => MONTH_ORDER[a.month] - MONTH_ORDER[b.month]);
 
       // Count posts in this year
       const postCount = monthsArray.reduce(
@@ -89,55 +87,60 @@ function Archive({ posts }: ArchiveProps) {
       <Section>
         <h1 className="text-4xl font-bold">Archive</h1>
 
-        <div className="mt-8">
+        <div className="divide-y divide-muted/20">
           {sortedArchiveData.map((yearGroup) => (
-            <div key={yearGroup.year} className="mb-10">
-              <h2 className="text-2xl font-bold flex items-upper">
-                {yearGroup.year}
-                <span className="ml-1 text-sm font-medium text-muted">
-                  {yearGroup.postCount}
-                </span>
-              </h2>
-
-              {yearGroup.months.map((monthGroup) => (
-                <div
-                  key={`${yearGroup.year}-${monthGroup.month}`}
-                  className="mt-8 ml-8"
-                >
-                  <h3 className="text-2xl font-medium flex items-upper">
-                    {monthGroup.month}
-                    <span className="ml-1 text-sm text-muted">
-                      {monthGroup.posts.length}
-                    </span>
-                  </h3>
-
-                  <ul className="mt-8 ml-8 space-y-4">
-                    {monthGroup.posts
-                      // Sort posts by day (most recent first)
-                      .sort(
-                        (a, b) =>
-                          new Date(b.publishedAt * 1000).getDate() -
-                          new Date(a.publishedAt * 1000).getDate()
-                      )
-                      .map((post) => {
-                        const date = new Date(post.publishedAt * 1000);
-                        const day = date.getDate();
-
-                        return (
-                          <li key={post.postId} className="flex">
-                            <span className="text-muted w-16">{day}</span>
-                            <Link
-                              to={`/posts/${post.postId}`}
-                              className="hover:underline"
-                            >
-                              {post.title}
-                            </Link>
-                          </li>
-                        );
-                      })}
-                  </ul>
+            <div key={yearGroup.year} className="">
+              <div className="mt-8">
+                {/* Year header */}
+                <div className="flex gap-2">
+                  <h2 className="text-2xl font-bold items-upper">
+                    {yearGroup.year}
+                  </h2>
+                  <span className="text-sm font-bold text-muted">
+                    {yearGroup.postCount}
+                  </span>
                 </div>
-              ))}
+
+                {/* Month groups */}
+                <div className="divide-y divide-muted/20">
+                  {yearGroup.months.map((monthGroup) => (
+                    <div
+                      key={`${yearGroup.year}-${monthGroup.month}`}
+                      className="flex py-8"
+                    >
+                      {/* Month header */}
+                      <div className="flex w-32 gap-2">
+                        <h3 className="text-xl font-bold items-upper">
+                          {monthGroup.month}
+                        </h3>
+                        <div className="text-sm font-bold text-muted">
+                          {monthGroup.posts.length}
+                        </div>
+                      </div>
+
+                      {/* Post list */}
+                      <ul className="space-y-4">
+                        {monthGroup.posts
+                          .sort(
+                            (a, b) =>
+                              new Date(b.publishedAt * 1000).getDate() -
+                              new Date(a.publishedAt * 1000).getDate()
+                          )
+                          .map((post) => {
+                            return (
+                              <li key={post.postId}>
+                                <Link to={`/posts/${post.postId}`}>
+                                  <h2 className="text-xl">{post.title}</h2>
+                                  {renderPostDetails(post)}
+                                </Link>
+                              </li>
+                            );
+                          })}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -150,6 +153,27 @@ function Archive({ posts }: ArchiveProps) {
       </Section>
     </Page>
   );
+}
+
+// Import at the top but define here to avoid repetition 
+function renderPostDetails(post: Post) {
+  return <p className="text-sm text-muted">
+    {new Date(post.publishedAt * 1000).toLocaleDateString(
+      "en-US",
+      {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }
+    )}{" "}
+    in{" "}
+    {post.tags.map((tag, index) => (
+      <span key={tag} className="font-bold">
+        {tag}
+        {index < post.tags.length - 1 && ", "}
+      </span>
+    ))}
+  </p>;
 }
 
 export default Archive;

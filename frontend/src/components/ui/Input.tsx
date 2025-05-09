@@ -1,12 +1,13 @@
-import React from 'react';
+import React from "react";
 
-interface BaseInputProps extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
+interface BaseInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement | HTMLTextAreaElement> {
   label?: string;
   error?: string;
 }
 
 interface InputProps extends BaseInputProps {
-  type?: 'text' | 'email' | 'password' | 'number';
+  type?: "text" | "email" | "password" | "number";
   multiline?: false;
 }
 
@@ -17,24 +18,22 @@ interface TextAreaProps extends BaseInputProps {
 
 type CombinedInputProps = InputProps | TextAreaProps;
 
-const Input = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, CombinedInputProps>((props, ref) => {
-  const {
-    label,
-    error,
-    className = '',
-    multiline = false,
-    ...rest
-  } = props;
+const Input = React.forwardRef<
+  HTMLInputElement | HTMLTextAreaElement,
+  CombinedInputProps
+>((props, ref) => {
+  const { label, error, className = "", multiline = false, ...rest } = props;
 
-  const baseInputStyles = 'w-full px-3 py-2 border border-gray-200 rounded-md text-sm ' +
-    'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ' +
-    'transition-colors duration-200';
+  const baseInputStyles =
+    "w-full px-3 py-2 border border-gray-200 rounded-md text-sm " +
+    "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent " +
+    "transition-colors duration-200";
 
   const inputClasses = [
     baseInputStyles,
-    error ? 'border-red-500' : '',
-    className
-  ].join(' ');
+    error ? "border-red-500" : "",
+    className,
+  ].join(" ");
 
   return (
     <div className="w-full">
@@ -43,7 +42,7 @@ const Input = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, CombinedI
           {label}
         </label>
       )}
-      
+
       {multiline ? (
         <textarea
           ref={ref as React.ForwardedRef<HTMLTextAreaElement>}
@@ -59,13 +58,11 @@ const Input = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, CombinedI
         />
       )}
 
-      {error && (
-        <p className="mt-1 text-sm text-red-600">{error}</p>
-      )}
+      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
     </div>
   );
 });
 
-Input.displayName = 'Input';
+Input.displayName = "Input";
 
-export default Input; 
+export default Input;

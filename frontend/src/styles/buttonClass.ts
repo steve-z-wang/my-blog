@@ -3,16 +3,10 @@ export type ButtonVariant = 'primary' | 'secondary';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonClassOptions {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  fullWidth?: boolean;
   className?: string;
 }
 
 export function buttonClass({
-  variant = 'primary',
-  size = 'md',
-  fullWidth = false,
   className = '',
 }: ButtonClassOptions): string {
   const base = 'inline-flex items-center justify-center rounded-md font-medium transition-colors duration-200';

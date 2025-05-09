@@ -1,7 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { Comment } from "@my-blog/common";
 import { Button, Input, Form, useNotification } from "frontend/src/components";
-import { ClickableText } from "frontend/src/components/ui/ClickableText";
 
 interface CommentSectionProps {
   postId: string;
@@ -16,6 +15,20 @@ export default function CommentSection(props: CommentSectionProps) {
 
   const authorNameRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
+  const commentFormRef = useRef<HTMLDivElement>(null);
+
+  // Scroll when form appears
+  useEffect(() => {
+    if ((showCommentForm || replyingTo !== null) && commentFormRef.current) {
+      // Scroll with a small delay to ensure DOM is updated
+      setTimeout(() => {
+        commentFormRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 100);
+    }
+  }, [showCommentForm, replyingTo]);
 
   // Get replies for a comment
   const getReplies = (parentId: number) =>
@@ -110,8 +123,8 @@ export default function CommentSection(props: CommentSectionProps) {
 
         {/* Reply form */}
         {replyingTo === comment.commentId && (
-          <div className="mt-4">
-            <CommentForm />{" "}
+          <div className="mt-8" ref={commentFormRef}>
+            <CommentForm />
           </div>
         )}
 
@@ -131,7 +144,7 @@ export default function CommentSection(props: CommentSectionProps) {
     );
   }
 
-  function CommentForm() {
+  const CommentForm = () => {
     return (
       <Form onSubmit={handleSubmit} className="border-t border-gray-100">
         <Input
@@ -149,14 +162,13 @@ export default function CommentSection(props: CommentSectionProps) {
           required
         />
 
-        <div className="flex gap-2">
-          <Button type="submit" variant="primary" size="md">
+        <div className="flex justify-end">
+          <Button type="submit" width="24">
             Submit
           </Button>
           <Button
-            type="button"
-            variant="secondary"
-            size="md"
+            width="24"
+            className = "ml-4"
             onClick={() => {
               setShowCommentForm(false);
               setReplyingTo(null);
@@ -169,7 +181,7 @@ export default function CommentSection(props: CommentSectionProps) {
         </div>
       </Form>
     );
-  }
+  };
 
   // Get and sort top-level comments by latest activity
   const topLevelComments = comments
@@ -183,31 +195,29 @@ export default function CommentSection(props: CommentSectionProps) {
         <button
           className="text-muted"
           onClick={() => {
-            setReplyingTo(null), setShowCommentForm(true);
+            setReplyingTo(null);
+            setShowCommentForm(true);
           }}
         >
           Add Comment
         </button>
       </div>
 
+      {comments.length === 0 && !showCommentForm && (
+        <div className="py-4 text-muted">No comments yet.</div>
+      )}
+
       {/* Reply form */}
       {showCommentForm && !replyingTo && (
-        <div className="mt-4">
-          <CommentForm />{" "}
+        <div className="mt-8" ref={commentFormRef}>
+          <CommentForm />
         </div>
       )}
 
       <div className="divide-y">
-        {comments.length === 0 && (
-          <div className="py-4 text-muted">No comments yet.</div>
-        )}
         {topLevelComments.map((comment) => (
-          <div className="py-8">
-            <CommentView
-              key={comment.commentId}
-              comment={comment}
-              isTopLevel={true}
-            />
+          <div className="py-8" key={comment.commentId}>
+            <CommentView comment={comment} isTopLevel={true} />
           </div>
         ))}
       </div>

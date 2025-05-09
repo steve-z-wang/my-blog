@@ -5,7 +5,6 @@ import About from "./pages/About";
 import PostPage from "./pages/post/Post";
 import Home from "./pages/Home";
 import { NotificationProvider } from "./components/ui/Notification";
-import ErrorBoundary from "./components/ErrorBoundary";
 import { useEffect, useState } from "react";
 import type { ListPostsResponse, Post } from "@my-blog/common";
 import { BackgroundProvider } from "./context/BackgroundContext";
@@ -45,7 +44,7 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<Home posts={posts} />} />
                 <Route path="/posts/:id" element={<PostPage />} />
-                <Route path="/archive" element={<Archive posts={posts}/>} />
+                <Route path="/archive" element={<Archive posts={posts} />} />
                 <Route path="/tags" element={<div>hi</div>} />
                 <Route path="/tags/:tag" element={<div>hi</div>} />
                 <Route path="/about" element={<About />} />

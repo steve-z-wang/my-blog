@@ -147,7 +147,7 @@ export default function NavBar() {
       {/* Logo */}
       <div className="hidden sm:block">
         <NavLink to="/">
-          <h1 className="text-xl font-bold">sw.log</h1>
+          <h1 className="text-2xl font-bold">sw.log</h1>
         </NavLink>
       </div>
 

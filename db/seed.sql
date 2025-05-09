@@ -51,7 +51,7 @@ I''ll be sharing more about the technical decisions and implementation details i
 I encourage you to subscribe to updates, leave comments, and engage with the community we''ll build here. Let''s learn and grow together!'),
 
   ('second-thoughts', 
-    strftime('%s','2025-04-25 09:30:00'), 
+    strftime('%s','2024-04-25 09:30:00'), 
     'Second Thoughts',
     'Reflections on the journey ahead and the direction of this platform',
     '# Second Thoughts
@@ -167,7 +167,7 @@ CREATE TABLE tag_posts (
 Stay tuned for more technical deep-dives into the blog''s features!'),
 
   ('getting-started-with-sqlite', 
-    strftime('%s','2025-04-27 10:20:00'), 
+    strftime('%s','2024-04-27 10:20:00'), 
     'Getting Started with SQLite',
     'A comprehensive guide to getting started with SQLite database',
     '# Getting Started with SQLite

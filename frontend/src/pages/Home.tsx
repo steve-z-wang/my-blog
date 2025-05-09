@@ -2,6 +2,7 @@ import type { Post } from "@my-blog/common";
 import { Page, Section } from "frontend/src/components";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import { Link } from "react-router";
+import { renderPostDetails } from "../components/renderPostDetails";
 
 export interface HomeProps {
   posts: Post[];
@@ -53,32 +54,16 @@ export default function Home(props: HomeProps) {
           <ul className="divide-y">
             {props.posts.map((post) => (
               <li className="p-4" key={post.postId}>
-                {/* Post Title */}
                 <Link to={`/posts/${post.postId}`}>
+                  {/* Post Title */}
                   <h2 className="font-bold text-2xl">{post.title}</h2>
+
+                  {/* Post Summary */}
+                  <p className="mt-2 text-muted">{post.summary}</p>
+
+                  {/* Date & Tags */}
+                  {renderPostDetails(post)}
                 </Link>
-
-                {/* Post Summary */}
-                <p className="mt-2 text-muted">{post.summary}</p>
-
-                {/* Date & Tags */}
-                <p className="mt-2 text-sm text-muted">
-                  {new Date(post.publishedAt * 1000).toLocaleDateString(
-                    "en-US",
-                    {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }
-                  )}{" "}
-                  in{" "}
-                  {post.tags.map((tag, index) => (
-                    <span key={tag} className="font-bold">
-                      {tag}
-                      {index < post.tags.length - 1 && ", "}
-                    </span>
-                  ))}
-                </p>
               </li>
             ))}
           </ul>
