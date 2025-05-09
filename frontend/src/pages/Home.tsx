@@ -1,8 +1,7 @@
 import type { Post } from "@my-blog/common";
 import { Page, Section } from "frontend/src/components";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
-import { Link } from "react-router";
-import { renderPostDetails } from "../components/renderPostDetails";
+import { renderPostList } from "../components/renderPostList";
 
 export interface HomeProps {
   posts: Post[];
@@ -50,24 +49,7 @@ export default function Home(props: HomeProps) {
 
       {/* Timeline Section */}
       <Section hasHorizontalPadding={false}>
-        <div className="bg-surface shadow-md rounded-none sm:rounded-lg">
-          <ul className="divide-y">
-            {props.posts.map((post) => (
-              <li className="p-4" key={post.postId}>
-                <Link to={`/posts/${post.postId}`}>
-                  {/* Post Title */}
-                  <h2 className="font-bold text-2xl">{post.title}</h2>
-
-                  {/* Post Summary */}
-                  <p className="mt-2 text-muted">{post.summary}</p>
-
-                  {/* Date & Tags */}
-                  {renderPostDetails(post)}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {renderPostList(props.posts)}
       </Section>
     </Page>
   );

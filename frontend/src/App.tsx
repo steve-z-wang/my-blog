@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import type { ListPostsResponse, Post } from "@my-blog/common";
 import { BackgroundProvider } from "./context/BackgroundContext";
 import Archive from "./pages/Archive";
+import Tags from "./pages/Tags";
+import Tag from "./pages/Tag";
 
 export default function App() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -45,8 +47,8 @@ export default function App() {
                 <Route path="/" element={<Home posts={posts} />} />
                 <Route path="/posts/:id" element={<PostPage />} />
                 <Route path="/archive" element={<Archive posts={posts} />} />
-                <Route path="/tags" element={<div>hi</div>} />
-                <Route path="/tags/:tag" element={<div>hi</div>} />
+                <Route path="/tags" element={<Tags posts={posts} />} />
+                <Route path="/tags/:tag" element={<Tag posts={posts}/>} />
                 <Route path="/about" element={<About />} />
               </Routes>
             </div>

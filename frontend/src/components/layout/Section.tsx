@@ -15,7 +15,11 @@ interface SectionProps {
  * 2. The y distance between each section
  */
 
-const Section = ({ children, className = "", hasHorizontalPadding = true }: SectionProps) => {
+const Section = ({
+  children,
+  className = "",
+  hasHorizontalPadding = true,
+}: SectionProps) => {
   return (
     <section
       className={clsx(

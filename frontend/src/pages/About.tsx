@@ -4,7 +4,7 @@ import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 export default function About() {
   return (
     <Page>
-      <Section variant="naked">
+      <Section>
         <div className="prose max-w-none">
           <h1>About Me</h1>
           <p>
