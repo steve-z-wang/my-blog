@@ -6,6 +6,7 @@ import ErrorBoundary from "./ErrorBoundary";
 interface SectionProps {
   children: React.ReactNode;
   className?: string;
+  hasHorizontalPadding?: boolean;
 }
 
 /**
@@ -14,9 +15,15 @@ interface SectionProps {
  * 2. The y distance between each section
  */
 
-const Section = ({ children, className = "" }: SectionProps) => {
+const Section = ({ children, className = "", hasHorizontalPadding = true }: SectionProps) => {
   return (
-    <section className={clsx("py-6 px-3 lg:px-0", className)}>
+    <section
+      className={clsx(
+        "py-8",
+        hasHorizontalPadding ? "px-4 lg:px-0" : "",
+        className
+      )}
+    >
       {children}
     </section>
   );

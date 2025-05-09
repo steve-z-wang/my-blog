@@ -48,11 +48,11 @@ export default function Home(props: HomeProps) {
       </Section>
 
       {/* Timeline Section */}
-      <Section className="px-0">
+      <Section hasHorizontalPadding={false}>
         <div className="bg-surface shadow-md rounded-none sm:rounded-lg">
           <ul className="divide-y">
             {props.posts.map((post) => (
-              <li className="p-6" key={post.postId}>
+              <li className="p-4" key={post.postId}>
                 {/* Post Title */}
                 <Link to={`/posts/${post.postId}`}>
                   <h2 className="font-bold text-2xl">{post.title}</h2>

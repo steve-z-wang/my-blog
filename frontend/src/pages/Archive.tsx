@@ -87,12 +87,12 @@ function Archive({ posts }: ArchiveProps) {
   return (
     <Page>
       <Section>
-        <h1 className="text-8xl font-bold">Archive</h1>
+        <h1 className="text-4xl font-bold">Archive</h1>
 
         <div className="mt-8">
           {sortedArchiveData.map((yearGroup) => (
             <div key={yearGroup.year} className="mb-10">
-              <h2 className="text-4xl font-bold flex items-upper">
+              <h2 className="text-2xl font-bold flex items-upper">
                 {yearGroup.year}
                 <span className="ml-1 text-sm font-medium text-muted">
                   {yearGroup.postCount}

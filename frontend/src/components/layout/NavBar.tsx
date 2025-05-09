@@ -132,7 +132,7 @@ export default function NavBar() {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `text-muted font-medium ${className} ${
+        `text-lg sm:text-base text-muted font-medium ${className} ${
           isActive ? "text-muted underline font-semibold" : ""
         }`
       }
@@ -145,11 +145,9 @@ export default function NavBar() {
   return (
     <nav className="flex items-center justify-between px-6 p-4">
       {/* Logo */}
-      <div className="">
-        <NavLink
-          to="/"
-        >
-          <h1 className="text-xl sm:text-2xl text-gray-900">sw.log</h1>
+      <div className="hidden sm:block">
+        <NavLink to="/">
+          <h1 className="text-xl font-bold">sw.log</h1>
         </NavLink>
       </div>
 
