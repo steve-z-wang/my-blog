@@ -48,7 +48,7 @@ export default function App() {
                 <Route path="/posts/:id" element={<PostPage />} />
                 <Route path="/archive" element={<Archive posts={posts} />} />
                 <Route path="/tags" element={<Tags posts={posts} />} />
-                <Route path="/tags/:tag" element={<Tag posts={posts}/>} />
+                <Route path="/tags/:tag" element={<Tag posts={posts} />} />
                 <Route path="/about" element={<About />} />
               </Routes>
             </div>

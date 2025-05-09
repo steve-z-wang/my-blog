@@ -24,7 +24,7 @@ export default function CommentSection(props: CommentSectionProps) {
       setTimeout(() => {
         commentFormRef.current?.scrollIntoView({
           behavior: "smooth",
-          block: "start",
+          block: "center",
         });
       }, 100);
     }
@@ -129,17 +129,17 @@ export default function CommentSection(props: CommentSectionProps) {
         )}
 
         {/* Replies */}
-        {replies.length > 0 && (
-          <div className="mt-4 space-y-4">
-            {replies.map((reply) => (
-              <CommentView
-                key={reply.commentId}
-                comment={reply}
-                isTopLevel={false}
-              />
-            ))}
-          </div>
-        )}
+          {replies.length > 0 && (
+            <div className="mt-8 space-y-8">
+              {replies.map((reply) => (
+                <CommentView
+                  key={reply.commentId}
+                  comment={reply}
+                  isTopLevel={false}
+                />
+              ))}
+            </div>
+          )}
       </div>
     );
   }
@@ -168,7 +168,7 @@ export default function CommentSection(props: CommentSectionProps) {
           </Button>
           <Button
             width="24"
-            className = "ml-4"
+            className="ml-4"
             onClick={() => {
               setShowCommentForm(false);
               setReplyingTo(null);
@@ -207,14 +207,15 @@ export default function CommentSection(props: CommentSectionProps) {
         <div className="py-4 text-muted">No comments yet.</div>
       )}
 
-      {/* Reply form */}
-      {showCommentForm && !replyingTo && (
-        <div className="mt-8" ref={commentFormRef}>
-          <CommentForm />
-        </div>
-      )}
-
       <div className="divide-y">
+
+        {/* Reply form */}
+        {showCommentForm && !replyingTo && (
+          <div className="py-8" ref={commentFormRef}>
+            <CommentForm />
+          </div>
+        )}
+
         {topLevelComments.map((comment) => (
           <div className="py-8" key={comment.commentId}>
             <CommentView comment={comment} isTopLevel={true} />

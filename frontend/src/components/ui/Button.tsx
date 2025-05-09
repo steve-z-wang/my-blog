@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width?: string;
@@ -13,11 +14,17 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const widthClass = width ? `w-${width}` : "";
     // Use provided background color or default to "background"
     const backgroundColorClass = bgColor ? `bg-${bgColor}` : "bg-background";
-    
+
     return (
       <button
         ref={ref}
-        className={`${backgroundColorClass} font-medium inline-flex items-center justify-center rounded-md ${paddingClasses} ${widthClass} py-2 shadow-sm ${className || ""}`}
+        className={clsx(
+          backgroundColorClass,
+          paddingClasses,
+          widthClass,
+          "font-medium inline-flex items-center justify-center rounded-md py-2 shadow-sm",
+          className
+        )}
         {...props}
       >
         {children}

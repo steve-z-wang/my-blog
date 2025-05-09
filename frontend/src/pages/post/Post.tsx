@@ -44,22 +44,23 @@ export default function Post() {
   return (
     <Page>
       {/* Article */}
-      <Section variant="naked" className="prose max-w-none">
+      <Section className="prose max-w-none">
         <ReactMarkdown>{post.content}</ReactMarkdown>
       </Section>
 
       {/* Comment */}
-      <Section variant="naked">
+      <Section >
         {id && (
           <CommentSection postId={post.postId} comments={post.comments ?? []} />
         )}
       </Section>
 
-      <div className="text-center">
+      <Section className="text-center">
         <Link to="/" className="text-muted font-medium">
           Back to Home
         </Link>
-      </div>
+      </Section>
+
     </Page>
   );
 }
