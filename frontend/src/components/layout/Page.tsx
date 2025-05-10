@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PageTransition from "./PageTransition";
 import { FiChevronUp } from "react-icons/fi";
+import ErrorBoundary from "./ErrorBoundary";
 
 interface PageProps {
   children: React.ReactNode;
@@ -34,17 +35,19 @@ const Page = ({ children, className = "" }: PageProps) => {
   };
 
   return (
-    <PageTransition>
-      <div className={`max-w-3xl mx-auto ${className}`}>{children}</div>
-      {isVisible && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 text-surface bg-muted p-3 rounded-full shadow-lg transition"
-        >
-          <FiChevronUp size={24} />
-        </button>
-      )}
-    </PageTransition>
+    <ErrorBoundary>
+      <PageTransition>
+        <div className={`max-w-3xl mx-auto ${className}`}>{children}</div>
+        {isVisible && (
+          <button
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 text-surface bg-muted p-3 rounded-full shadow-lg transition"
+          >
+            <FiChevronUp size={24} />
+          </button>
+        )}
+      </PageTransition>
+    </ErrorBoundary>
   );
 };
 

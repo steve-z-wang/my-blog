@@ -21,15 +21,17 @@ const Section = ({
   hasHorizontalPadding = true,
 }: SectionProps) => {
   return (
-    <section
-      className={clsx(
-        "py-8",
-        hasHorizontalPadding ? "px-4 lg:px-0" : "",
-        className
-      )}
-    >
-      {children}
-    </section>
+    <ErrorBoundary>
+      <section
+        className={clsx(
+          "py-8",
+          hasHorizontalPadding ? "px-4 lg:px-0" : "",
+          className
+        )}
+      >
+        {children}
+      </section>
+    </ErrorBoundary>
   );
 };
 

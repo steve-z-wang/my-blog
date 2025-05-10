@@ -1,12 +1,15 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback } from "react";
+import { FiX } from "react-icons/fi";
 
-type NotificationType = 'success' | 'error' | 'info' | 'warning';
+type NotificationType = "success" | "error" | "info" | "warning";
 
 interface NotificationContextType {
   showNotification: (message: string, type: NotificationType) => void;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+const NotificationContext = createContext<NotificationContextType | undefined>(
+  undefined
+);
 
 interface NotificationProps {
   message: string;
@@ -14,67 +17,56 @@ interface NotificationProps {
   onClose: () => void;
 }
 
-const NotificationComponent: React.FC<NotificationProps> = ({ message, type, onClose }) => {
-  const bgColors = {
-    success: 'bg-green-50 border-green-500',
-    error: 'bg-red-50 border-red-500',
-    info: 'bg-blue-50 border-blue-500',
-    warning: 'bg-yellow-50 border-yellow-500',
-  };
-
-  const textColors = {
-    success: 'text-green-800',
-    error: 'text-red-800',
-    info: 'text-blue-800',
-    warning: 'text-yellow-800',
+const NotificationComponent: React.FC<NotificationProps> = ({
+  message,
+  type,
+  onClose,
+}) => {
+  const styles = {
+    success: "bg-success/10 text-success",
+    error: "bg-error/10 text-error",
+    info: "bg-muted/10 text-muted",
+    warning: "bg-warning/10 text-warning",
   };
 
   React.useEffect(() => {
-    const timer = setTimeout(() => {
-      onClose();
-    }, 5000);
-
+    const timer = setTimeout(onClose, 5000);
     return () => clearTimeout(timer);
   }, [onClose]);
 
   return (
     <div
-      className={`fixed bottom-4 right-4 p-4 rounded-md border ${bgColors[type]} shadow-lg max-w-md animate-fade-in`}
+      className={`fixed top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg ${styles[type]} animate-fade-in bg-surface`}
       role="alert"
     >
-      <div className="flex items-center justify-between">
-        <p className={`text-sm font-medium ${textColors[type]}`}>{message}</p>
+      <div className="flex items-center gap-3">
+        <p className="text-sm font-medium">{message}</p>
         <button
           onClick={onClose}
-          className={`ml-4 ${textColors[type]} hover:opacity-70`}
+          className="hover:opacity-70"
+          aria-label="Close notification"
         >
-          <span className="sr-only">Close</span>
-          <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path
-              fillRule="evenodd"
-              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <FiX className="h-4 w-4" />
         </button>
       </div>
     </div>
   );
 };
 
-export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [notification, setNotification] = useState<{
     message: string;
     type: NotificationType;
   } | null>(null);
 
-  const showNotification = useCallback((message: string, type: NotificationType) => {
-    setNotification({ message, type });
-  }, []);
-
-  const hideNotification = useCallback(() => {
-    setNotification(null);
-  }, []);
+  const showNotification = useCallback(
+    (message: string, type: NotificationType) => {
+      setNotification({ message, type });
+    },
+    []
+  );
 
   return (
     <NotificationContext.Provider value={{ showNotification }}>
@@ -83,7 +75,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         <NotificationComponent
           message={notification.message}
           type={notification.type}
-          onClose={hideNotification}
+          onClose={() => setNotification(null)}
         />
       )}
     </NotificationContext.Provider>
@@ -93,9 +85,11 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 export const useNotification = () => {
   const context = useContext(NotificationContext);
   if (!context) {
-    throw new Error('useNotification must be used within a NotificationProvider');
+    throw new Error(
+      "useNotification must be used within a NotificationProvider"
+    );
   }
   return context;
 };
 
-export default NotificationComponent; 
+export default NotificationComponent;

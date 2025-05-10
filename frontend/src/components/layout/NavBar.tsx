@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useNotification } from "../ui/Notification";
 
 const NavLinkStyled: React.FC<{
   to: string;

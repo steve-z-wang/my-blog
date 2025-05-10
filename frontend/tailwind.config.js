@@ -8,8 +8,9 @@ export default {
     extend: {
       colors: {
         // Core brand colors
-        primary: '#2563eb',    // Main action
-        secondary: '#64748b',  // Secondary UI actions
+        // not using these colors
+        // primary: '#2563eb',    // Main action
+        // secondary: '#64748b',  // Secondary UI actions
 
         // Surfaces & backgrounds
         background: '#e5e7eb', // App/page background

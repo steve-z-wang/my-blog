@@ -12,6 +12,7 @@ import Archive from "./pages/Archive";
 import Tags from "./pages/Tags";
 import Tag from "./pages/Tag";
 import Subscribe from "./pages/Subscribe";
+import ErrorBoundary from "./components/layout/ErrorBoundary";
 
 export default function App() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -37,28 +38,30 @@ export default function App() {
   if (!posts.length) return <p>Loading...</p>;
 
   return (
-    <BackgroundProvider>
-      <NotificationProvider>
-        <div className="flex flex-col min-h-screen">
-          <NavBar />
+    <ErrorBoundary>
+      <BackgroundProvider>
+        <NotificationProvider>
+          <div className="flex flex-col min-h-screen">
+            <NavBar />
 
-          <main className="flex-grow">
-            <div className="max-w-screen-lg mx-auto">
-              <Routes>
-                <Route path="/" element={<Home posts={posts} />} />
-                <Route path="/posts/:id" element={<PostPage />} />
-                <Route path="/archive" element={<Archive posts={posts} />} />
-                <Route path="/tags" element={<Tags posts={posts} />} />
-                <Route path="/tags/:tag" element={<Tag posts={posts} />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/subscribe" element={<Subscribe />} />
-              </Routes>
-            </div>
-          </main>
+            <main className="flex-grow">
+              <div className="max-w-screen-lg mx-auto">
+                <Routes>
+                  <Route path="/" element={<Home posts={posts} />} />
+                  <Route path="/posts/:id" element={<PostPage />} />
+                  <Route path="/archive" element={<Archive posts={posts} />} />
+                  <Route path="/tags" element={<Tags posts={posts} />} />
+                  <Route path="/tags/:tag" element={<Tag posts={posts} />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/subscribe" element={<Subscribe />} />
+                </Routes>
+              </div>
+            </main>
 
-          <Footer />
-        </div>
-      </NotificationProvider>
-    </BackgroundProvider>
+            <Footer />
+          </div>
+        </NotificationProvider>
+      </BackgroundProvider>
+    </ErrorBoundary>
   );
 }

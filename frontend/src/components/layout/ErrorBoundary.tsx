@@ -37,10 +37,10 @@ class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="min-h-[400px] flex flex-col items-center justify-center p-4">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+          <h2 className="text-2xl font-semibold text-text mb-4">
             Something went wrong
           </h2>
-          <p className="text-gray-600 mb-6 text-center max-w-md">
+          <p className="text-muted mb-6 text-center max-w-md">
             We're sorry, but there was an error loading this content. Please try
             again later.
           </p>
