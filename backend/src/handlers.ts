@@ -12,35 +12,45 @@ import {
 } from '@my-blog/common';
 import { listPosts, getPostById, createComment, subscribeByEmail, unsubscribeByEmail } from './db';
 
+// Define a generic handler interface
+export interface RequestHandler<TRequest, TResponse> {
+    (request: TRequest): Promise<TResponse>;
+}
+
 // Handlers connects the API requests to the database operations
 
-export async function handleListPosts(request: ListPostsRequest): Promise<ListPostsResponse> {
+export const handleListPosts: RequestHandler<ListPostsRequest, ListPostsResponse> = async (
+    request,
+) => {
     const posts = await listPosts(request.limit ?? 10, request.offset ?? 0);
     return { posts };
-}
+};
 
-export async function handleGetPost(request: GetPostRequest): Promise<GetPostResponse> {
+export const handleGetPost: RequestHandler<GetPostRequest, GetPostResponse> = async (request) => {
     const post = await getPostById(request.id);
     return { post };
-}
+};
 
-export async function handleSubscribeByEmail(
-    request: SubscribeByEmailRequest,
-): Promise<SubscribeByEmailResponse> {
+export const handleSubscribeByEmail: RequestHandler<
+    SubscribeByEmailRequest,
+    SubscribeByEmailResponse
+> = async (request) => {
     await subscribeByEmail(request.email);
     return {};
-}
+};
 
-export async function handleUnsubscribeByEmail(
-    request: UnsubscribeByEmailRequest,
-): Promise<UnsubscribeByEmailResponse> {
+export const handleUnsubscribeByEmail: RequestHandler<
+    UnsubscribeByEmailRequest,
+    UnsubscribeByEmailResponse
+> = async (request) => {
     await unsubscribeByEmail(request.email);
     return {};
-}
+};
 
-export async function handleCreateComment(
-    request: CreateCommentRequest,
-): Promise<CreateCommentResponse> {
+export const handleCreateComment: RequestHandler<
+    CreateCommentRequest,
+    CreateCommentResponse
+> = async (request) => {
     const comment = await createComment({
         postId: request.postId,
         parentCommentId: request.parentCommentId,
@@ -48,4 +58,4 @@ export async function handleCreateComment(
         content: request.content,
     });
     return { comment };
-}
+};

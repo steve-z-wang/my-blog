@@ -24,7 +24,7 @@ export async function getCommentsByPostId(postId: string): Promise<Comment[] | u
 
 export async function createComment(comment: {
     postId: string;
-    parentCommentId: number | null; 
+    parentCommentId: number | null;
     authorName: string;
     content: string;
 }): Promise<Comment> {
@@ -38,7 +38,7 @@ export async function createComment(comment: {
             parent_comment_id: comment.parentCommentId,
             author_name: comment.authorName,
             content: comment.content,
-            created_at: now
+            created_at: now,
         })
         .returning('*');
 

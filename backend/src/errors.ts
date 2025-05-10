@@ -1,14 +1,14 @@
 export class BlogError extends Error {
     constructor(
         message: string,
-        public status: number = 500
+        public status: number = 500,
     ) {
         super(message);
         this.name = this.constructor.name;
     }
 }
 export class BadRequestError extends BlogError {
-    constructor(message: string = "Bad Request") {
+    constructor(message: string = 'Bad Request') {
         super(message, 400);
     }
 }
@@ -20,7 +20,7 @@ export class NotFoundError extends BlogError {
 }
 
 export class ConflictError extends BlogError {
-    constructor(message: string = "Conflict") {
+    constructor(message: string = 'Conflict') {
         super(message, 409);
     }
 }

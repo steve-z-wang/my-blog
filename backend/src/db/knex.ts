@@ -2,6 +2,10 @@ import knex, { Knex } from 'knex';
 import path from 'path';
 import fs from 'fs';
 import { execSync } from 'child_process';
+import logger from '../logger';
+
+// Base directory for DB files (can be overridden by env)
+const DB_DIR = process.env.DB_DIR ?? path.resolve(__dirname, '../../../db');
 
 const DB_PATH = path.resolve(__dirname, '../../../db/blog.dev.db');
 const SCHEMA_FILE = path.resolve(__dirname, '../../../db/schema.sql');
@@ -22,7 +26,7 @@ export function getDb(): Knex {
 
 export function initializeDatabase(): void {
     if (!fs.existsSync(DB_PATH)) {
-        console.log('Database file not found. Initializing database...');
+        logger.info('Database file not found. Initializing database...');
 
         // Run schema.sql
         execSync(`sqlite3 ${DB_PATH} < ${SCHEMA_FILE}`);
@@ -30,9 +34,9 @@ export function initializeDatabase(): void {
         // Run seed.sql
         execSync(`sqlite3 ${DB_PATH} < ${SEED_FILE}`);
 
-        console.log('Database initialized successfully.');
+        logger.info('Database initialized successfully.');
     } else {
-        console.log('Database file already exists. Skipping initialization.');
+        logger.info('Database file already exists. Skipping initialization.');
     }
 }
 

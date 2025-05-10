@@ -8,13 +8,14 @@ import logger from './logger';
 import { config } from './config';
 import { z } from 'zod';
 import crypto from 'crypto';
+import { RequestHandler } from './handlers';
 
 type HttpMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
 interface RouteDefinition<TReq, TRes> {
     method: HttpMethod;
     path: string;
-    handler: (request: TReq) => Promise<TRes>;
+    handler: RequestHandler<TReq, TRes>;
     requestSchema: z.ZodType<TReq>;
     responseSchema: z.ZodType<TRes>;
     status?: number;
@@ -37,7 +38,7 @@ export class AppBuilder {
 
         // Global middleware
         this.app.use(express.json());
-        this.app.use(morgan("dev"));
+        this.app.use(morgan('dev'));
     }
 
     public addRoute<TReq, TRes>(definition: RouteDefinition<TReq, TRes>) {
@@ -46,56 +47,60 @@ export class AppBuilder {
     }
 
     private setupRoutes() {
-        this.routes.forEach(route => {
-            this.app[route.method](route.path, async (req: Request, res: Response, next: NextFunction) => {
-                try {
-                    const requestId = crypto.randomUUID();
-                    // Combine request data based on method
-                    const requestData = route.method === 'get' 
-                        ? { ...req.params, ...req.query }
-                        : { ...req.params, ...req.body };
+        this.routes.forEach((route) => {
+            this.app[route.method](
+                route.path,
+                async (req: Request, res: Response, next: NextFunction) => {
+                    try {
+                        const requestId = crypto.randomUUID();
+                        // Combine request data based on method
+                        const requestData =
+                            route.method === 'get'
+                                ? { ...req.params, ...req.query }
+                                : { ...req.params, ...req.body };
 
-                    logger.info({
-                        requestId,
-                        type: 'request',
-                        method: route.method,
-                        path: route.path,
-                        data: requestData
-                    });
+                        logger.info({
+                            requestId,
+                            type: 'request',
+                            method: route.method,
+                            path: route.path,
+                            data: requestData,
+                        });
 
-                    // Parse and validate request
-                    const validatedRequest = route.requestSchema.parse(requestData);
+                        // Parse and validate request
+                        const validatedRequest = route.requestSchema.parse(requestData);
 
-                    // Execute handler
-                    const response = await route.handler(validatedRequest);
+                        // Execute handler
+                        const response = await route.handler(validatedRequest);
 
-                    // Validate response
-                    const validatedResponse = route.responseSchema.parse(response);
+                        // Validate response
+                        const validatedResponse = route.responseSchema.parse(response);
 
-                    logger.info({
-                        requestId,
-                        type: 'response',
-                        method: route.method,
-                        path: route.path,
-                        status: route.status ?? 200,
-                        data: validatedResponse
-                    });
+                        logger.info({
+                            requestId,
+                            type: 'response',
+                            method: route.method,
+                            path: route.path,
+                            status: route.status ?? 200,
+                            data: validatedResponse,
+                        });
 
-                    // Send response
-                    res.status(route.status ?? 200).json(validatedResponse);
-                } catch (error) {
-                    next(error);
-                }
-            });
+                        // Send response
+                        res.status(route.status ?? 200).json(validatedResponse);
+                    } catch (error) {
+                        next(error);
+                    }
+                },
+            );
         });
 
         // 404 handler
         this.app.use((_req, res) => {
-            res.status(404).json({ error: "Not found" });
+            res.status(404).json({ error: 'Not found' });
         });
 
         // Error handler
-        this.app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+        this.app.use((err: unknown, _req: Request, res: Response) => {
             logger.error(err);
 
             if (err instanceof BlogError) {
@@ -103,7 +108,7 @@ export class AppBuilder {
             } else if (err instanceof Error) {
                 res.status(500).json({ error: err.message });
             } else {
-                res.status(500).json({ error: "Internal server error" });
+                res.status(500).json({ error: 'Internal server error' });
             }
         });
     }
@@ -126,4 +131,4 @@ export class AppBuilder {
 
         return server;
     }
-} 
+}
