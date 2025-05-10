@@ -25,9 +25,9 @@ export default function Tags({ posts }: TagsProps) {
         <div className="mt-6 flex gap-3 flex-wrap ">
           {Object.entries(computeTagCounts(posts)).map(([tag, count]) => (
             <Link to={`/tags/${tag}`}>
-              <div key={tag} className="flex bg-gray-300 px-2 py-1 rounded-md">
+              <div key={tag} className="flex bg-surface px-2 py-1 rounded-md shadow-sm">
                 <h2 className="text font-medium">{tag}</h2>
-                <p className="ml-1 font-medium text-xs">{count}</p>
+                <p className="ml-1 font-muted text-xs">{count}</p>
               </div>
             </Link>
           ))}

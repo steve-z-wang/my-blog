@@ -1,16 +1,19 @@
 // context/BackgroundContext.tsx
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 
-function matchRoute(pathname: string): string {
-  if (pathname.startsWith("/posts")) return "bg-surface";
+const routes: Array<{ pattern: RegExp; background: string }> = [
+  { pattern: /^\/posts(\/.*)?$/, background: "bg-surface" },
+  { pattern: /^\/about(\/.*)?$/, background: "bg-surface" },
+];
 
+function matchRoute(pathname: string): string {
+  for (const route of routes) {
+    if (route.pattern.test(pathname)) {
+      return route.background;
+    }
+  }
+  
   return "bg-background"; // default
 }
 
