@@ -2,7 +2,6 @@ import { Post } from "@my-blog/common";
 import { useParams, Link, Navigate } from "react-router";
 import { Page, Section } from "../components";
 import { renderPostList } from "../components/renderPostList";
-import { FiX } from "react-icons/fi";
 
 interface TagProps {
   posts: Post[];

@@ -29,7 +29,7 @@ export default function Tags({ posts }: TagsProps) {
       <Section>
         <h1 className="text-4xl font-bold">Tags</h1>
 
-        <div className="mt-6 flex gap-3 flex-wrap ">
+        <div className="mt-8 flex gap-3 flex-wrap ">
           {sortedTags.map(([tag, count]) => (
             <Link key={tag} to={`/tags/${tag}`}>
               <div className="flex bg-surface px-2 py-1 rounded-md shadow-sm">

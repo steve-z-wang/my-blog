@@ -49,18 +49,29 @@ export default function Post() {
       </Section>
 
       {/* Comment */}
-      <Section >
+      <Section>
         {id && (
           <CommentSection postId={post.postId} comments={post.comments ?? []} />
         )}
       </Section>
 
+      {/* Subscribe */}
+      <Section className="text-center">
+        <p>
+          Like this post?{" "}
+          <Link to="/subscribe" className="font-medium underline">
+            Subscribe for more
+          </Link>
+          .
+        </p>
+      </Section>
+
+      {/* Back to Home */}
       <Section className="text-center">
         <Link to="/" className="text-muted font-medium">
           Back to Home
         </Link>
       </Section>
-
     </Page>
   );
 }

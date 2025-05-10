@@ -14,7 +14,7 @@ export default function CommentSection(props: CommentSectionProps) {
   const { showNotification } = useNotification();
 
   const authorNameRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const contentRef = useRef<HTMLInputElement>(null);
   const commentFormRef = useRef<HTMLDivElement>(null);
 
   // Scroll when form appears
@@ -129,17 +129,17 @@ export default function CommentSection(props: CommentSectionProps) {
         )}
 
         {/* Replies */}
-          {replies.length > 0 && (
-            <div className="mt-8 space-y-8">
-              {replies.map((reply) => (
-                <CommentView
-                  key={reply.commentId}
-                  comment={reply}
-                  isTopLevel={false}
-                />
-              ))}
-            </div>
-          )}
+        {replies.length > 0 && (
+          <div className="mt-8 space-y-8">
+            {replies.map((reply) => (
+              <CommentView
+                key={reply.commentId}
+                comment={reply}
+                isTopLevel={false}
+              />
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -162,13 +162,12 @@ export default function CommentSection(props: CommentSectionProps) {
           required
         />
 
-        <div className="flex justify-end">
-          <Button type="submit" width="24">
+        <div className="flex">
+          <Button type="submit" className="w-24">
             Submit
           </Button>
           <Button
-            width="24"
-            className="ml-4"
+            className="ml-4 w-24"
             onClick={() => {
               setShowCommentForm(false);
               setReplyingTo(null);
@@ -208,7 +207,6 @@ export default function CommentSection(props: CommentSectionProps) {
       )}
 
       <div className="divide-y">
-
         {/* Reply form */}
         {showCommentForm && !replyingTo && (
           <div className="py-8" ref={commentFormRef}>

@@ -11,6 +11,7 @@ import { BackgroundProvider } from "./context/BackgroundContext";
 import Archive from "./pages/Archive";
 import Tags from "./pages/Tags";
 import Tag from "./pages/Tag";
+import Subscribe from "./pages/Subscribe";
 
 export default function App() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -50,6 +51,7 @@ export default function App() {
                 <Route path="/tags" element={<Tags posts={posts} />} />
                 <Route path="/tags/:tag" element={<Tag posts={posts} />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/subscribe" element={<Subscribe />} />
               </Routes>
             </div>
           </main>
