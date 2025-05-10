@@ -1,5 +1,6 @@
 import { Page, Section } from "../components";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import { SOCIAL_LINKS } from "../constants";
 
 export default function About() {
   return (
@@ -15,7 +16,8 @@ export default function About() {
           <p>
             Outside work, I love{" "}
             <strong>rock climbing, hiking, and reading</strong>. I'm also
-            passionate about <strong>finance, social security, economics, and business</strong>. 
+            passionate about{" "}
+            <strong>finance, social security, economics, and business</strong>.
             Always curious and eager to learn something new.
           </p>
           <p className="text-gray-600 italic">
@@ -25,7 +27,7 @@ export default function About() {
           <ul className="flex space-x-4 not-prose">
             <li>
               <a
-                href="https://www.linkedin.com/in/stevewang2000/"
+                href={SOCIAL_LINKS.LINKEDIN}
                 aria-label="LinkedIn"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -34,16 +36,13 @@ export default function About() {
               </a>
             </li>
             <li>
-              <a
-                href="mailto:stevewang.at.work@gmail.com"
-                aria-label="Email Steve"
-              >
+              <a href={`mailto:${SOCIAL_LINKS.EMAIL}`} aria-label="Email">
                 <FiMail className="w-6 h-6" />
               </a>
             </li>
             <li>
               <a
-                href="https://github.com/steve-z-wang"
+                href={SOCIAL_LINKS.GITHUB}
                 aria-label="GitHub"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -53,6 +52,16 @@ export default function About() {
             </li>
           </ul>
         </div>
+      </Section>
+      <Section>
+        Found a bug?{" "}
+        <a
+          className="font-medium underline"
+          href={`mailto:${SOCIAL_LINKS.EMAIL}`}
+        >
+          Email me
+        </a>
+        , thanks!
       </Section>
     </Page>
   );

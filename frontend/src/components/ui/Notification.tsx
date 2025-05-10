@@ -23,10 +23,10 @@ const NotificationComponent: React.FC<NotificationProps> = ({
   onClose,
 }) => {
   const styles = {
-    success: "bg-success/10 text-success",
-    error: "bg-error/10 text-error",
-    info: "bg-muted/10 text-muted",
-    warning: "bg-warning/10 text-warning",
+    success: "bg-success text-success-foreground",
+    error: "bg-error text-error-foreground",
+    info: "bg-muted text-muted-foreground",
+    warning: "bg-warning text-warning-foreground",
   };
 
   React.useEffect(() => {
@@ -39,7 +39,7 @@ const NotificationComponent: React.FC<NotificationProps> = ({
       className={`fixed top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg ${styles[type]} animate-fade-in bg-surface`}
       role="alert"
     >
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 text-surface">
         <p className="text-sm font-medium">{message}</p>
         <button
           onClick={onClose}
