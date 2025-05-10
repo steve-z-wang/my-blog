@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Page, Section } from "../components";
 import { usePosts } from "../context/PostContext";
-import { renderPostDetails } from "../components/renderPostDetails";
+import { renderPostDetails } from "../utils/renderPostDetails";
 
 export default function Archive() {
   const { posts, loading } = usePosts();

@@ -1,6 +1,6 @@
 import { useParams, Navigate } from "react-router-dom";
 import { Page, Section } from "../components";
-import { renderPostList } from "../components/renderPostList";
+import { renderPostList } from "../utils/renderPostList";
 import { usePosts } from "../context/PostContext";
 
 export default function Tag() {
