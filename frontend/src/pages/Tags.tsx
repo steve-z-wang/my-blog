@@ -17,15 +17,22 @@ function computeTagCounts(posts: Post[]): Record<string, number> {
 }
 
 export default function Tags({ posts }: TagsProps) {
+  // Compute tag counts
+  const tagCounts = computeTagCounts(posts);
+  
+  // Sort tags by count (descending)
+  const sortedTags = Object.entries(tagCounts)
+    .sort(([, countA], [, countB]) => countB - countA);
+  
   return (
     <Page>
       <Section>
         <h1 className="text-4xl font-bold">Tags</h1>
 
         <div className="mt-6 flex gap-3 flex-wrap ">
-          {Object.entries(computeTagCounts(posts)).map(([tag, count]) => (
-            <Link to={`/tags/${tag}`}>
-              <div key={tag} className="flex bg-surface px-2 py-1 rounded-md shadow-sm">
+          {sortedTags.map(([tag, count]) => (
+            <Link key={tag} to={`/tags/${tag}`}>
+              <div className="flex bg-surface px-2 py-1 rounded-md shadow-sm">
                 <h2 className="text font-medium">{tag}</h2>
                 <p className="ml-1 font-muted text-xs">{count}</p>
               </div>
