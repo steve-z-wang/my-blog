@@ -1,44 +1,49 @@
-import { Post } from "@my-blog/common";
 import { Page, Section } from "../components";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
+import { usePosts } from "../context/PostContext";
 
-interface TagsProps {
-  posts: Post[];
-}
+export default function Tags() {
+  const { posts, loading } = usePosts();
 
-function computeTagCounts(posts: Post[]): Record<string, number> {
-  const tagCounts: Record<string, number> = {};
-  posts.forEach((post) => {
+  if (loading) return <p>Loading...</p>;
+
+  // Get unique tags and count posts per tag
+  const tagCounts = posts.reduce((acc, post) => {
     post.tags.forEach((tag) => {
-      tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      acc[tag] = (acc[tag] || 0) + 1;
     });
-  });
-  return tagCounts;
-}
+    return acc;
+  }, {} as Record<string, number>);
 
-export default function Tags({ posts }: TagsProps) {
-  // Compute tag counts
-  const tagCounts = computeTagCounts(posts);
-  
-  // Sort tags by count (descending)
-  const sortedTags = Object.entries(tagCounts)
-    .sort(([, countA], [, countB]) => countB - countA);
-  
+  // Sort tags by count (descending) and then alphabetically
+  const sortedTags = Object.entries(tagCounts).sort(([tagA, countA], [tagB, countB]) => {
+    if (countB !== countA) return countB - countA;
+    return tagA.localeCompare(tagB);
+  });
+
   return (
     <Page>
       <Section>
-        <h1 className="text-4xl font-bold">Tags</h1>
+        <h1 className="text-4xl font-bold mb-8">Tags</h1>
 
-        <div className="mt-8 flex gap-3 flex-wrap ">
+        <div className="flex flex-wrap gap-4">
           {sortedTags.map(([tag, count]) => (
-            <Link key={tag} to={`/tags/${tag}`}>
-              <div className="flex bg-surface px-2 py-1 rounded-md shadow-sm">
-                <h2 className="text font-medium">{tag}</h2>
-                <p className="ml-1 font-muted text-xs">{count}</p>
-              </div>
+            <Link
+              key={tag}
+              to={`/tags/${tag}`}
+              className="px-4 py-2 bg-surface rounded-lg shadow-sm hover:shadow-md transition-shadow"
+            >
+              <span className="font-medium">{tag}</span>
+              <span className="text-muted ml-2">({count})</span>
             </Link>
           ))}
         </div>
+
+        {sortedTags.length === 0 && (
+          <div className="text-center py-10 text-gray-500">
+            No tags available.
+          </div>
+        )}
       </Section>
     </Page>
   );

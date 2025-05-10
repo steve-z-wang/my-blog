@@ -3,42 +3,33 @@ import { useParams, Link } from "react-router-dom";
 import type { Post } from "@my-blog/common";
 import ReactMarkdown from "react-markdown";
 import CommentSection from "./CommentSection";
-import PageTransition from "../../components/layout/PageTransition";
 import { Section, Page } from "frontend/src/components";
+import NotFound from "../NotFound";
+import { usePosts } from "../../context/PostContext";
 
 export default function Post() {
   const { id } = useParams();
   const [post, setPost] = useState<Post | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { getPost } = usePosts();
 
   useEffect(() => {
     const fetchPost = async () => {
+      if (!id) return;
+      
       try {
-        console.log("Fetching post with ID:", id);
-        const response = await fetch(`/api/posts/${id}`);
-        if (!response.ok) throw new Error("Failed to fetch post");
-        const data = await response.json();
-        console.log("Fetched post data:", data);
-        setPost(data.post);
+        const fetchedPost = await getPost(id);
+        setPost(fetchedPost);
       } catch (err) {
-        console.error("Error fetching post:", err); // Log the error
-        setError("Post not found");
+        // If post is not found, render NotFound page
+        setPost(null);
       }
     };
 
     fetchPost();
-  }, [id]);
-
-  if (error) {
-    return (
-      <PageTransition>
-        <p className="text-red-600">{error}</p>
-      </PageTransition>
-    );
-  }
+  }, [id, getPost]);
 
   if (!post) {
-    return <></>;
+    return <NotFound />;
   }
 
   return (

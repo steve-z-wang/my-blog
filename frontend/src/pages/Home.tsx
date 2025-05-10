@@ -1,23 +1,26 @@
-import type { Post } from "@my-blog/common";
 import { Page, Section } from "frontend/src/components";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import { renderPostList } from "../components/renderPostList";
-import { SOCIAL_LINKS, SITE_CONFIG } from "../constants";
+import { usePosts } from "../context/PostContext";
+import { SOCIAL_LINKS } from "../constants";
 
-export interface HomeProps {
-  posts: Post[];
-}
+export default function Home() {
+  const { posts, loading } = usePosts();
 
-export default function Home(props: HomeProps) {
+  if (loading) return <p>Loading...</p>;
+
   return (
     <Page className="flex flex-col">
       {/* Welcome Section */}
       <Section>
         {/* Welcome */}
-        <h1 className="text-4xl font-bold">{SITE_CONFIG.WELCOME_MESSAGE}</h1>
+        <h1 className="text-4xl font-bold">👋 Welcome to sw.log</h1>
 
         {/* Description */}
-        <p className="mt-4">{SITE_CONFIG.INTRO_TEXT}</p>
+        <p className="mt-4">
+          Hi, this is Steve. I'm documenting my learning and thoughts in this
+          blog starting 2025.
+        </p>
 
         {/* Social Links */}
         <ul className="flex space-x-4 mt-6">
@@ -41,7 +44,7 @@ export default function Home(props: HomeProps) {
 
       {/* Timeline Section */}
       <Section hasHorizontalPadding={false}>
-        {renderPostList(props.posts)}
+        {renderPostList(posts)}
       </Section>
     </Page>
   );

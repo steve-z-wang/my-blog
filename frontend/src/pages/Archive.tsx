@@ -1,124 +1,76 @@
 import { Link } from "react-router-dom";
-import { Post } from "@my-blog/common";
 import { Page, Section } from "../components";
+import { usePosts } from "../context/PostContext";
+import { renderPostDetails } from "../components/renderPostDetails";
 
-interface ArchiveProps {
-  posts: Post[];
-}
+export default function Archive() {
+  const { posts, loading } = usePosts();
 
-// Type definitions to make the data structure clearer
-interface MonthGroup {
-  month: string;
-  posts: Post[];
-}
+  if (loading) return <p>Loading...</p>;
 
-interface YearGroup {
-  year: string;
-  months: MonthGroup[];
-  postCount: number;
-}
-
-// Month order mapping for constant-time lookups (O(1) instead of indexOf which is O(n))
-const MONTH_ORDER: Record<string, number> = {
-  "December": 0,
-  "November": 1,
-  "October": 2,
-  "September": 3,
-  "August": 4,
-  "July": 5,
-  "June": 6,
-  "May": 7,
-  "April": 8,
-  "March": 9,
-  "February": 10,
-  "January": 11
-};
-
-function Archive({ posts }: ArchiveProps) {
-  // Group posts by year and month (O(n) time complexity)
-  const yearMonthMap: Record<string, Record<string, Post[]>> = {};
-
-  // Process each post once - O(n)
-  posts.forEach((post) => {
+  // Group posts by year and month
+  const archiveData = posts.reduce((acc, post) => {
     const date = new Date(post.publishedAt * 1000);
-    const year = date.getFullYear().toString();
-    const month = date.toLocaleString("en-US", { month: "long" });
+    const year = date.getFullYear();
+    const month = date.toLocaleString("default", { month: "long" });
 
-    // Initialize year and month objects if they don't exist
-    yearMonthMap[year] = yearMonthMap[year] || {};
-    yearMonthMap[year][month] = yearMonthMap[year][month] || [];
-
-    // Add post to the appropriate group
-    yearMonthMap[year][month].push(post);
-  });
-
-  // Transform into structured data for rendering
-  const archiveData: YearGroup[] = Object.entries(yearMonthMap).map(
-    ([year, months]) => {
-      // For each year, create a sorted array of month objects
-      const monthsArray: MonthGroup[] = Object.entries(months)
-        .map(([month, monthPosts]) => ({
-          month,
-          posts: monthPosts,
-        }))
-        .sort((a, b) => MONTH_ORDER[a.month] - MONTH_ORDER[b.month]);
-
-      // Count posts in this year
-      const postCount = monthsArray.reduce(
-        (sum, month) => sum + month.posts.length,
-        0
-      );
-
-      return {
-        year,
-        months: monthsArray,
-        postCount,
-      };
+    if (!acc[year]) {
+      acc[year] = {};
     }
-  );
+    if (!acc[year][month]) {
+      acc[year][month] = [];
+    }
+    acc[year][month].push(post);
+    return acc;
+  }, {} as Record<number, Record<string, typeof posts>>);
 
-  // Sort years in descending order (newest first)
-  const sortedArchiveData = archiveData.sort(
-    (a, b) => parseInt(b.year) - parseInt(a.year)
-  );
+  // Sort years and months
+  const sortedArchiveData = Object.entries(archiveData)
+    .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
+    .map(([year, months]) => ({
+      year: Number(year),
+      months: Object.entries(months)
+        .sort(([monthA], [monthB]) => {
+          const months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ];
+          return months.indexOf(monthB) - months.indexOf(monthA);
+        })
+        .map(([month, posts]) => ({
+          month,
+          posts,
+        })),
+    }));
 
   return (
     <Page>
       <Section>
-        <h1 className="text-4xl font-bold">Archive</h1>
+        <h1 className="text-4xl font-bold mb-8">Archive</h1>
 
-        <div className="divide-y divide-muted/20">
+        <div className="space-y-12">
           {sortedArchiveData.map((yearGroup) => (
             <div key={yearGroup.year} className="">
-              <div className="mt-8">
-                {/* Year header */}
-                <div className="flex gap-2">
-                  <h2 className="text-2xl font-bold items-upper">
-                    {yearGroup.year}
-                  </h2>
-                  <span className="text-sm font-bold text-muted">
-                    {yearGroup.postCount}
-                  </span>
-                </div>
+              <h2 className="text-2xl font-semibold mb-6">{yearGroup.year}</h2>
 
-                {/* Month groups */}
-                <div className="divide-y divide-muted/20">
-                  {yearGroup.months.map((monthGroup) => (
-                    <div
-                      key={`${yearGroup.year}-${monthGroup.month}`}
-                      className="flex py-8"
-                    >
-                      {/* Month header */}
-                      <div className="flex w-32 gap-2">
-                        <h3 className="text-xl font-bold items-upper">
-                          {monthGroup.month}
-                        </h3>
-                        <div className="text-sm font-bold text-muted">
-                          {monthGroup.posts.length}
-                        </div>
-                      </div>
+              <div className="space-y-8">
+                {yearGroup.months.map((monthGroup) => (
+                  <div key={monthGroup.month}>
+                    <h3 className="text-xl font-medium mb-4">
+                      {monthGroup.month}
+                    </h3>
 
-                      {/* Post list */}
+                    <div className="pl-4">
                       <ul className="space-y-4">
                         {monthGroup.posts
                           .sort(
@@ -138,8 +90,8 @@ function Archive({ posts }: ArchiveProps) {
                           })}
                       </ul>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             </div>
           ))}
@@ -154,26 +106,3 @@ function Archive({ posts }: ArchiveProps) {
     </Page>
   );
 }
-
-// Import at the top but define here to avoid repetition 
-function renderPostDetails(post: Post) {
-  return <p className="text-sm text-muted">
-    {new Date(post.publishedAt * 1000).toLocaleDateString(
-      "en-US",
-      {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }
-    )}{" "}
-    in{" "}
-    {post.tags.map((tag, index) => (
-      <span key={tag} className="font-bold">
-        {tag}
-        {index < post.tags.length - 1 && ", "}
-      </span>
-    ))}
-  </p>;
-}
-
-export default Archive;

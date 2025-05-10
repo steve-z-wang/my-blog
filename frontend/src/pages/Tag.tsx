@@ -1,14 +1,13 @@
-import { Post } from "@my-blog/common";
-import { useParams, Link, Navigate } from "react-router";
+import { useParams, Navigate } from "react-router-dom";
 import { Page, Section } from "../components";
 import { renderPostList } from "../components/renderPostList";
+import { usePosts } from "../context/PostContext";
 
-interface TagProps {
-  posts: Post[];
-}
-
-export default function Tag({ posts }: TagProps) {
+export default function Tag() {
   const { tag } = useParams<{ tag: string }>();
+  const { posts, loading } = usePosts();
+
+  if (loading) return <p>Loading...</p>;
 
   // Handle case where tag is undefined
   if (!tag) {
@@ -38,9 +37,6 @@ export default function Tag({ posts }: TagProps) {
 }
 
 function capitalizeTag(tag: string): string {
-    return tag
-        .split('-')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+  return tag.charAt(0).toUpperCase() + tag.slice(1);
 }
 
