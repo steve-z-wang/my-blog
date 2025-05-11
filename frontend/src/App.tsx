@@ -19,10 +19,10 @@ export default function App() {
     <ErrorBoundary>
       <BackgroundProvider>
         <NotificationProvider>
-          <PostProvider>
-            <div className="flex flex-col min-h-screen">
-              <NavBar />
+          <div className="flex flex-col min-h-screen">
+            <NavBar />
 
+            <PostProvider>
               <main className="flex-grow">
                 <div className="max-w-screen-lg mx-auto">
                   <Routes>
@@ -31,16 +31,17 @@ export default function App() {
                     <Route path="/archive" element={<Archive />} />
                     <Route path="/tags" element={<Tags />} />
                     <Route path="/tags/:tag" element={<Tag />} />
+
                     <Route path="/about" element={<About />} />
                     <Route path="/subscribe" element={<Subscribe />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </div>
               </main>
+            </PostProvider>
 
-              <Footer />
-            </div>
-          </PostProvider>
+            <Footer />
+          </div>
         </NotificationProvider>
       </BackgroundProvider>
     </ErrorBoundary>

@@ -51,23 +51,21 @@ const Page = ({ children, className = "" }: PageProps) => {
   };
 
   return (
-    <ErrorBoundary>
-      <div
-        className={`transition-opacity duration-300 ${
-          isPageVisible ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <div className={`max-w-3xl mx-auto ${className}`}>{children}</div>
-        {isScrollButtonVisible && (
-          <button
-            onClick={scrollToTop}
-            className="fixed bottom-8 right-8 text-surface bg-muted p-3 rounded-full shadow-lg transition"
-          >
-            <FiChevronUp size={24} />
-          </button>
-        )}
-      </div>
-    </ErrorBoundary>
+    <div
+      className={`transition-opacity duration-300 ${
+        isPageVisible ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <div className={`max-w-3xl mx-auto ${className}`}>{children}</div>
+      {isScrollButtonVisible && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 text-surface bg-muted p-3 rounded-full shadow-lg transition"
+        >
+          <FiChevronUp size={24} />
+        </button>
+      )}
+    </div>
   );
 };
 

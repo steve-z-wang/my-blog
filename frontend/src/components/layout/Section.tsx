@@ -1,7 +1,6 @@
 // components/Card.tsx
 import React from "react";
 import clsx from "clsx";
-import ErrorBoundary from "./ErrorBoundary";
 
 interface SectionProps {
   children: React.ReactNode;
@@ -21,17 +20,15 @@ const Section = ({
   hasHorizontalPadding = true,
 }: SectionProps) => {
   return (
-    <ErrorBoundary>
-      <section
-        className={clsx(
-          "py-8",
-          hasHorizontalPadding ? "px-4 lg:px-0" : "",
-          className
-        )}
-      >
-        {children}
-      </section>
-    </ErrorBoundary>
+    <section
+      className={clsx(
+        "py-8",
+        hasHorizontalPadding ? "px-4 lg:px-0" : "",
+        className
+      )}
+    >
+      {children}
+    </section>
   );
 };
 
