@@ -7,6 +7,11 @@
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
+        "jsx": "react-jsx",
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "lib": ["DOM", "DOM.Iterable", "ESNext"],
         "baseUrl": ".",
         "paths": {
             "@my-blog/common": [
