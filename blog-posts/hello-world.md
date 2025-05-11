@@ -1,13 +1,13 @@
 ---
 title: "Hello World"
 slug: "hello-world"
-summary: "Why I'm starting this blog? My thoughts on why writing is valuable for learning, organizing thoughts, creating leverage, and connecting with others."
+summary: "My reasons to start this blog. My thoughts on why writing is valuable for learning, organizing thoughts, creating leverage, and connecting with others."
 tags: ["personal", "writing", "learning"]
 ---
 
 ## Why I'm Starting This Blog
 
-I've wanted to start a blog for a long time. 
+I've wanted to start a blog for a long time.
 
 In essence, I'm just a very expressive person. Whenever I have an idea, I get excited to share it with friends. After I quit instagram last year, that urge become even stronger. 
 
@@ -44,24 +44,24 @@ In long term, It’s also a form of personal branding could grow over time.
 
 i’m hoping this blog helps me connect with people who think about similar things, or even totally different things, I love learning new perspective.
 
-## **What You Can Expect Here**
+## What You Can Expect Here
 
 
 So what will I be writing about?
 
-### 1. **Technology**
+### 1. Technology
 
 I’ll share what I’m learning through coding projects and writing summaries to help solidify the knowledge.
 
-### 2. **Book Summaries**
+### 2. Book Summaries
 
 I listen to a lot of audiobooks and read regularly. This blog will be a place to distill key takeaways.
 
-### 3. **Thoughts on Various Topics**
+### 3. Thoughts on Various Topics
 
 I hope writing regularly will encourage me to think more independently and generate new ideas.
 
-### 4. **Prose & Poems**
+### 4. Prose & Poems
 
 Sometimes I just enjoy writing prose or poetry to express a feeling or moment.
 

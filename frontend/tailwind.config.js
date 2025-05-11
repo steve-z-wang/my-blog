@@ -4,6 +4,27 @@ export default {
     "./index.html",
     "./src/**/*.{svelte,js,ts,jsx,tsx}",
   ],
+  safelist: [
+    // Background colors
+    'bg-background',
+    'bg-surface',
+    'bg-surfaceAlt',
+    'bg-error',
+    'bg-success',
+    'bg-warning',
+    'bg-text',
+    'bg-muted',
+    
+    // Text colors
+    'text-background',
+    'text-surface',
+    'text-surfaceAlt',
+    'text-error',
+    'text-success',
+    'text-warning',
+    'text-text',
+    'text-muted'
+  ],
   theme: {
     extend: {
       colors: {
@@ -13,17 +34,18 @@ export default {
         // secondary: '#64748b',  // Secondary UI actions
 
         // Surfaces & backgrounds
-        background: '#e5e7eb', // App/page background
-        surface: '#ffffff',    // Cards, panels
+        background: 'rgb(245, 245, 245)', // App/page background
+        surface: 'rgb(255, 255, 255)',    // Cards, panels
+        'surfaceAlt': 'rgb(214, 214, 214)', // Cards, panels
 
         // Text colors
-        text: '#111827',       // Main text
-        muted: '#6b7280',      // Subtle text, labels
+        text: 'rgb(30, 30, 30)',       // Main text
+        muted: 'rgb(108, 108, 108)',      // Subtle text, labels
 
         // States
-        error: '#dc2626',      // Form errors, alerts
-        success: '#16a34a',    // Confirmations
-        warning: '#f59e0b',    // Cautions
+        error: 'rgb(220, 38, 38)',      // Form errors, alerts
+        success: 'rgb(22, 163, 74)',    // Confirmations
+        warning: 'rgb(245, 158, 11)',    // Cautions
       },
     },
   },
@@ -33,6 +55,5 @@ export default {
   future: {
     hoverOnlyWhenSupported: true,
   }
-
 }
 

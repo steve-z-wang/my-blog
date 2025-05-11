@@ -9,8 +9,13 @@
   "scripts": {
     "dev:back": "npm run dev -w backend",
     "dev:front": "npm run dev -w frontend",
-    "typecheck": "tsc -b",
-    "publish-post": "node scripts/publish-post.js"
+    "publish-post": "node scripts/publish-post.js",
+    "deploy:backend": "docker build -t my-blog-backend -f docker/Dockerfile.backend .",
+    "deploy:frontend": "docker build -t my-blog-frontend -f docker/Dockerfile.frontend .",
+    "deploy": "npm run deploy:backend && npm run deploy:frontend",
+    "run:backend": "docker run -p 8000:3000 --name my-blog-backend my-blog-backend",
+    "run:frontend": "docker run -p 3000:80 --name my-blog-frontend my-blog-frontend",
+    "run": "docker-compose up"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

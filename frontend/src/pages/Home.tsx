@@ -43,9 +43,11 @@ export default function Home() {
       </Section>
 
       {/* Timeline Section */}
-      <Section hasHorizontalPadding={false}>
-        {renderPostList(posts)}
-      </Section>
+      {posts.length === 0 ? (
+        <div className="text-muted">No posts found. Check back later!</div>
+      ) : (
+        <Section hasHorizontalPadding={false}>{renderPostList(posts)}</Section>
+      )}
     </Page>
   );
 }

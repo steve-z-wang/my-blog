@@ -2,7 +2,7 @@ import { Post } from "@my-blog/common";
 
 export function renderPostDetails(post: Post) {
   return (
-    <p className="mt-2 text-sm text-muted">
+    <div className="mt-2 text-sm text-muted font-medium">
       {new Date(post.publishedAt * 1000).toLocaleDateString("en-US", {
         year: "numeric",
         month: "long",
@@ -15,6 +15,6 @@ export function renderPostDetails(post: Post) {
           {index < post.tags.length - 1 && ", "}
         </span>
       ))}
-    </p>
+    </div>
   );
 }

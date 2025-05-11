@@ -40,7 +40,7 @@ export default function Tags() {
         </div>
 
         {sortedTags.length === 0 && (
-          <div className="text-center py-10 text-gray-500">
+          <div className="text-muted">
             No tags available.
           </div>
         )}

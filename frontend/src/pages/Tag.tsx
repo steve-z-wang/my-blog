@@ -19,15 +19,15 @@ export default function Tag() {
 
   return (
     <Page>
-      <Section>
-        <div className="mb-6 flex items-center">
+      <Section hasHorizontalPadding={false}>
+        <div className="px-4 mb-8 flex items-center">
           <h1 className="text-4xl font-bold">{capitalizeTag(tag)}</h1>
         </div>
 
         {filteredPosts.length > 0 ? (
           <>{renderPostList(filteredPosts)}</>
         ) : (
-          <p className="text-xl text-gray-600">
+          <p className="text-muted">
             No posts found with tag {tag}. Try another one!
           </p>
         )}
@@ -39,4 +39,3 @@ export default function Tag() {
 function capitalizeTag(tag: string): string {
   return tag.charAt(0).toUpperCase() + tag.slice(1);
 }
-
