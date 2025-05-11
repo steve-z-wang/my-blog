@@ -19,7 +19,7 @@ if (args.length !== 1) {
 const slug = args[0];
 
 // Get API URL from environment or use default
-const apiUrl = process.env.API_URL || 'http://localhost:8000/api/posts';
+const apiUrl = process.env.API_URL || 'http://localhost:8000/internal/posts';
 const deleteUrl = `${apiUrl}/${slug}`;
 
 console.log(`Deleting post with slug "${slug}" from ${deleteUrl}...`);

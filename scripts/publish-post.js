@@ -68,7 +68,7 @@ const payload = {
 };
 
 // Get API URL from environment or use default
-const apiUrl = process.env.API_URL || 'http://localhost:8000/api/posts';
+const apiUrl = process.env.API_URL || 'http://localhost:8000/internal/posts';
 
 console.log(`Publishing post to ${apiUrl}...`);
 

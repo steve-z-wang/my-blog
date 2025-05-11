@@ -31,6 +31,9 @@ initializeDatabase();
 
 // Create and configure app
 const app = new AppBuilder()
+
+    // Public API routes
+
     .addRoute({
         method: 'get',
         path: '/api/posts',
@@ -44,22 +47,6 @@ const app = new AppBuilder()
         handler: handleGetPost,
         requestSchema: GetPostRequestSchema,
         responseSchema: GetPostResponseSchema,
-    })
-    .addRoute({
-        method: 'post',
-        path: '/api/posts',
-        handler: handleCreatePost,
-        requestSchema: CreatePostRequestSchema,
-        responseSchema: CreatePostResponseSchema,
-        status: 201,
-    })
-    .addRoute({
-        method: 'delete',
-        path: '/api/posts/:slug',
-        handler: handleDeletePost,
-        requestSchema: DeletePostRequestSchema,
-        responseSchema: DeletePostResponseSchema,
-        status: 204,
     })
     .addRoute({
         method: 'post',
@@ -83,6 +70,25 @@ const app = new AppBuilder()
         handler: handleUnsubscribeByEmail,
         requestSchema: UnsubscribeByEmailRequestSchema,
         responseSchema: UnsubscribeByEmailResponseSchema,
+        status: 204,
+    })
+
+    // Internal API routes
+
+    .addRoute({
+        method: 'post',
+        path: '/internal/posts',
+        handler: handleCreatePost,
+        requestSchema: CreatePostRequestSchema,
+        responseSchema: CreatePostResponseSchema,
+        status: 201,
+    })
+    .addRoute({
+        method: 'delete',
+        path: '/internal/posts/:slug',
+        handler: handleDeletePost,
+        requestSchema: DeletePostRequestSchema,
+        responseSchema: DeletePostResponseSchema,
         status: 204,
     });
 
