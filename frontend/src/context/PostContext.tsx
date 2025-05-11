@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import type { Post, ListPostsResponse } from "@my-blog/common";
+import type { Post } from "@my-blog/common";
+import { fetchPosts } from "../utils/api";
 
 interface PostContextType {
   posts: Post[];
   loading: boolean;
-  getPost: (id: string) => Promise<Post>;
 }
 
 const PostContext = createContext<PostContextType | undefined>(undefined);
@@ -14,32 +14,22 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const loadPosts = async () => {
       try {
-        const response = await fetch("/api/posts");
-        if (!response.ok) throw new Error("Failed to fetch posts");
-
-        const data: ListPostsResponse = await response.json();
-        setPosts(data.posts);
+        const data = await fetchPosts();
+        setPosts(data);
       } catch (err) {
-        throw new Error("Failed to load posts");
+        console.error("Failed to load posts:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPosts();
+    loadPosts();
   }, []);
 
-  const getPost = async (id: string): Promise<Post> => {
-    const response = await fetch(`/api/posts/${id}`);
-    if (!response.ok) throw new Error("Failed to fetch post");
-    const data = await response.json();
-    return data.post;
-  };
-
   return (
-    <PostContext.Provider value={{ posts, loading, getPost }}>
+    <PostContext.Provider value={{ posts, loading }}>
       {children}
     </PostContext.Provider>
   );
@@ -51,4 +41,4 @@ export function usePosts() {
     throw new Error("usePosts must be used within a PostProvider");
   }
   return context;
-} 
+}

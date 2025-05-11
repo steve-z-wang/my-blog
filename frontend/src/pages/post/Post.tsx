@@ -5,12 +5,11 @@ import ReactMarkdown from "react-markdown";
 import CommentSection from "./CommentSection";
 import { Section, Page } from "frontend/src/components";
 import NotFound from "../NotFound";
-import { usePosts } from "../../context/PostContext";
+import { getPost } from "../../utils/api";
 
 export default function Post() {
   const { id } = useParams();
   const [post, setPost] = useState<Post | null>(null);
-  const { getPost } = usePosts();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -26,7 +25,7 @@ export default function Post() {
     };
 
     fetchPost();
-  }, [id, getPost]);
+  }, [id]);
 
   if (!post) {
     return <NotFound />;

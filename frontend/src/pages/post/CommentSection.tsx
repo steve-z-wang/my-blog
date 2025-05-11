@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import type { Comment } from "@my-blog/common";
 import { Button, Input, Form, useNotification } from "frontend/src/components";
+import { createComment } from "../../utils/api";
 
 interface CommentSectionProps {
   postId: number;
@@ -54,24 +55,14 @@ export default function CommentSection(props: CommentSectionProps) {
     }
 
     try {
-      const response = await fetch("/api/comments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          postId: props.postId,
-          authorName,
-          content,
-          parentId: replyingTo,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to submit comment");
-      }
-
-      const data = await response.json();
-      setComments((prev) => [...prev, data.comment]);
+      const newComment = await createComment(
+        props.postId,
+        authorName,
+        content,
+        replyingTo
+      );
+      
+      setComments((prev) => [...prev, newComment]);
 
       // Reset form
       if (authorNameRef.current) authorNameRef.current.value = "";
