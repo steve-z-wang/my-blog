@@ -58,10 +58,15 @@ export const CreatePostRequestSchema = z.object({
   content: z.string(),
   tags: z.array(z.string()),
 });
-
 export const CreatePostResponseSchema = z.object({
   post: PostSchema,
 });
+
+// DeletePost
+export const deletePostRequestSchema = z.object({
+  slug: z.string(),
+});
+export const deletePostResponseSchema = z.object({});
 
 // CreateComment
 export const CreateCommentRequestSchema = z.object({

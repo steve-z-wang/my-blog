@@ -10,6 +10,7 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+const matter = require('gray-matter');
 
 // Get the markdown file path from command line arguments
 const args = process.argv.slice(2);
@@ -32,40 +33,8 @@ const fileContent = fs.readFileSync(markdownFilePath, 'utf8');
 // Parse frontmatter and content
 console.log(`Parsing frontmatter from ${markdownFilePath}...`);
 
-// Simple frontmatter parser
-function parseFrontmatter(content) {
-  const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
-  const match = content.match(frontmatterRegex);
-
-  if (!match) {
-    console.error('Error: No frontmatter found in the file. The file should start with "---".');
-    process.exit(1);
-  }
-
-  const [, frontmatterStr, contentStr] = match;
-  const frontmatter = {};
-
-  // Parse each line of the frontmatter
-  frontmatterStr.split('\n').forEach(line => {
-    const colonIndex = line.indexOf(':');
-    if (colonIndex !== -1) {
-      const key = line.slice(0, colonIndex).trim();
-      let value = line.slice(colonIndex + 1).trim();
-
-      // Handle arrays like tags: [tag1, tag2]
-      if (value.startsWith('[') && value.endsWith(']')) {
-        value = value.slice(1, -1).split(',').map(item => item.trim());
-      }
-
-      frontmatter[key] = value;
-    }
-  });
-
-  return { frontmatter, content: contentStr.trim() };
-}
-
-// Parse the markdown file
-const { frontmatter, content } = parseFrontmatter(fileContent);
+// Parse the markdown file using gray-matter
+const { data: frontmatter, content } = matter(fileContent);
 
 // Validate required fields
 const requiredFields = ['title', 'slug', 'summary', 'tags'];
@@ -99,7 +68,7 @@ const payload = {
 };
 
 // Get API URL from environment or use default
-const apiUrl = process.env.API_URL || 'http://localhost:3000/api/posts';
+const apiUrl = process.env.API_URL || 'http://localhost:8000/api/posts';
 
 console.log(`Publishing post to ${apiUrl}...`);
 

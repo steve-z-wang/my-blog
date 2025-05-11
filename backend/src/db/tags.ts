@@ -22,7 +22,7 @@ export async function createTag(tagName: string): Promise<number> {
 
     const [tagId] = await db('tags').insert({ tag_name: tagName }).returning('id');
 
-    return tagId;
+    return tagId.id;
 }
 
 export async function createTagPost(postId: number, tagId: number): Promise<void> {

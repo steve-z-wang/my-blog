@@ -86,11 +86,14 @@ export async function createPost(
 ): Promise<Post> {
     const db = getDb();
 
-    // Create post entry
+    const publishedAt = Math.floor(new Date().getTime() / 1000);
+
+// Create post entry
     const [post] = await db('posts')
         .insert({
             slug,
             title,
+            published_at: publishedAt,
             summary,
             content,
         })
@@ -111,6 +114,8 @@ export async function createPost(
             }
         }),
     );
+
+    console.log('tagIds', tagIds);
 
     // Associate tags with the post
     await Promise.all(
