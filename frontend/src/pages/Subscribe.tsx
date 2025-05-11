@@ -1,5 +1,7 @@
 import { useRef } from "react";
 import { Button, Input, Page, Section, useNotification } from "../components";
+import { subscribeByEmail } from "../utils/api";
+import { SubscribeByEmailRequestSchema } from "@my-blog/common";
 
 interface SubscribeProps {}
 
@@ -16,25 +18,14 @@ export default function Subscribe({}: SubscribeProps) {
     }
 
     try {
-      const response = await fetch("/api/subscribe", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      if (response.ok) {
-        showNotification("Subscribed successfully!", "success");
-        if (emailRef.current) {
-          emailRef.current.value = "";
-        }
-      } else {
-        const errorData = await response.json();
-        showNotification(errorData.error || "Subscription failed.", "error");
+      await subscribeByEmail(email);
+      showNotification("Subscribed successfully!", "success");
+      if (emailRef.current) {
+        emailRef.current.value = "";
       }
     } catch (error) {
-      showNotification("An error occurred. Please try again.", "error");
+      const errorMessage = error instanceof Error ? error.message : "An error occurred. Please try again.";
+      showNotification(errorMessage, "error");
     }
   };
 

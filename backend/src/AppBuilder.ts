@@ -100,7 +100,7 @@ export class AppBuilder {
                         // Send response
                         res.status(route.status ?? 200).json(validatedResponse);
                     } catch (error) {
-                        next(error);
+                        next(error); // Pass the error to the error-handling middleware
                     }
                 },
             );
@@ -112,7 +112,7 @@ export class AppBuilder {
         });
 
         // Error handler
-        this.app.use((err: unknown, _req: Request, res: Response) => {
+        this.app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
             logger.error(err);
 
             if (err instanceof BlogError) {

@@ -36,17 +36,17 @@ const NotificationComponent: React.FC<NotificationProps> = ({
 
   return (
     <div
-      className={`fixed top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg ${styles[type]} animate-fade-in bg-surface`}
+      className={`fixed top-4 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg ${styles[type]} animate-fade-in`}
       role="alert"
     >
-      <div className="flex items-center gap-3 text-surface">
-        <p className="text-sm font-medium">{message}</p>
+      <div className="flex items-center gap-3">
+        <p className="text-sm font-medium text-surface">{message}</p>
         <button
           onClick={onClose}
           className="hover:opacity-70"
           aria-label="Close notification"
         >
-          <FiX className="h-4 w-4" />
+          <FiX className="h-4 w-4 text-white" />
         </button>
       </div>
     </div>

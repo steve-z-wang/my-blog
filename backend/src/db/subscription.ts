@@ -6,19 +6,17 @@ export async function subscribeByEmail(email: string): Promise<void> {
 
     const subscribedAt = Math.floor(Date.now() / 1000); // Current timestamp in seconds
 
-    try {
-        await db('email_subscriptions').insert({
-            email,
-            subscribed_at: subscribedAt,
-        });
-    } catch (err: any) {
-        // SQLite uses "SQLITE_CONSTRAINT" for UNIQUE/PK violations
-        if (err.code === 'SQLITE_CONSTRAINT') {
-            throw new ConflictError(`Email ${email} is already subscribed`);
-        }
-        // re-throw any other unexpected errors
-        throw err;
+    // Check if the email already exists in the database
+    const existingSubscription = await db('email_subscriptions').where({ email }).first();
+
+    if (existingSubscription) {
+        throw new ConflictError(`Email ${email} is already subscribed`);
     }
+
+    await db('email_subscriptions').insert({
+        email,
+        subscribed_at: subscribedAt,
+    });
 }
 
 export async function unsubscribeByEmail(email: string): Promise<void> {
