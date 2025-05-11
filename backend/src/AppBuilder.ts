@@ -69,12 +69,24 @@ export class AppBuilder {
 
                         // Parse and validate request
                         const validatedRequest = route.requestSchema.parse(requestData);
+                        logger.info({
+                            requestId,
+                            message: 'Request validated',
+                        });
 
                         // Execute handler
                         const response = await route.handler(validatedRequest);
+                        logger.info({
+                            requestId,
+                            message: 'Handler executed',
+                        });
 
                         // Validate response
                         const validatedResponse = route.responseSchema.parse(response);
+                        logger.info({
+                            requestId,
+                            message: 'Response validated',
+                        });
 
                         logger.info({
                             requestId,

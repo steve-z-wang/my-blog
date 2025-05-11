@@ -42,7 +42,7 @@ export default function Post() {
       {/* Comment */}
       <Section>
         {id && (
-          <CommentSection postId={post.postId} comments={post.comments ?? []} />
+          <CommentSection postId={post.id} comments={post.comments ?? []} />
         )}
       </Section>
 

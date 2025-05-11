@@ -80,8 +80,8 @@ export default function Archive() {
                           )
                           .map((post) => {
                             return (
-                              <li key={post.postId}>
-                                <Link to={`/posts/${post.postId}`}>
+                              <li key={post.slug}>
+                                <Link to={`/posts/${post.slug}`}>
                                   <h2 className="text-xl">{post.title}</h2>
                                   {renderPostDetails(post)}
                                 </Link>

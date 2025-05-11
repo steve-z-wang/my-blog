@@ -5,8 +5,8 @@ import { z } from "zod";
  **********/
 
 export const CommentSchema = z.object({
-  commentId: z.number(),
-  parentCommentId: z.number().nullable(),
+  id: z.number(),
+  parentId: z.number().nullable(),
   authorName: z.string(),
   content: z.string(),
   createdAt: z.number().optional(),
@@ -17,7 +17,8 @@ export const CommentSchema = z.object({
 
 export const PostSchema = z.object({
   // required
-  postId: z.string(),
+  id: z.number(),
+  slug: z.string(),
   publishedAt: z.number(),
   title: z.string(),
   summary: z.string().nullable(),
@@ -45,17 +46,17 @@ export const ListPostsResponseSchema = z.object({
 // Single post endpoints
 
 export const GetPostRequestSchema = z.object({
-  id: z.string(),
+  slug: z.string(),
 });
 export const GetPostResponseSchema = z.object({
-  post: PostSchema,
+  post: PostSchema.nullable(),
 });
 
 // Create comment endpoints
 
 export const CreateCommentRequestSchema = z.object({
-  postId: z.string(),
-  parentCommentId: z.number().nullable(),
+  postId: z.number(),
+  parentId: z.number().nullable(),
   authorName: z.string(),
   content: z.string(),
 });

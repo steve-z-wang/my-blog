@@ -3,7 +3,7 @@ import type { Comment } from "@my-blog/common";
 import { Button, Input, Form, useNotification } from "frontend/src/components";
 
 interface CommentSectionProps {
-  postId: string;
+  postId: number;
   comments: Comment[];
 }
 
@@ -32,11 +32,11 @@ export default function CommentSection(props: CommentSectionProps) {
 
   // Get replies for a comment
   const getReplies = (parentId: number) =>
-    comments.filter((comment) => comment.parentCommentId === parentId);
+    comments.filter((comment) => comment.parentId === parentId);
 
   // Get latest activity timestamp
   const getLatestActivity = (comment: Comment): number => {
-    const replies = getReplies(comment.commentId);
+    const replies = getReplies(comment.id);
     return Math.max(
       comment.createdAt || 0,
       ...replies.map((reply) => reply.createdAt || 0)
@@ -61,7 +61,7 @@ export default function CommentSection(props: CommentSectionProps) {
           postId: props.postId,
           authorName,
           content,
-          parentCommentId: replyingTo,
+          parentId: replyingTo,
         }),
       });
 
@@ -94,7 +94,7 @@ export default function CommentSection(props: CommentSectionProps) {
     comment: Comment;
     isTopLevel?: boolean;
   }) {
-    const replies = getReplies(comment.commentId);
+    const replies = getReplies(comment.id);
 
     return (
       <div className={isTopLevel ? "" : "ml-16"}>
@@ -111,7 +111,7 @@ export default function CommentSection(props: CommentSectionProps) {
           {isTopLevel && (
             <button
               className="text-muted text-sm"
-              onClick={() => setReplyingTo(comment.commentId)}
+              onClick={() => setReplyingTo(comment.id)}
             >
               Reply
             </button>
@@ -122,7 +122,7 @@ export default function CommentSection(props: CommentSectionProps) {
         <div className="mt-2">{comment.content}</div>
 
         {/* Reply form */}
-        {replyingTo === comment.commentId && (
+        {replyingTo === comment.id && (
           <div className="mt-8" ref={commentFormRef}>
             <CommentForm />
           </div>
@@ -132,11 +132,7 @@ export default function CommentSection(props: CommentSectionProps) {
         {replies.length > 0 && (
           <div className="mt-8 space-y-8">
             {replies.map((reply) => (
-              <CommentView
-                key={reply.commentId}
-                comment={reply}
-                isTopLevel={false}
-              />
+              <CommentView key={reply.id} comment={reply} isTopLevel={false} />
             ))}
           </div>
         )}
@@ -184,7 +180,7 @@ export default function CommentSection(props: CommentSectionProps) {
 
   // Get and sort top-level comments by latest activity
   const topLevelComments = comments
-    .filter((c) => !c.parentCommentId)
+    .filter((c) => !c.parentId)
     .sort((a, b) => getLatestActivity(b) - getLatestActivity(a));
 
   return (
@@ -215,7 +211,7 @@ export default function CommentSection(props: CommentSectionProps) {
         )}
 
         {topLevelComments.map((comment) => (
-          <div className="py-8" key={comment.commentId}>
+          <div className="py-8" key={comment.id}>
             <CommentView comment={comment} isTopLevel={true} />
           </div>
         ))}

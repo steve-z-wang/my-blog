@@ -34,7 +34,7 @@ const app = new AppBuilder()
     })
     .addRoute({
         method: 'get',
-        path: '/api/posts/:id',
+        path: '/api/posts/:slug',
         handler: handleGetPost,
         requestSchema: GetPostRequestSchema,
         responseSchema: GetPostResponseSchema,

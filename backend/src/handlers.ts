@@ -10,7 +10,13 @@ import {
     CreateCommentRequest,
     CreateCommentResponse,
 } from '@my-blog/common';
-import { listPosts, getPostById, createComment, subscribeByEmail, unsubscribeByEmail } from './db';
+import {
+    listPosts,
+    createComment,
+    subscribeByEmail,
+    unsubscribeByEmail,
+    getPostBySlug,
+} from './db';
 
 // Define a generic handler interface
 export interface RequestHandler<TRequest, TResponse> {
@@ -27,7 +33,7 @@ export const handleListPosts: RequestHandler<ListPostsRequest, ListPostsResponse
 };
 
 export const handleGetPost: RequestHandler<GetPostRequest, GetPostResponse> = async (request) => {
-    const post = await getPostById(request.id);
+    const post = await getPostBySlug(request.slug);
     return { post };
 };
 
@@ -53,7 +59,7 @@ export const handleCreateComment: RequestHandler<
 > = async (request) => {
     const comment = await createComment({
         postId: request.postId,
-        parentCommentId: request.parentCommentId,
+        parentId: request.parentId,
         authorName: request.authorName,
         content: request.content,
     });

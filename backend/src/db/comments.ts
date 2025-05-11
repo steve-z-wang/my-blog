@@ -1,21 +1,24 @@
 import { Comment } from '@my-blog/common';
 import { getDb } from './knex';
+import logger from '../logger';
 
 function mapDbCommentToComment(dbComment: any): Comment {
     return {
-        commentId: dbComment.comment_id,
-        parentCommentId: dbComment.parent_comment_id,
+        id: dbComment.id,
+        parentId: dbComment.parent_id,
         authorName: dbComment.author_name,
         content: dbComment.content,
         createdAt: dbComment.created_at,
     };
 }
 
-export async function getCommentsByPostId(postId: string): Promise<Comment[] | undefined> {
+export async function getCommentsByPostId(postId: number): Promise<Comment[] | undefined> {
+    logger.debug(`getCommentsByPostId: ${postId}`);
+
     const db = getDb();
 
     const comments = await db('comments as c')
-        .select('c.comment_id', 'c.parent_comment_id', 'c.author_name', 'c.content', 'c.created_at')
+        .select('c.id', 'c.parent_id', 'c.author_name', 'c.content', 'c.created_at')
         .where('c.post_id', postId)
         .orderBy('c.created_at', 'asc');
 
@@ -23,8 +26,8 @@ export async function getCommentsByPostId(postId: string): Promise<Comment[] | u
 }
 
 export async function createComment(comment: {
-    postId: string;
-    parentCommentId: number | null;
+    postId: number;
+    parentId: number | null;
     authorName: string;
     content: string;
 }): Promise<Comment> {
@@ -35,7 +38,7 @@ export async function createComment(comment: {
     const [commentCreated] = await db('comments')
         .insert({
             post_id: comment.postId,
-            parent_comment_id: comment.parentCommentId,
+            parent_id: comment.parentId,
             author_name: comment.authorName,
             content: comment.content,
             created_at: now,

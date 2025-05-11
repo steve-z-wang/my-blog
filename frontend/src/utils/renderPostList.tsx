@@ -7,8 +7,8 @@ export function renderPostList(posts: Post[]) {
     <div className="bg-surface shadow-md rounded-none sm:rounded-lg">
       <ul className="divide-y">
         {posts.map((post) => (
-          <li className="p-4" key={post.postId}>
-            <Link to={`/posts/${post.postId}`}>
+          <li className="p-4" key={post.slug}>
+            <Link to={`/posts/${post.slug}`}>
               {/* Post Title */}
               <h2 className="font-bold text-2xl">{post.title}</h2>
 
