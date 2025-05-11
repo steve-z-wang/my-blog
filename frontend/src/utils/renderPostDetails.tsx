@@ -1,7 +1,6 @@
-export function renderPostDetails(post: {
-  publishedAt: number;
-  tags: string[];
-}) {
+import { Post } from "@my-blog/common";
+
+export function renderPostDetails(post: Post) {
   return (
     <p className="mt-2 text-sm text-muted">
       {new Date(post.publishedAt * 1000).toLocaleDateString("en-US", {

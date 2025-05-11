@@ -21,9 +21,7 @@ VALUES
     strftime ('%s', '2025-04-24 12:00:00'),
     'Welcome to the Blog',
     'Welcome to my corner of the internet!',
-    '# Welcome to the Blog
-
-Welcome to my corner of the internet! I''m excited to launch this blog as a platform to share my thoughts, experiences, and knowledge about technology, personal development, and everything in between.
+    'Welcome to my corner of the internet! I''m excited to launch this blog as a platform to share my thoughts, experiences, and knowledge about technology, personal development, and everything in between.
 
 I encourage you to subscribe to updates, leave comments, and engage with the community we''ll build here. Let''s learn and grow together!'
   ),
@@ -33,9 +31,7 @@ I encourage you to subscribe to updates, leave comments, and engage with the com
     strftime ('%s', '2024-04-25 09:30:00'),
     'Second Thoughts',
     'Reflections on the journey ahead and the direction of this platform',
-    '# Second Thoughts
-
-After launching this blog yesterday, I''ve been reflecting on the journey ahead and wanted to share some additional thoughts about the direction of this platform.
+    'After launching this blog yesterday, I''ve been reflecting on the journey ahead and wanted to share some additional thoughts about the direction of this platform.
 
 ## The Power of Writing
 
@@ -56,9 +52,7 @@ Stay tuned for more content coming soon!'
     strftime ('%s', '2025-04-26 15:45:00'),
     'Tagging Demo',
     'How to implement a robust tagging system in your blog',
-    '# Tagging Demo
-
-One of the key features of any modern blog is the ability to organize content through tags. Today, I''ll walk you through how I implemented tagging in this blog using SQLite.
+    'One of the key features of any modern blog is the ability to organize content through tags. Today, I''ll walk you through how I implemented tagging in this blog using SQLite.
 
 ... 
 

@@ -9,9 +9,13 @@
   "scripts": {
     "dev:back": "npm run dev -w backend",
     "dev:front": "npm run dev -w frontend",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "publish-post": "node scripts/publish-post.js"
   },
   "dependencies": {
     "marked": "^15.0.11"
+  },
+  "devDependencies": {
+    "axios": "^1.6.0"
   }
 }

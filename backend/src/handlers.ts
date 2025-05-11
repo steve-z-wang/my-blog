@@ -9,6 +9,8 @@ import {
     UnsubscribeByEmailResponse,
     CreateCommentRequest,
     CreateCommentResponse,
+    CreatePostRequest,
+    CreatePostResponse,
 } from '@my-blog/common';
 import {
     listPosts,
@@ -16,6 +18,7 @@ import {
     subscribeByEmail,
     unsubscribeByEmail,
     getPostBySlug,
+    createPost,
 } from './db';
 
 // Define a generic handler interface
@@ -34,6 +37,19 @@ export const handleListPosts: RequestHandler<ListPostsRequest, ListPostsResponse
 
 export const handleGetPost: RequestHandler<GetPostRequest, GetPostResponse> = async (request) => {
     const post = await getPostBySlug(request.slug);
+    return { post };
+};
+
+export const handleCreatePost: RequestHandler<CreatePostRequest, CreatePostResponse> = async (
+    request,
+) => {
+    const post = await createPost(
+        request.slug,
+        request.title,
+        request.summary,
+        request.content,
+        request.tags,
+    );
     return { post };
 };
 

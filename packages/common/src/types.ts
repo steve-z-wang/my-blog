@@ -12,6 +12,8 @@ import {
   UnsubscribeByEmailResponseSchema,
   CreateCommentRequestSchema,
   CreateCommentResponseSchema,
+  CreatePostRequestSchema,
+  CreatePostResponseSchema,
 } from "./schema";
 
 /**********
@@ -30,12 +32,12 @@ export type ListPostsRequest = z.infer<typeof ListPostsRequestSchema>;
 export type ListPostsResponse = z.infer<typeof ListPostsResponseSchema>;
 export type GetPostRequest = z.infer<typeof GetPostRequestSchema>;
 export type GetPostResponse = z.infer<typeof GetPostResponseSchema>;
+export type CreatePostRequest = z.infer<typeof CreatePostRequestSchema>;
+export type CreatePostResponse = z.infer<typeof CreatePostResponseSchema>;
 
-// comment endpoints
 export type CreateCommentRequest = z.infer<typeof CreateCommentRequestSchema>;
 export type CreateCommentResponse = z.infer<typeof CreateCommentResponseSchema>;
 
-// subscription endpoints
 export type SubscribeByEmailRequest = z.infer<
   typeof SubscribeByEmailRequestSchema
 >;

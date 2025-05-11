@@ -1,9 +1,10 @@
 import { Post } from '@my-blog/common';
 import { getCommentsByPostId } from './comments';
 import { getDb } from './knex';
-import { getTagsByPostId } from './tags';
+import { createTag, createTagPost, getTagByName, getTagsByPostId } from './tags';
 import { NotFoundError } from '../errors';
 import logger from '../logger';
+import { create } from 'domain';
 
 export async function listPosts(limit: number, offset: number): Promise<Post[]> {
     const db = getDb();
@@ -73,5 +74,58 @@ async function getPost(whereClause: any): Promise<Post> {
         content: post.content,
         tags: tags,
         comments: comments,
+    };
+}
+
+export async function createPost(
+    slug: string,
+    title: string,
+    summary: string,
+    content: string,
+    tags: string[],
+): Promise<Post> {
+    const db = getDb();
+
+    // Create post entry
+    const [post] = await db('posts')
+        .insert({
+            slug,
+            title,
+            summary,
+            content,
+        })
+        .returning('*');
+
+    if (!post) {
+        throw new Error('Failed to create post');
+    }
+
+    // Create tag entries
+    const tagIds = await Promise.all(
+        tags.map(async (tag) => {
+            const tagId = await getTagByName(tag);
+            if (tagId) {
+                return tagId;
+            } else {
+                return createTag(tag);
+            }
+        }),
+    );
+
+    // Associate tags with the post
+    await Promise.all(
+        tagIds.map(async (tagId) => {
+            await createTagPost(post.id, tagId);
+        }),
+    );
+
+    return {
+        id: post.id,
+        slug: post.slug,
+        publishedAt: post.published_at,
+        title: post.title,
+        summary: post.summary,
+        content: post.content,
+        tags: tags,
     };
 }

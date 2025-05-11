@@ -6,6 +6,7 @@ import CommentSection from "./CommentSection";
 import { Section, Page } from "frontend/src/components";
 import NotFound from "../NotFound";
 import { getPost } from "../../utils/api";
+import { renderPostDetails } from "frontend/src/utils/renderPostDetails";
 
 export default function Post() {
   const { id } = useParams();
@@ -14,7 +15,7 @@ export default function Post() {
   useEffect(() => {
     const fetchPost = async () => {
       if (!id) return;
-      
+
       try {
         const fetchedPost = await getPost(id);
         setPost(fetchedPost);
@@ -35,6 +36,10 @@ export default function Post() {
     <Page>
       {/* Article */}
       <Section className="prose max-w-none">
+        <h1>
+          {post.title}
+          {renderPostDetails(post)}
+        </h1>
         <ReactMarkdown>{post.content}</ReactMarkdown>
       </Section>
 
