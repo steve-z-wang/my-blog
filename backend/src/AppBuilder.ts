@@ -94,7 +94,6 @@ export class AppBuilder {
                             method: route.method,
                             path: route.path,
                             status: route.status ?? 200,
-                            data: validatedResponse,
                         });
 
                         // Send response

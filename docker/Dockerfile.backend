@@ -1,0 +1,43 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install SQLite3 command line tools
+RUN apk add --no-cache sqlite
+
+# Copy package.json files and install dependencies for root and packages
+COPY package.json ./
+COPY tsconfig.base.json ./
+COPY packages/common/package.json ./packages/common/
+COPY backend/package.json ./backend/
+
+# Install dependencies at root level
+RUN npm install
+
+# Copy DB schema files
+COPY db/schema.sql ./db/
+
+# Copy source code for common package
+COPY packages/common ./packages/common/
+
+# Build common package
+WORKDIR /app/packages/common
+RUN npm run build
+
+# Copy backend source code
+WORKDIR /app/backend
+COPY backend ./
+
+# Build backend
+RUN npm run build
+
+# Prune dev dependencies after build
+RUN npm prune --production
+
+# Set production environment
+ENV NODE_ENV=production
+ENV PORT=3000
+EXPOSE 3000
+
+# Start the app
+CMD ["npm", "start"]

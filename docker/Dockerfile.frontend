@@ -1,0 +1,37 @@
+FROM node:20-alpine as build
+
+WORKDIR /app
+
+# Copy package.json files and install dependencies for root and packages
+COPY package.json ./
+COPY packages/common/package.json ./packages/common/
+COPY frontend/package.json ./frontend/
+
+# Install dependencies at root level
+RUN npm install
+
+# Copy source code for common package
+COPY packages/common ./packages/common/
+
+# Build common package
+WORKDIR /app/packages/common
+RUN npm run build
+
+# Copy frontend source code
+WORKDIR /app/frontend
+COPY frontend ./
+
+# Build frontend
+RUN npm run build
+
+# Production stage
+FROM nginx:alpine
+
+# Copy built frontend files from build stage to nginx serve directory
+COPY --from=build /app/frontend/dist /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

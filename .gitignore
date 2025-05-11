@@ -21,3 +21,6 @@ package-lock.json
 # Logs
 *.log
 db/blog.dev.db
+
+# TypeScript build info
+*.tsbuildinfo
