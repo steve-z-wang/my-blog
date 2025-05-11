@@ -47,3 +47,9 @@ export async function createComment(comment: {
 
     return mapDbCommentToComment(commentCreated);
 }
+
+export async function deleteCommentForPost(postId: number): Promise<void> {
+    const db = getDb();
+
+    await db('comments').where('post_id', postId).del();
+}

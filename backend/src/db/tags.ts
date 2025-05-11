@@ -25,7 +25,21 @@ export async function createTag(tagName: string): Promise<number> {
     return tagId.id;
 }
 
-export async function createTagPost(postId: number, tagId: number): Promise<void> {
+export async function deleteUnusedTags(): Promise<void> {
     const db = getDb();
-    await db('tag_posts').insert({ post_id: postId, tag_id: tagId });
+    await db('tags').whereNotExists(db('tag_posts').whereRaw('tag_posts.tag_id = tags.id')).del();
+}
+
+export async function linkTagsToPost(postId: number, tagIds: number[]): Promise<void> {
+    if (!tagIds.length) return;
+
+    const db = getDb();
+    const records = tagIds.map((tagId) => ({ post_id: postId, tag_id: tagId }));
+    await db('tag_posts').insert(records);
+}
+
+export async function unlinkTagsFromPost(postId: number): Promise<void> {
+    const db = getDb();
+    await db('tag_posts').where('post_id', postId).del();
+    await deleteUnusedTags();
 }

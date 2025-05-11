@@ -49,19 +49,19 @@ i’m hoping this blog helps me connect with people who think about similar thin
 
 So what will I be writing about?
 
-## 1. **Technology**
+### 1. **Technology**
 
 I’ll share what I’m learning through coding projects and writing summaries to help solidify the knowledge.
 
-## 2. **Book Summaries**
+### 2. **Book Summaries**
 
 I listen to a lot of audiobooks and read regularly. This blog will be a place to distill key takeaways.
 
-## 3. **Thoughts on Various Topics**
+### 3. **Thoughts on Various Topics**
 
 I hope writing regularly will encourage me to think more independently and generate new ideas.
 
-## 4. **Prose & Poems**
+### 4. **Prose & Poems**
 
 Sometimes I just enjoy writing prose or poetry to express a feeling or moment.
 

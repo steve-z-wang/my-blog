@@ -63,10 +63,10 @@ export const CreatePostResponseSchema = z.object({
 });
 
 // DeletePost
-export const deletePostRequestSchema = z.object({
+export const DeletePostRequestSchema = z.object({
   slug: z.string(),
 });
-export const deletePostResponseSchema = z.object({});
+export const DeletePostResponseSchema = z.object({});
 
 // CreateComment
 export const CreateCommentRequestSchema = z.object({

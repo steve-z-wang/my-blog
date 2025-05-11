@@ -11,6 +11,8 @@ import {
     CreateCommentResponse,
     CreatePostRequest,
     CreatePostResponse,
+    DeletePostRequest,
+    DeletePostResponse,
 } from '@my-blog/common';
 import {
     listPosts,
@@ -19,6 +21,7 @@ import {
     unsubscribeByEmail,
     getPostBySlug,
     createPost,
+    deletePost,
 } from './db';
 
 // Define a generic handler interface
@@ -37,6 +40,9 @@ export const handleListPosts: RequestHandler<ListPostsRequest, ListPostsResponse
 
 export const handleGetPost: RequestHandler<GetPostRequest, GetPostResponse> = async (request) => {
     const post = await getPostBySlug(request.slug);
+    if (!post) {
+        throw new Error('Post not found');
+    }
     return { post };
 };
 
@@ -50,6 +56,17 @@ export const handleCreatePost: RequestHandler<CreatePostRequest, CreatePostRespo
         request.content,
         request.tags,
     );
+    return { post };
+};
+
+export const handleDeletePost: RequestHandler<DeletePostRequest, DeletePostResponse> = async (
+    request,
+) => {
+    const post = await getPostBySlug(request.slug);
+    if (!post) {
+        throw new Error('Post not found');
+    }
+    await deletePost(post.id);
     return { post };
 };
 

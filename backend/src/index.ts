@@ -12,6 +12,8 @@ import {
     CreateCommentResponseSchema,
     CreatePostRequestSchema,
     CreatePostResponseSchema,
+    DeletePostRequestSchema,
+    DeletePostResponseSchema,
 } from '@my-blog/common';
 import {
     handleListPosts,
@@ -20,6 +22,7 @@ import {
     handleUnsubscribeByEmail,
     handleCreateComment,
     handleCreatePost,
+    handleDeletePost,
 } from './handlers';
 import { initializeDatabase } from './db/knex';
 
@@ -51,6 +54,14 @@ const app = new AppBuilder()
         status: 201,
     })
     .addRoute({
+        method: 'delete',
+        path: '/api/posts/:slug',
+        handler: handleDeletePost,
+        requestSchema: DeletePostRequestSchema,
+        responseSchema: DeletePostResponseSchema,
+        status: 204,
+    })
+    .addRoute({
         method: 'post',
         path: '/api/comments',
         handler: handleCreateComment,
@@ -64,7 +75,7 @@ const app = new AppBuilder()
         handler: handleSubscribeByEmail,
         requestSchema: SubscribeByEmailRequestSchema,
         responseSchema: SubscribeByEmailResponseSchema,
-        status: 201,
+        status: 204,
     })
     .addRoute({
         method: 'delete',
@@ -72,6 +83,8 @@ const app = new AppBuilder()
         handler: handleUnsubscribeByEmail,
         requestSchema: UnsubscribeByEmailRequestSchema,
         responseSchema: UnsubscribeByEmailResponseSchema,
+        status: 204,
     });
+
 // Start the server
 app.start();

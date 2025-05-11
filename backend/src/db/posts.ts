@@ -1,7 +1,13 @@
 import { Post } from '@my-blog/common';
-import { getCommentsByPostId } from './comments';
+import { deleteCommentForPost, getCommentsByPostId } from './comments';
 import { getDb } from './knex';
-import { createTag, createTagPost, getTagByName, getTagsByPostId } from './tags';
+import {
+    createTag,
+    getTagByName,
+    getTagsByPostId,
+    linkTagsToPost,
+    unlinkTagsFromPost,
+} from './tags';
 import { NotFoundError } from '../errors';
 import logger from '../logger';
 import { create } from 'domain';
@@ -35,18 +41,18 @@ export async function listPosts(limit: number, offset: number): Promise<Post[]> 
     }));
 }
 
-export async function getPostById(id: number): Promise<Post> {
+export async function getPostById(id: number): Promise<Post | null> {
     const whereClause = { 'p.id': id };
     return getPost(whereClause);
 }
 
-export async function getPostBySlug(slug: string): Promise<Post> {
+export async function getPostBySlug(slug: string): Promise<Post | null> {
     logger.debug(`getPostBySlug: ${slug}`);
     const whereClause = { 'p.slug': slug };
     return getPost(whereClause);
 }
 
-async function getPost(whereClause: any): Promise<Post> {
+async function getPost(whereClause: any): Promise<Post | null> {
     logger.debug(`getPost: ${JSON.stringify(whereClause)}`);
 
     const db = getDb();
@@ -57,7 +63,7 @@ async function getPost(whereClause: any): Promise<Post> {
         .first();
 
     if (!post) {
-        throw new NotFoundError('Post not found');
+        return null;
     }
 
     logger.debug(`getPost: ${JSON.stringify(post)}`);
@@ -88,7 +94,7 @@ export async function createPost(
 
     const publishedAt = Math.floor(new Date().getTime() / 1000);
 
-// Create post entry
+    // Create post entry
     const [post] = await db('posts')
         .insert({
             slug,
@@ -115,14 +121,8 @@ export async function createPost(
         }),
     );
 
-    console.log('tagIds', tagIds);
-
     // Associate tags with the post
-    await Promise.all(
-        tagIds.map(async (tagId) => {
-            await createTagPost(post.id, tagId);
-        }),
-    );
+    await linkTagsToPost(post.id, tagIds);
 
     return {
         id: post.id,
@@ -133,4 +133,17 @@ export async function createPost(
         content: post.content,
         tags: tags,
     };
+}
+
+export async function deletePost(id: number): Promise<void> {
+    const db = getDb();
+
+    // delete the post
+    await db('posts').where('id', id).del();
+
+    // delete associated tags record
+    await unlinkTagsFromPost(id);
+
+    // delete associated comments
+    await deleteCommentForPost(id);
 }
