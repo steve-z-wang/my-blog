@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Post } from "@my-blog/common";
-import { Page, Section } from "../components";
+import { Page, PageTitle, Section } from "../components";
 import { renderPostDetails } from "../utils/renderPostDetails";
 import { use } from "react";
 import { usePosts } from "../context/PostContext";
@@ -91,14 +91,20 @@ export default function Archive() {
 
   return (
     <Page>
-      <Section>
-        <h1 className="text-4xl font-bold">Archive</h1>
+      <PageTitle>Archive</PageTitle>
 
-        <div className="divide-y divide-muted/20">
+      {sortedArchiveData.length === 0 ? (
+        <Section>
+          <p className="text-muted">
+            No posts available in the archive.
+          </p>
+        </Section>
+      ) : (
+        <div className="divide-y divide-surfaceAlt">
+          {/* Year groups */}
           {sortedArchiveData.map((yearGroup) => (
-            <div key={yearGroup.year} className="">
-              <div className="mt-8">
-                {/* Year header */}
+            <Section key={yearGroup.year}>
+              <div className="">
                 <div className="flex gap-2">
                   <h2 className="text-2xl font-bold items-upper">
                     {yearGroup.year}
@@ -109,55 +115,47 @@ export default function Archive() {
                 </div>
 
                 {/* Month groups */}
-                <div className="divide-y divide-muted/20">
-                  {yearGroup.months.map((monthGroup) => (
-                    <div
-                      key={`${yearGroup.year}-${monthGroup.month}`}
-                      className="flex py-8"
-                    >
-                      {/* Month header */}
-                      <div className="flex w-32 gap-2">
-                        <h3 className="text-xl font-bold items-upper">
-                          {monthGroup.month}
-                        </h3>
-                        <div className="text-sm font-bold text-muted">
-                          {monthGroup.posts.length}
-                        </div>
+                {yearGroup.months.map((monthGroup) => (
+                  <div
+                    key={`${yearGroup.year}-${monthGroup.month}`}
+                    className="flex pt-8"
+                  >
+                    {/* Month header */}
+                    <div className="flex w-32 gap-2">
+                      <h3 className="text-xl font-bold items-upper">
+                        {monthGroup.month}
+                      </h3>
+                      <div className="text-sm font-bold text-muted">
+                        {monthGroup.posts.length}
                       </div>
-
-                      {/* Post list */}
-                      <ul className="space-y-4">
-                        {monthGroup.posts
-                          .sort(
-                            (a, b) =>
-                              new Date(b.publishedAt * 1000).getDate() -
-                              new Date(a.publishedAt * 1000).getDate()
-                          )
-                          .map((post) => {
-                            return (
-                              <li key={post.id}>
-                                <Link to={`/posts/${post.id}`}>
-                                  <h2 className="text-xl">{post.title}</h2>
-                                  {renderPostDetails(post)}
-                                </Link>
-                              </li>
-                            );
-                          })}
-                      </ul>
                     </div>
-                  ))}
-                </div>
+
+                    {/* Post list */}
+                    <ul className="space-y-4">
+                      {monthGroup.posts
+                        .sort(
+                          (a, b) =>
+                            new Date(b.publishedAt * 1000).getDate() -
+                            new Date(a.publishedAt * 1000).getDate()
+                        )
+                        .map((post) => {
+                          return (
+                            <li key={post.id}>
+                              <Link to={`/posts/${post.slug}`}>
+                                <h2 className="text-xl">{post.title}</h2>
+                                {renderPostDetails(post)}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                    </ul>
+                  </div>
+                ))}
               </div>
-            </div>
+            </Section>
           ))}
         </div>
-
-        {sortedArchiveData.length === 0 && (
-          <div className="text-center py-10 text-gray-500">
-            No posts available in the archive.
-          </div>
-        )}
-      </Section>
+      )}
     </Page>
   );
 }

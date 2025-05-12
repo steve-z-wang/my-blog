@@ -14,7 +14,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={clsx(
           backgroundColorClass,
-          "font-medium inline-flex items-center justify-center rounded-md py-2 px-3 shadow-md",
+          "font-medium inline-flex items-center justify-center rounded-md py-2 px-3 shadow-md hover:shadow-lg",
           className
         )}
         {...props}

@@ -1,4 +1,4 @@
-import { Page, Section } from "frontend/src/components";
+import { Page, PageTitle, Section } from "frontend/src/components";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import { renderPostList } from "../utils/renderPostList";
 import { usePosts } from "../context/PostContext";
@@ -11,16 +11,15 @@ export default function Home() {
 
   return (
     <Page className="flex flex-col">
-      {/* Welcome Section */}
-      <Section>
+      <PageTitle className="flex flex-col">
         {/* Welcome */}
-        <h1 className="text-4xl font-bold">👋 Welcome to sw.log</h1>
+        <div>👋 Welcome to sw.log</div>
 
         {/* Description */}
-        <p className="mt-4">
+        <span className="mt-4 text-muted text-sm font-medium">
           Hi, this is Steve. I'm documenting my learning and thoughts in this
           blog starting 2025.
-        </p>
+        </span>
 
         {/* Social Links */}
         <ul className="flex space-x-4 mt-6">
@@ -40,11 +39,13 @@ export default function Home() {
             </a>
           </li>
         </ul>
-      </Section>
+      </PageTitle>
 
       {/* Timeline Section */}
       {posts.length === 0 ? (
-        <div className="text-muted">No posts found. Check back later!</div>
+        <Section className="text-muted">
+          No posts found. Check back later!
+        </Section>
       ) : (
         <Section hasHorizontalPadding={false}>{renderPostList(posts)}</Section>
       )}

@@ -1,13 +1,14 @@
-import { Page, Section } from "../components";
+import { Page, PageTitle, Section } from "../components";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import { SOCIAL_LINKS } from "../constants";
 
 export default function About() {
   return (
     <Page>
+      <PageTitle>About Me</PageTitle>
+
       <Section>
         <div className="prose max-w-none">
-          <h1>About Me</h1>
           <p>
             Hi, I'm <strong>Steve</strong> — a software engineer at{" "}
             <strong>Amazon</strong>. I enjoy building systems, exploring AI, and

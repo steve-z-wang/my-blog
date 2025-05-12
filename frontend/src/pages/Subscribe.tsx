@@ -6,6 +6,7 @@ import {
   Section,
   useNotification,
   Form,
+  PageTitle,
 } from "../components";
 import { subscribeByEmail } from "../utils/api";
 
@@ -40,22 +41,20 @@ export default function Subscribe({}: SubscribeProps) {
 
   return (
     <Page>
-      <Section>
-        <h1 className="text-4xl font-bold">Subscribe</h1>
+      <PageTitle>Subscribe</PageTitle>
 
-        <div className="mt-4">
-          <Form onSubmit={handleSubmit}>
-            <Input
-              ref={emailRef}
-              type="email"
-              placeholder="Your email"
-              required
-            />
-            <Button type="submit" bgColor="surfaceAlt" className="text-text">
-              Subscribe
-            </Button>
-          </Form>
-        </div>
+      <Section>
+        <Form onSubmit={handleSubmit}>
+          <Input
+            ref={emailRef}
+            type="email"
+            placeholder="Your email"
+            required
+          />
+          <Button type="submit" bgColor="surfaceAlt" className="text-text">
+            Subscribe
+          </Button>
+        </Form>
       </Section>
     </Page>
   );

@@ -10,3 +10,4 @@ export {default as Input} from './ui/Input';
 export {default as Form} from './ui/Form';
 export {default as Notification} from './ui/Notification';
 export {useNotification} from './ui/Notification';
+export {default as PageTitle} from './ui/PageTitle';

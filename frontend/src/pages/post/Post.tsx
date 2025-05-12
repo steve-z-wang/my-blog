@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import type { Post } from "@my-blog/common";
 import ReactMarkdown from "react-markdown";
 import CommentSection from "./CommentSection";
-import { Section, Page } from "frontend/src/components";
+import { Section, Page, PageTitle } from "frontend/src/components";
 import NotFound from "../NotFound";
 import { getPost } from "../../utils/api";
 import { renderPostDetails } from "frontend/src/utils/renderPostDetails";
@@ -34,12 +34,13 @@ export default function Post() {
 
   return (
     <Page>
+      <PageTitle>
+        {post.title}
+        {renderPostDetails(post)}
+      </PageTitle>
+
       {/* Article */}
       <Section className="prose max-w-none">
-        <h1>
-          {post.title}
-          {renderPostDetails(post)}
-        </h1>
         <ReactMarkdown>{post.content}</ReactMarkdown>
       </Section>
 
