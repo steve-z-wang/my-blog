@@ -10,18 +10,17 @@ export default function About() {
       <Section>
         <div className="prose max-w-none">
           <p>
-            Hi, I'm <strong>Steve</strong> — a software engineer at{" "}
-            <strong>Amazon</strong>. I enjoy building systems, exploring AI, and
-            sharing what I learn here.
+            Hi, I'm <strong>Steve</strong> — I enjoy building systems, exploring
+            AI, and sharing what I learn here.
           </p>
           <p>
             Outside work, I love{" "}
             <strong>rock climbing, hiking, and reading</strong>. I'm also
             passionate about{" "}
-            <strong>finance, social security, economics, and business</strong>.
+            <strong>economics, psychology, and game theory</strong>.
             Always curious and eager to learn something new.
           </p>
-          <p className="text-gray-600 italic">
+          <p className="italic">
             Thanks for visiting — hope you find something interesting!
           </p>
           <h2>Connect With Me</h2>
@@ -54,6 +53,7 @@ export default function About() {
           </ul>
         </div>
       </Section>
+
       <Section>
         Found a bug?{" "}
         <a

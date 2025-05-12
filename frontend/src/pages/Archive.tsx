@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import { Post } from "@my-blog/common";
-import { Page, PageTitle, Section } from "../components";
+import { Page, PageTitle, Section, Loading } from "../components";
 import { renderPostDetails } from "../utils/renderPostDetails";
-import { use } from "react";
 import { usePosts } from "../context/PostContext";
 
 interface ArchiveProps {
@@ -40,7 +39,7 @@ const MONTH_ORDER: Record<string, number> = {
 export default function Archive() {
   const { posts, loading } = usePosts();
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
 
   // Group posts by year and month (O(n) time complexity)
   const yearMonthMap: Record<string, Record<string, Post[]>> = {};

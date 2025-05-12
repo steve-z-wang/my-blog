@@ -1,5 +1,5 @@
 import { useParams, Navigate } from "react-router-dom";
-import { Page, PageTitle, Section } from "../components";
+import { Page, PageTitle, Section, Loading } from "../components";
 import { renderPostList } from "../utils/renderPostList";
 import { usePosts } from "../context/PostContext";
 
@@ -7,7 +7,7 @@ export default function Tag() {
   const { tag } = useParams<{ tag: string }>();
   const { posts, loading } = usePosts();
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
 
   // Handle case where tag is undefined
   if (!tag) {

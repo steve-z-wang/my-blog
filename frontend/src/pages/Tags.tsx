@@ -1,11 +1,11 @@
-import { Page, PageTitle, Section } from "../components";
+import { Page, PageTitle, Section, Loading } from "../components";
 import { Link } from "react-router-dom";
 import { usePosts } from "../context/PostContext";
 
 export default function Tags() {
   const { posts, loading } = usePosts();
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading />;
 
   // Get unique tags and count posts per tag
   const tagCounts = posts.reduce(
@@ -42,7 +42,7 @@ export default function Tags() {
                 className="px-4 py-2 bg-surface rounded-lg shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="flex">
-                  <span className="font-medium">{tag}</span>
+                  <span className="font-semibold">{tag}</span>
                   <span className="text-muted ml-1 text-sm font-medium">
                     {count}
                   </span>
