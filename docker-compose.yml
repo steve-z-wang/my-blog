@@ -10,7 +10,7 @@ services:
     environment:
       - NODE_ENV=production
     volumes:
-      - ./db:/app/db
+      - ${DB_VOLUME_PATH:-./db}:/app/db
     restart: unless-stopped
 
   frontend:

@@ -35,7 +35,6 @@ RUN npm run build
 RUN npm prune --production
 
 # Set production environment
-ENV NODE_ENV=production
 ENV PORT=3000
 EXPOSE 3000
 
