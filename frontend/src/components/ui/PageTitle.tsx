@@ -13,7 +13,7 @@ export const PageTitle: React.FC<PageTitleProps> = ({
   className = "",
 }) => {
   return (
-    <h1 className={`ml-4 lg:ml-0 mt-4 text-4xl font-bold ${className}`}>
+    <h1 className={`mx-4 lg:mx-0 mt-4 text-4xl font-bold ${className}`}>
       {children}
     </h1>
   );
