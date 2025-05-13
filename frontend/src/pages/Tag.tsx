@@ -7,7 +7,7 @@ export default function Tag() {
   const { tag } = useParams<{ tag: string }>();
   const { posts, loading } = usePosts();
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading message={`Loading posts for ${tag}...`} />;
 
   // Handle case where tag is undefined
   if (!tag) {

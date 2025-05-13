@@ -5,7 +5,7 @@ import { usePosts } from "../context/PostContext";
 export default function Tags() {
   const { posts, loading } = usePosts();
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading message="Loading tags..." />;
 
   // Get unique tags and count posts per tag
   const tagCounts = posts.reduce(

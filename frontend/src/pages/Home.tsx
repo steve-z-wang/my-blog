@@ -7,7 +7,7 @@ import { SOCIAL_LINKS } from "../constants";
 export default function Home() {
   const { posts, loading } = usePosts();
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading message="Loading blog posts..." />;
 
   return (
     <Page className="flex flex-col">

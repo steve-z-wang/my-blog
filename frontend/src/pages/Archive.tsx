@@ -39,7 +39,7 @@ const MONTH_ORDER: Record<string, number> = {
 export default function Archive() {
   const { posts, loading } = usePosts();
 
-  if (loading) return <Loading />;
+  if (loading) return <Loading message="Loading archives..." />;
 
   // Group posts by year and month (O(n) time complexity)
   const yearMonthMap: Record<string, Record<string, Post[]>> = {};
