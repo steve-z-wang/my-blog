@@ -15,10 +15,8 @@ export default function About() {
           </p>
           <p>
             Outside work, I love{" "}
-            <strong>rock climbing, hiking, and reading</strong>. I'm also
-            passionate about{" "}
-            <strong>economics, psychology, and game theory</strong>.
-            Always curious and eager to learn something new.
+            <strong>rock climbing, hiking, and reading</strong>. Always curious
+            and eager to learn something new.
           </p>
           <p className="italic">
             Thanks for visiting — hope you find something interesting!

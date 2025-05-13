@@ -8,6 +8,15 @@
  */
 
 const axios = require('axios');
+const path = require('path');
+const dotenv = require('dotenv');
+const fs = require('fs');
+
+// Load environment variables directly
+const rootEnvPath = path.resolve(__dirname, '../.env');
+if (fs.existsSync(rootEnvPath)) {
+    dotenv.config({ path: rootEnvPath });
+}
 
 // Get the slug from command line arguments
 const args = process.argv.slice(2);
@@ -18,8 +27,9 @@ if (args.length !== 1) {
 
 const slug = args[0];
 
-// Get API URL from environment or use default
-const apiUrl = process.env.API_URL || 'http://localhost:8000/internal/posts';
+// Get API URL from environment variable
+const port = process.env.API_PORT;
+const apiUrl = `http://localhost:${port}/internal/posts`;
 const deleteUrl = `${apiUrl}/${slug}`;
 
 console.log(`Deleting post with slug "${slug}" from ${deleteUrl}...`);

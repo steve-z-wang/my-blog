@@ -11,6 +11,13 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 const matter = require('gray-matter');
+const dotenv = require('dotenv');
+
+// Load environment variables directly
+const rootEnvPath = path.resolve(__dirname, '../.env');
+if (fs.existsSync(rootEnvPath)) {
+    dotenv.config({ path: rootEnvPath });
+}
 
 // Get the markdown file path from command line arguments
 const args = process.argv.slice(2);
@@ -67,8 +74,9 @@ const payload = {
   tags: frontmatter.tags
 };
 
-// Get API URL from environment or use default
-const apiUrl = process.env.API_URL || 'http://localhost:8000/internal/posts';
+// Get API URL from environment variable
+const port = process.env.API_PORT;
+const apiUrl = `http://localhost:${port}/internal/posts`;
 
 console.log(`Publishing post to ${apiUrl}...`);
 

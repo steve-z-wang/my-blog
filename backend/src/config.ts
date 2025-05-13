@@ -1,4 +1,5 @@
 import { CorsOptions } from 'cors';
+import { env } from './env';
 
 interface Config {
     port: number;
@@ -10,7 +11,7 @@ interface Config {
 }
 
 export const config: Config = {
-    port: Number(process.env.PORT ?? 8000),
+    port: env.port,
     cors: {
         origin: process.env.CORS_ORIGIN ?? '*',
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

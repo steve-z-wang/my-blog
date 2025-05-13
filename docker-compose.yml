@@ -5,10 +5,10 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.backend
+    env_file: 
+      - .env 
     ports:
-      - "8000:3000"
-    environment:
-      - NODE_ENV=production
+      - "${API_PORT}:${API_PORT}"
     volumes:
       - ${DB_VOLUME_PATH:-./db}:/app/db
     restart: unless-stopped
@@ -17,8 +17,13 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.frontend
+    env_file:
+      - .env
+    environment:
+      - FRONTEND_PORT=${FRONTEND_PORT}
+      - API_PORT=${API_PORT}
     ports:
-      - "80:80"
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     depends_on:
       - backend
     restart: unless-stopped

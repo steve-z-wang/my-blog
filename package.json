@@ -9,9 +9,12 @@
   "scripts": {
     "dev:back": "npm run dev -w backend",
     "dev:front": "npm run dev -w frontend",
-    "run": "docker-compose up"
+    "docker:build": "docker-compose build",
+    "docker:run": "docker-compose up",
+    "docker:stop": "docker-compose down"
   },
   "dependencies": {
+    "dotenv": "^16.5.0",
     "gray-matter": "^4.0.3",
     "marked": "^15.0.11"
   },

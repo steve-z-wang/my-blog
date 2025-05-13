@@ -28,15 +28,17 @@ RUN npm run build
 WORKDIR /app/backend
 COPY backend ./
 
+# Copy ENV files
+COPY .env .env
+
 # Build backend
 RUN npm run build
 
 # Prune dev dependencies after build
 RUN npm prune --production
 
-# Set production environment
-ENV PORT=3000
-EXPOSE 3000
+WORKDIR /app/backend
+EXPOSE 8000
 
 # Start the app
 CMD ["npm", "start"]
