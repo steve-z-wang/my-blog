@@ -1,6 +1,6 @@
 server {
     listen ${FRONTEND_PORT};
-    server_name localhost;
+    server_name stevewanglog.com www.stevewanglog.com;
     
     # Serve static files
     location / {
