@@ -2,12 +2,13 @@
 
 A personal blogging platform built with modern web technologies.
 
+**Live at: [stevewanglog.com](http://stevewanglog.com)**
+
 ## Description
 
 This is a full-stack blog application with features for publishing, commenting, and subscribing. It uses a Node.js backend and React frontend, with SQLite for data storage.
 
 Design inspired by [Lil'Log](https://lilianweng.github.io/)
-
 
 ## Features
 
