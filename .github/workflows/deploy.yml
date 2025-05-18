@@ -1,0 +1,39 @@
+name: Deploy Blog
+
+on:
+  push:
+    branches:
+      - main  # Or your default branch name (e.g., master)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            # Navigate to the blog directory
+            cd /home/ubuntu/my-blog  # Update this to your actual server path
+            
+            # Pull the latest changes from GitHub
+            git pull
+            
+            # Stop the current Docker containers
+            docker compose down
+            
+            # Rebuild the Docker images
+            docker compose build
+            
+            # Start the Docker containers
+            docker compose up -d
+            
+            # Output logs to verify everything started correctly
+            docker compose logs --tail=20

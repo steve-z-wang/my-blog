@@ -99,14 +99,43 @@ The application can be deployed using Docker:
 docker-compose up -d
 ```
 
+## Continuous Deployment
+
+This project includes a GitHub Actions workflow that automatically deploys changes when you push to the main branch.
+
+### Setting Up GitHub Secrets
+
+To use the deployment workflow, add the following secrets to your GitHub repository:
+
+1. Go to your GitHub repository → Settings → Secrets and Variables → Actions
+2. Add the following secrets:
+   - `SERVER_HOST`: Your server's IP address or domain name
+   - `SERVER_USERNAME`: SSH username for your server
+   - `SERVER_SSH_KEY`: Your private SSH key that has access to the server
+
+### How It Works
+
+When you push changes to the main branch, the workflow will:
+
+1. Connect to your server via SSH
+2. Pull the latest code from GitHub
+3. Stop the current Docker containers
+4. Rebuild the Docker images
+5. Start up the containers again
+
+### Customizing the Deployment
+
+You may need to update the server path in the `.github/workflows/deploy.yml` file to match your actual deployment path on the server.
+
 ## TODO
 
-- [ ] Setup git action
+- [ ] Set up RSS
+- [ ] Implement markdown content table
+- [ ] Implement image support for blog posts
+- [ ] Create email notification
 - [ ] Add bot detection
 - [ ] Set up backup system
-- [ ] Implement image support for blog posts
 - [ ] Add dark mode support
-- [ ] Create email subscribers
 
 ## License
 
