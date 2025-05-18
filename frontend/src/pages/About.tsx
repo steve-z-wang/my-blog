@@ -7,40 +7,30 @@ export default function About() {
     <Page>
       <PageTitle>About Me</PageTitle>
 
-      <Section>
-        <div className="prose max-w-none">
-          <p>
-            Hi, I'm <strong>Steve</strong> — I like{" "}
-            <strong>building things from scratch</strong>.
-          </p>
-          <p>
-            I'm currently a <strong>software engineer at Amazon</strong>. I
-            realized I spent too much time drifting during college, so I started
-            this blog to <strong>document my learning and side projects</strong>
-            . After quitting social media last year, I rediscovered a lot of
-            interests — especially in{" "}
-            <strong>psychology, economics, technology, and AI</strong>.
-          </p>
-          <p>
-            I love coding, especially when it challenges me. One of my proudest
-            projects so far is{" "}
-            <strong>building a SQL processing engine from scratch</strong>.
-            Recently, I've been diving deeper into <strong>AI</strong>,
-            particularly <strong>reinforcement learning</strong>.
-          </p>
-          <p>
-            Outside of work and learning, I enjoy <strong>rock climbing</strong>
-            , being in <strong>nature</strong>, and the occasional{" "}
-            <strong>daydream</strong> :P.
-          </p>
-          <p className="italic">
-            Thanks for stopping by — feel free to reach out if you’d like to{" "}
-            <strong>collaborate on a project</strong>!
-          </p>
-        </div>
-      </Section>
+      <Section className="prose max-w-none">
+        <p>
+          Hi, I'm <strong>Steve</strong>. I like coding and building things from
+          scratch.
+        </p>
 
-      <Section className="prose">
+        <p>
+          I work as a software engineer at Amazon. I started this blog to share
+          what I'm learning and the projects I'm working on. Lately, I've been
+          into <strong>compilers</strong>, so expect more posts on that.
+        </p>
+
+        <p>I'm also into psychology, economics, and tech in general.</p>
+
+        <p>
+          Outside of work, I enjoy rock climbing, nature, and the occasional
+          daydream. :)
+        </p>
+
+        <p className="italic">
+          Thanks for stopping by — feel free to reach out if you'd like to
+          collaborate on a project!
+        </p>
+
         <h2>Connect With Me</h2>
         <ul className="flex space-x-4 not-prose">
           <li>
@@ -71,7 +61,8 @@ export default function About() {
         </ul>
       </Section>
 
-      <Section>
+      {/* additional info */}
+      <Section className="prose max-w-none">
         <p>
           Found a bug?{" "}
           <a
@@ -82,9 +73,6 @@ export default function About() {
           </a>
           , thanks!
         </p>
-      </Section>
-
-      <Section>
         <p>
           This blog is built with <strong>React</strong>,{" "}
           <strong>Express</strong>, and <strong>SQLite</strong>. You can check
