@@ -12,6 +12,7 @@ import Tag from "./pages/Tag";
 import Subscribe from "./pages/Subscribe";
 import ErrorBoundary from "./components/layout/ErrorBoundary";
 import NotFound from "./pages/NotFound";
+import RSS from "./pages/RSS";
 import { PostProvider } from "./context/PostContext";
 
 export default function App() {
@@ -34,6 +35,7 @@ export default function App() {
 
                     <Route path="/about" element={<About />} />
                     <Route path="/subscribe" element={<Subscribe />} />
+                    <Route path="/feed" element={<RSS />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </div>

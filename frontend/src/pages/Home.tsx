@@ -1,8 +1,9 @@
 import { Page, PageTitle, Section, Loading } from "frontend/src/components";
-import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import { FiGithub, FiLinkedin, FiMail, FiRss } from "react-icons/fi";
 import { renderPostList } from "../utils/renderPostList";
 import { usePosts } from "../context/PostContext";
 import { SOCIAL_LINKS } from "../constants";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const { posts, loading } = usePosts();
@@ -37,6 +38,11 @@ export default function Home() {
             <a href={SOCIAL_LINKS.GITHUB} aria-label="GitHub">
               <FiGithub className="w-6 h-6" />
             </a>
+          </li>
+          <li>
+            <Link to="/feed" aria-label="RSS Feed">
+              <FiRss className="w-6 h-6" />
+            </Link>
           </li>
         </ul>
       </PageTitle>
