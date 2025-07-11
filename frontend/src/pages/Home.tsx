@@ -5,7 +5,7 @@ import { usePosts } from "../context/PostContext";
 import { SOCIAL_LINKS } from "../constants";
 
 export default function Home() {
-  const { posts } = usePosts();
+  const { posts, loading } = usePosts();
 
   return (
     <Page className="flex flex-col">
@@ -40,7 +40,7 @@ export default function Home() {
       </PageTitle>
 
       {/* Timeline Section */}
-      {posts.length === 0 ? (
+      {loading ? null : posts.length === 0 ? (
         <Section className="text-muted">
           No posts found. Check back later!
         </Section>

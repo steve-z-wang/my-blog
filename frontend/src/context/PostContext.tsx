@@ -4,6 +4,7 @@ import { fetchPosts } from "../utils/api";
 
 interface PostContextType {
   posts: Post[];
+  loading: boolean;
   error: string | null;
   refreshPosts: () => Promise<void>;
 }
@@ -11,16 +12,20 @@ interface PostContextType {
 const PostContext = createContext<PostContextType | undefined>(undefined);
 export function PostProvider({ children }: { children: React.ReactNode }) {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const loadPosts = async () => {
     try {
+      setLoading(true);
       const data = await fetchPosts();
       setPosts(data);
       setError(null);
     } catch (err) {
       console.error("Failed to load posts:", err);
       setError("Failed to load posts");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -34,7 +39,7 @@ export function PostProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <PostContext.Provider
-      value={{ posts, error, refreshPosts: loadPosts }}
+      value={{ posts, loading, error, refreshPosts: loadPosts }}
     >
       {children}
     </PostContext.Provider>

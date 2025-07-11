@@ -11,10 +11,12 @@ import { renderPostDetails } from "frontend/src/utils/renderPostDetails";
 export default function Post() {
   const { id } = useParams();
   const [post, setPost] = useState<Post | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPost = async () => {
       if (!id) {
+        setLoading(false);
         return;
       }
 
@@ -24,11 +26,17 @@ export default function Post() {
       } catch (err) {
         // If post is not found, render NotFound page
         setPost(null);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchPost();
   }, [id]);
+
+  if (loading) {
+    return null; 
+  }
 
   if (!post) {
     return <NotFound />;

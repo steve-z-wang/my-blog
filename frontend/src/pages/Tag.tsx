@@ -5,7 +5,7 @@ import { usePosts } from "../context/PostContext";
 
 export default function Tag() {
   const { tag } = useParams<{ tag: string }>();
-  const { posts } = usePosts();
+  const { posts, loading } = usePosts();
 
   // Handle case where tag is undefined
   if (!tag) {
@@ -20,7 +20,7 @@ export default function Tag() {
       <PageTitle>{capitalizeTag(tag)}</PageTitle>
 
       <Section hasHorizontalPadding={false}>
-        {filteredPosts.length === 0 ? (
+        {loading ? null : filteredPosts.length === 0 ? (
           <p className="text-muted">
             No posts found with tag {tag}. Try another one!
           </p>

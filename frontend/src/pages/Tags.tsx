@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { usePosts } from "../context/PostContext";
 
 export default function Tags() {
-  const { posts } = usePosts();
+  const { posts, loading } = usePosts();
 
   // Get unique tags and count posts per tag
   const tagCounts = posts.reduce(
@@ -29,7 +29,7 @@ export default function Tags() {
       <PageTitle>Tags</PageTitle>
 
       <Section>
-        {sortedTags.length === 0 ? (
+        {loading ? null : sortedTags.length === 0 ? (
           <p className="text-muted">No tags available.</p>
         ) : (
           <div className="flex flex-wrap gap-4">

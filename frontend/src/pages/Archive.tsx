@@ -37,7 +37,7 @@ const MONTH_ORDER: Record<string, number> = {
 };
 
 export default function Archive() {
-  const { posts } = usePosts();
+  const { posts, loading } = usePosts();
 
   // Group posts by year and month (O(n) time complexity)
   const yearMonthMap: Record<string, Record<string, Post[]>> = {};
@@ -90,7 +90,7 @@ export default function Archive() {
     <Page>
       <PageTitle>Archive</PageTitle>
 
-      {sortedArchiveData.length === 0 ? (
+      {loading ? null : sortedArchiveData.length === 0 ? (
         <Section>
           <p className="text-muted">No posts available in the archive.</p>
         </Section>
