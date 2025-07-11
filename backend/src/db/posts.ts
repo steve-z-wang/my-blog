@@ -135,6 +135,64 @@ export async function createPost(
     };
 }
 
+export async function updatePost(
+    slug: string,
+    title?: string,
+    summary?: string,
+    content?: string,
+    tags?: string[],
+): Promise<Post> {
+    const db = getDb();
+
+    // First, get the existing post
+    const existingPost = await getPostBySlug(slug);
+    if (!existingPost) {
+        throw new NotFoundError('Post not found');
+    }
+
+    // Prepare update data, only including fields that are provided
+    const updateData: any = {};
+    if (title !== undefined) updateData.title = title;
+    if (summary !== undefined) updateData.summary = summary;
+    if (content !== undefined) updateData.content = content;
+
+    // Update post entry if there are fields to update
+    if (Object.keys(updateData).length > 0) {
+        await db('posts')
+            .where('id', existingPost.id)
+            .update(updateData);
+    }
+
+    // Handle tags update if provided
+    if (tags !== undefined) {
+        // Remove existing tag associations
+        await unlinkTagsFromPost(existingPost.id);
+
+        // Create new tag entries and associate them
+        const tagIds = await Promise.all(
+            tags.map(async (tag) => {
+                const tagId = await getTagByName(tag);
+                if (tagId) {
+                    return tagId;
+                } else {
+                    return createTag(tag);
+                }
+            }),
+        );
+
+        // Associate new tags with the post
+        await linkTagsToPost(existingPost.id, tagIds);
+    }
+
+    // Return updated post
+    const updatedPost = await getPostBySlug(slug);
+    if (!updatedPost) {
+        throw new Error('Failed to retrieve updated post');
+    }
+
+    return updatedPost;
+}
+
 export async function deletePost(id: number): Promise<void> {
     const db = getDb();
 

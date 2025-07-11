@@ -62,6 +62,18 @@ export const CreatePostResponseSchema = z.object({
   post: PostSchema,
 });
 
+// UpdatePost
+export const UpdatePostRequestSchema = z.object({
+  slug: z.string(),
+  title: z.string().optional(),
+  summary: z.string().optional(),
+  content: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+});
+export const UpdatePostResponseSchema = z.object({
+  post: PostSchema,
+});
+
 // DeletePost
 export const DeletePostRequestSchema = z.object({
   slug: z.string(),

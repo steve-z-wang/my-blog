@@ -12,6 +12,8 @@ import {
     CreateCommentResponseSchema,
     CreatePostRequestSchema,
     CreatePostResponseSchema,
+    UpdatePostRequestSchema,
+    UpdatePostResponseSchema,
     DeletePostRequestSchema,
     DeletePostResponseSchema,
 } from '@my-blog/common';
@@ -22,6 +24,7 @@ import {
     handleUnsubscribeByEmail,
     handleCreateComment,
     handleCreatePost,
+    handleUpdatePost,
     handleDeletePost,
 } from './handlers';
 import { initializeDatabase } from './db/knex';
@@ -82,6 +85,14 @@ const app = new AppBuilder()
         requestSchema: CreatePostRequestSchema,
         responseSchema: CreatePostResponseSchema,
         status: 201,
+    })
+    .addRoute({
+        method: 'put',
+        path: '/internal/posts/:slug',
+        handler: handleUpdatePost,
+        requestSchema: UpdatePostRequestSchema,
+        responseSchema: UpdatePostResponseSchema,
+        status: 200,
     })
     .addRoute({
         method: 'delete',

@@ -14,6 +14,8 @@ import {
   CreateCommentResponseSchema,
   CreatePostRequestSchema,
   CreatePostResponseSchema,
+  UpdatePostRequestSchema,
+  UpdatePostResponseSchema,
   DeletePostRequestSchema,
   DeletePostResponseSchema,
 } from "./schema";
@@ -36,6 +38,8 @@ export type GetPostRequest = z.infer<typeof GetPostRequestSchema>;
 export type GetPostResponse = z.infer<typeof GetPostResponseSchema>;
 export type CreatePostRequest = z.infer<typeof CreatePostRequestSchema>;
 export type CreatePostResponse = z.infer<typeof CreatePostResponseSchema>;
+export type UpdatePostRequest = z.infer<typeof UpdatePostRequestSchema>;
+export type UpdatePostResponse = z.infer<typeof UpdatePostResponseSchema>;
 export type DeletePostRequest = z.infer<typeof DeletePostRequestSchema>;
 export type DeletePostResponse = z.infer<typeof DeletePostResponseSchema>;
 

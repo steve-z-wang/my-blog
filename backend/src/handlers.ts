@@ -11,6 +11,8 @@ import {
     CreateCommentResponse,
     CreatePostRequest,
     CreatePostResponse,
+    UpdatePostRequest,
+    UpdatePostResponse,
     DeletePostRequest,
     DeletePostResponse,
 } from '@my-blog/common';
@@ -21,6 +23,7 @@ import {
     unsubscribeByEmail,
     getPostBySlug,
     createPost,
+    updatePost,
     deletePost,
 } from './db';
 
@@ -50,6 +53,19 @@ export const handleCreatePost: RequestHandler<CreatePostRequest, CreatePostRespo
     request,
 ) => {
     const post = await createPost(
+        request.slug,
+        request.title,
+        request.summary,
+        request.content,
+        request.tags,
+    );
+    return { post };
+};
+
+export const handleUpdatePost: RequestHandler<UpdatePostRequest, UpdatePostResponse> = async (
+    request,
+) => {
+    const post = await updatePost(
         request.slug,
         request.title,
         request.summary,
