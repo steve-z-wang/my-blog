@@ -1,11 +1,9 @@
-import { Page, PageTitle, Section, Loading } from "../components";
+import { Page, PageTitle, Section } from "../components";
 import { Link } from "react-router-dom";
 import { usePosts } from "../context/PostContext";
 
 export default function Tags() {
-  const { posts, loading } = usePosts();
-
-  if (loading) return <Loading message="Loading tags..." />;
+  const { posts } = usePosts();
 
   // Get unique tags and count posts per tag
   const tagCounts = posts.reduce(

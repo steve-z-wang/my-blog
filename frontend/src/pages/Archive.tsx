@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Post } from "@my-blog/common";
-import { Page, PageTitle, Section, Loading } from "../components";
+import { Page, PageTitle, Section } from "../components";
 import { renderPostDetails } from "../utils/renderPostDetails";
 import { usePosts } from "../context/PostContext";
 
@@ -37,9 +37,7 @@ const MONTH_ORDER: Record<string, number> = {
 };
 
 export default function Archive() {
-  const { posts, loading } = usePosts();
-
-  if (loading) return <Loading message="Loading archives..." />;
+  const { posts } = usePosts();
 
   // Group posts by year and month (O(n) time complexity)
   const yearMonthMap: Record<string, Record<string, Post[]>> = {};
@@ -94,9 +92,7 @@ export default function Archive() {
 
       {sortedArchiveData.length === 0 ? (
         <Section>
-          <p className="text-muted">
-            No posts available in the archive.
-          </p>
+          <p className="text-muted">No posts available in the archive.</p>
         </Section>
       ) : (
         <div className="divide-y divide-surfaceAlt">

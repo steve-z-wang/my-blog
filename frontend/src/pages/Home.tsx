@@ -1,19 +1,17 @@
-import { Page, PageTitle, Section, Loading } from "frontend/src/components";
+import { Page, PageTitle, Section } from "frontend/src/components";
 import { FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
 import { renderPostList } from "../utils/renderPostList";
 import { usePosts } from "../context/PostContext";
 import { SOCIAL_LINKS } from "../constants";
 
 export default function Home() {
-  const { posts, loading } = usePosts();
-
-  if (loading) return <Loading message="Loading blog posts..." />;
+  const { posts } = usePosts();
 
   return (
     <Page className="flex flex-col">
       <PageTitle className="flex flex-col">
         {/* Welcome */}
-        <div>{'>'} Welcome to sw.log</div>
+        <div>{">"} Welcome to sw.log</div>
 
         {/* Description */}
         <span className="mt-4 text-muted text-sm font-medium">

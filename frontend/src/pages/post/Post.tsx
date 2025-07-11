@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import type { Post } from "@my-blog/common";
 import ReactMarkdown from "react-markdown";
 import CommentSection from "./CommentSection";
-import { Section, Page, PageTitle, Loading } from "frontend/src/components";
+import { Section, Page, PageTitle } from "frontend/src/components";
 import NotFound from "../NotFound";
 import { getPost } from "../../utils/api";
 import { renderPostDetails } from "frontend/src/utils/renderPostDetails";
@@ -11,33 +11,24 @@ import { renderPostDetails } from "frontend/src/utils/renderPostDetails";
 export default function Post() {
   const { id } = useParams();
   const [post, setPost] = useState<Post | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPost = async () => {
       if (!id) {
-        setLoading(false);
         return;
       }
 
       try {
-        setLoading(true);
         const fetchedPost = await getPost(id);
         setPost(fetchedPost);
       } catch (err) {
         // If post is not found, render NotFound page
         setPost(null);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchPost();
   }, [id]);
-
-  if (loading) {
-    return <Loading message="Loading post..." />;
-  }
 
   if (!post) {
     return <NotFound />;
