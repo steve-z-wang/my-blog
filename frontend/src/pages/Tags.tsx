@@ -37,7 +37,7 @@ export default function Tags() {
               <Link
                 key={tag}
                 to={`/tags/${tag}`}
-                className="px-4 py-2 bg-surface rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                className="px-4 py-2 bg-secondary rounded-lg shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="flex">
                   <span className="font-semibold">{tag}</span>

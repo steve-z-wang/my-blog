@@ -22,7 +22,7 @@ const Input = React.forwardRef<
     return (
       <div className="w-full">
         {label && (
-          <label className="block font-medium text-text mb-1">{label}</label>
+          <label className="block font-medium text-content mb-1">{label}</label>
         )}
         {multiline ? (
           <textarea

@@ -51,7 +51,7 @@ export default function Subscribe({}: SubscribeProps) {
             placeholder="Your email"
             required
           />
-          <Button type="submit" bgColor="surfaceAlt" className="text-text">
+          <Button type="submit" bgColor="accent" className="text-content">
             Subscribe
           </Button>
         </Form>

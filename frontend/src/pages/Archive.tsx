@@ -95,7 +95,7 @@ export default function Archive() {
           <p className="text-muted">No posts available in the archive.</p>
         </Section>
       ) : (
-        <div className="divide-y divide-surfaceAlt">
+        <div className="divide-y divide-accent">
           {/* Year groups */}
           {sortedArchiveData.map((yearGroup) => (
             <Section key={yearGroup.year}>

@@ -40,7 +40,7 @@ const NotificationComponent: React.FC<NotificationProps> = ({
       role="alert"
     >
       <div className="flex items-center gap-3">
-        <p className="text-sm font-medium text-surface">{message}</p>
+        <p className="text-sm font-medium text-secondary">{message}</p>
         <button
           onClick={onClose}
           className="hover:opacity-70"

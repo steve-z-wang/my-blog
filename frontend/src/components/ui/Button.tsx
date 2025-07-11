@@ -7,7 +7,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ bgColor, children, className, ...props }, ref) => {
-    const backgroundColorClass = bgColor ? `bg-${bgColor}` : "bg-background";
+    const backgroundColorClass = bgColor ? `bg-${bgColor}` : "bg-primary";
 
     return (
       <button

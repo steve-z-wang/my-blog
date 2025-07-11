@@ -9,9 +9,9 @@ export default function Home() {
 
   return (
     <Page className="flex flex-col">
-      <PageTitle className="flex flex-col">
+      <PageTitle className="flex flex-col text-content">
         {/* Welcome */}
-        <div>{">"} Welcome to sw.log</div>
+        <div>sw.log</div>
 
         {/* Description */}
         <span className="mt-4 text-muted text-sm font-medium">

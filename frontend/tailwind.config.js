@@ -6,46 +6,34 @@ export default {
   ],
   safelist: [
     // Background colors
-    'bg-background',
-    'bg-surface',
-    'bg-surfaceAlt',
+    'bg-primary',
+    'bg-secondary',
+    'bg-accent',
     'bg-error',
     'bg-success',
     'bg-warning',
-    'bg-text',
-    'bg-muted',
-    
+
     // Text colors
-    'text-background',
-    'text-surface',
-    'text-surfaceAlt',
+    'text-content',
+    'text-muted',
     'text-error',
     'text-success',
-    'text-warning',
-    'text-text',
-    'text-muted'
+    'text-warning'
   ],
   theme: {
     extend: {
       colors: {
-        // Core brand colors
-        // not using these colors
-        // primary: '#2563eb',    // Main action
-        // secondary: '#64748b',  // Secondary UI actions
+        // Clean color names
+        'primary': 'rgb(240, 240, 240)',
+        'secondary': 'rgb(255, 255, 255)',
+        'accent': 'rgb(200, 200, 200)',
+        'content': 'rgb(0, 0, 0)',
+        'muted': 'rgb(100, 100, 100)',
 
-        // Surfaces & backgrounds
-        background: 'rgb(245, 245, 245)', // App/page background
-        surface: 'rgb(255, 255, 255)',    // Cards, panels
-        'surfaceAlt': 'rgb(214, 214, 214)', // Cards, panels
-
-        // Text colors
-        text: 'rgb(30, 30, 30)',       // Main text
-        muted: 'rgb(108, 108, 108)',      // Subtle text, labels
-
-        // States
-        error: 'rgb(220, 38, 38)',      // Form errors, alerts
-        success: 'rgb(22, 163, 74)',    // Confirmations
-        warning: 'rgb(245, 158, 11)',    // Cautions
+        // State colors
+        'error': 'rgb(220, 38, 38)',
+        'success': 'rgb(22, 163, 74)',
+        'warning': 'rgb(245, 158, 11)',
       },
     },
   },

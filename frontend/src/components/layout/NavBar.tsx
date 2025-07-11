@@ -21,13 +21,7 @@ const NavLinkStyled: React.FC<{
 export default function NavBar() {
   return (
     <nav className="flex justify-center w-full p-4">
-      <div className="w-full max-w-5xl flex items-center justify-between">
-        {/* Logo */}
-        <div className="hidden sm:block">
-          <NavLink to="/">
-            <h1 className="text-2xl font-bold">sw.log</h1>
-          </NavLink>
-        </div>
+      <div className="w-full max-w-3xl flex items-center justify-between">
 
         {/* NavLinks */}
         <div>

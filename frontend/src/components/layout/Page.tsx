@@ -60,7 +60,7 @@ const Page = ({ children, className = "" }: PageProps) => {
       {isScrollButtonVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-surfaceAlt p-3 rounded-full shadow-lg transition"
+          className="fixed bottom-8 right-8 bg-accent p-3 rounded-full shadow-lg transition"
         >
           <FiChevronUp size={24} />
         </button>

@@ -8,22 +8,18 @@ export default function About() {
       <PageTitle>About Me</PageTitle>
 
       <Section className="prose max-w-none">
+        <p>Hi, I'm Steve. I like building things from scratch.</p>
+
         <p>
-          Hi, I'm <strong>Steve</strong>. I like coding and building things from
-          scratch.
+          I like great product and design, and my passion lies in using
+          technology to improve humans' quality of life. So I started this blog
+          to document my learning journey and share the projects I'm working on.
         </p>
 
         <p>
-          I work as a software engineer at Amazon. I started this blog to share
-          what I'm learning and the projects I'm working on. Lately, I've been
-          into <strong>compilers</strong>, so expect more posts on that.
-        </p>
-
-        <p>I'm also into psychology, economics, and tech in general.</p>
-
-        <p>
-          Outside of work, I enjoy rock climbing, nature, and the occasional
-          daydream. :)
+          I work as a software engineer at Amazon. Outside of work, I'm an avid
+          reader with interests spanning psychology, economics, and tech. I also
+          enjoy spending time in nature and the occasional daydream session.
         </p>
 
         <p className="italic">
@@ -64,19 +60,7 @@ export default function About() {
       {/* additional info */}
       <Section className="prose max-w-none">
         <p>
-          Found a bug?{" "}
-          <a
-            className="font-medium underline"
-            href={`mailto:${SOCIAL_LINKS.EMAIL}`}
-          >
-            Email me
-          </a>
-          , thanks!
-        </p>
-        <p>
-          This blog is built with <strong>React</strong>,{" "}
-          <strong>Express</strong>, and <strong>SQLite</strong>. You can check
-          out the source code on{" "}
+          This blog is built with React and Express.js. Source code is on{" "}
           <a
             className="font-medium underline"
             href="https://github.com/steve-z-wang/my-blog"
@@ -85,7 +69,14 @@ export default function About() {
           >
             GitHub
           </a>
-          .
+          . Found a bug?{" "}
+          <a
+            className="font-medium underline"
+            href={`mailto:${SOCIAL_LINKS.EMAIL}`}
+          >
+            Let me know
+          </a>
+          !
         </p>
       </Section>
     </Page>

@@ -4,7 +4,7 @@ import { Post } from "@my-blog/common";
 
 export function renderPostList(posts: Post[]) {
   return (
-    <div className="bg-surface shadow-md rounded-none sm:rounded-lg">
+    <div className="bg-secondary shadow-md rounded-none sm:rounded-lg">
       <ul className="divide-y">
         {posts.map((post) => (
           <li className="p-4" key={post.slug}>
