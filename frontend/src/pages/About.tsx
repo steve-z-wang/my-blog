@@ -8,23 +8,18 @@ export default function About() {
       <PageTitle>About Me</PageTitle>
 
       <Section className="prose max-w-none">
-        <p>Hi, I'm Steve. I like building things from scratch.</p>
+        <p>Hi, I’m Steve. I like building things from scratch.</p>
 
         <p>
-          I like great product and design, and my passion lies in using
-          technology to improve humans' quality of life. So I started this blog
-          to document my learning journey and share the projects I'm working on.
+          I like great products and design, and my passion lies in using technology to improve humans’ quality of life. So I started this blog to document my learning journey and share the projects I’m working on.
         </p>
 
         <p>
-          I work as a software engineer at Amazon. Outside of work, I'm an avid
-          reader with interests spanning psychology, economics, and tech. I also
-          enjoy spending time in nature and the occasional daydream session.
+          I work as a software engineer at Amazon. Outside of work, I’m an avid reader with interests spanning psychology, economics, and tech. I also enjoy spending time in nature and the occasional daydreaming session.
         </p>
 
         <p className="italic">
-          Thanks for stopping by — feel free to reach out if you'd like to
-          collaborate on a project!
+Thanks for stopping by — feel free to reach out if you’d like to collaborate on a project!
         </p>
 
         <h2>Connect With Me</h2>
